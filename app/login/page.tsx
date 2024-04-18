@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
 import loginImage from "@/app/assets/login-image.png";
 import Image from "next/image";
@@ -13,7 +12,6 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const router = useRouter();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -25,30 +23,31 @@ const LoginPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = { email, password };
-    console.log(data);
+    alert(1)
+    // const data = { email, password };
+    // console.log(data);
 
-    // signIn("credentials", {
-    //   ...data,
-    //   redirect: false,
-    // }).then((response) => {
-    //   if (response?.ok) {
-    //     // Handle successful sign in
-    //     console.log("Login successful", response);
-    //     // Optionally redirect user or update UI state
-    //   } else {
-    //     // Handle error or unsuccessful sign in
-    //     console.log("Login failed", response);
-    //     // Show an error message or update UI state
-    //   }
-    // });
+    //  signIn("credentials", {
+    //    ...data,
+    //    redirect: false,
+    //  }).then((response) => {
+    //    if (response?.ok) {
+    //      // Handle successful sign in
+    //      console.log("Login successful", response);
+    //      // Optionally redirect user or update UI state
+    //    } else {
+    //      // Handle error or unsuccessful sign in
+    //      console.log("Login failed", response);
+    //      // Show an error message or update UI state
+    //    }
+    //  });
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
+    <div className="flex justify-center items-start mt-20  w-screen">
       <form
-        className="lg:h-[552.835px] lg:w-3/5 rounded-xl flex flex-col lg:flex-row bg-white gap-[64.165px] lg:pr-[59.495px] p-12 lg:p-0"
-        onSubmit={handleSubmit}
+        className="lg:h-[552.835px] lg:w-3/5 lg:rounded-xl rounded-3xl flex flex-col lg:flex-row bg-white gap-[64.165px] lg:pr-[59.495px] p-12 lg:p-0"
+        onSubmit={(e) => handleSubmit(e)}
       >
         <div className="h-full w-1/2 hidden lg:block">
           <Image src={loginImage} alt="image" className="h-full" width={500}/>
@@ -65,9 +64,9 @@ const LoginPage = () => {
             <div className="relative">
               <input
                 type="email"
-                name="password"
+                name="email"
                 onChange={handleEmailChange}
-                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-4 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#00A4D4] focus:outline-none focus:ring-0 focus:border-blue-600 peer h-16"
+                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-4 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#00A4D4] focus:outline-none focus:ring-0 focus:border-[#00A4D4] peer h-16"
                 placeholder=""
               />
               <label
@@ -85,7 +84,7 @@ const LoginPage = () => {
                   type="password"
                   name="password"
                   onChange={handlePasswordChange}
-                  className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-4 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer h-16"
+                  className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-4 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#00A4D4] focus:outline-none focus:ring-0 focus:border-[#00A4D4] peer h-16"
                   placeholder=" "
                 />
                 <label
