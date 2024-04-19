@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Image from "next/image";
-import logo from "@/app/assets/logo.png";
+import Navbar from "./ui/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,13 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div lang="en">
-     
-        <div className="h-[100px] bg-white flex items-center px-12">
-          <Image src={logo} alt="logo" />
-        </div>
-        <body className={inter.className}>{children}</body>
-     
-    </div>
+    <html lang="en">
+      <body className={inter.className}>
+        <Navbar />
+        {children}
+      </body>
+    </html>
   );
 }
