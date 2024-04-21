@@ -37,11 +37,11 @@ interface sectionProps {
 }
 
 export const MenuSection = ({ section, activePath }: MenuSectionProps) => (
-  <li>
-    <h3 className="text-gray-500 px-10 text-sm uppercase tracking-wide font-semibold">
+  <li className="px-[29px]">
+    <h3 className="text-gray-400 text-[10px] uppercase tracking-wide font-semibold">
       {section.title}
     </h3>
-    <ul className="flex flex-col gap-2 md:my-5 relative left-12 w-48">
+    <ul className="flex flex-col gap-4 md:my-5 relative text-[15px] text-black">
       {section.list.map((item) => (
         <MenuItem key={item.title} item={item} activePath={activePath} />
       ))}
