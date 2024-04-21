@@ -67,7 +67,7 @@ const LoginPage = () => {
       setLoading(false);
 
       // Redirect to the home page
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -84,7 +84,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center mt-20">
+    <div className="flex justify-center items-center h-full my-9">
       <div className="flex w-full flex-col items-center ">
         <div className="lg:h-[552.835px]  lg:rounded-xl rounded-3xl flex flex-col lg:flex-row bg-white gap-[64.165px] lg:pr-[59.495px] p-12 lg:p-0">
           <div className="h-full w-1/2 hidden lg:block">
@@ -148,9 +148,10 @@ const LoginPage = () => {
               {/* Submit button */}
               <div className="my-5">
                 <button
+                  disabled={isLoading}
                   type="submit"
                   onClick={handleSubmit}
-                  className="flex w-full justify-center h-12 text-lg items-center rounded-md bg-[#00A4D4] px-3 py-1.5 font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center h-12 text-lg items-center rounded-md bg-[#00A4D4] px-3 py-1.5 font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-500"
                 >
                   {isLoading ? (
                     <div role="status">
