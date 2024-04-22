@@ -6,8 +6,7 @@ interface MyProps {
 
 const PageContainer = ({ children }: MyProps) => {
   return (
-    <div className="p-14 flex justify-center items-center">
-      
+    <div className=" flex justify-center  flex-col text-[#001D74] px-20">
       {children}
     </div>
   );
