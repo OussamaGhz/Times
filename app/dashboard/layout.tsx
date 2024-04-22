@@ -7,7 +7,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between w-screen">
       <div className="flex-1">
         <SideBar />
       </div>
