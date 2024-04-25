@@ -73,27 +73,28 @@ const DashboardPage = () => {
         <h1 className="font-semibold text-4xl text-left my-[50px] ">
           Dashboard
         </h1>
-        <div className="flex gap-7 flex-col lg:flex-row justify-center items-center">
-          <div className="grid lg:grid-cols-2 lg:grid-rows-2 grid-cols-1 grid-rows-1 gap-7">
-            {pageContent.slice(0, 4).map((content) => (
-              <CardC
-                title={content.title}
-                detials={content.detials}
-                value={content.value}
-                color={content.color}
-              />
-            ))}
+        <div className="flex gap-7 flex-col lg:flex-row justify-between items-center w-full">
+          <div className="w-2/3 ">
+            <div className="grid lg:grid-cols-2 lg:grid-rows-2 grid-cols-1 grid-rows-1 gap-7">
+              {pageContent.slice(0, 4).map((content) => (
+                <CardC
+                  title={content.title}
+                  detials={content.detials}
+                  value={content.value}
+                  color={content.color}
+                />
+              ))}
+            </div>
           </div>
-          {/* table */}
-          <div className="">
+          <div className="w-1/3 ">
             <MiniTable />
           </div>
         </div>
       </div>
       <div>
         <h1 className="font-semibold text-4xl text-left my-[50px] ">Tasks</h1>
-        <div className="flex justify-center items-center">
-          <div className="grid lg:grid-cols-3 grid-cols-1 gap-7">
+        <div className="flex gap-7 flex-col lg:flex-row justify-center items-center">
+          <div className="grid lg:grid-cols-3 grid-cols-1 gap-7 ">
             {tasks.map((content) => (
               <CardV2
                 title={content.title}

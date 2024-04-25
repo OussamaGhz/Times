@@ -17,7 +17,7 @@ const MenuItem = ({ item, activePath }: MenuItemProps) => {
   return (
     <li className="group">
       <Link href={item.path}>
-        <span className={`flex gap-3 w-full items-center rounded-md p-2 ${active && "bg-[#00A4D4]"} group-hover:bg-blue-500 group-hover:text-white transition duration-200 ease-in-out transform group-hover:scale-105`}>
+        <span className={`flex gap-3 w-full items-center rounded-md p-2 py-3 ${active && "bg-blue-500"} group-hover:bg-blue-500 group-hover:text-white transition duration-200 ease-in-out transform group-hover:scale-105`}>
           {item.icon}
           <span className="text-[15px]">{item.title}</span>
         </span>
