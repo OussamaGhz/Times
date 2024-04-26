@@ -16,8 +16,13 @@ const MenuItem = ({ item, activePath }: MenuItemProps) => {
   const active = item.path === activePath;
   return (
     <li className="group">
-      <Link href={item.path}>
-        <span className={`flex gap-3 w-full items-center rounded-md p-2 py-3 ${active && "bg-blue-500"} group-hover:bg-blue-500 group-hover:text-white transition duration-200 ease-in-out transform group-hover:scale-105`}>
+      <Link
+        href={item.path}
+        className={`flex w-full items-center  ${
+          active && "border-r-[6px] border-[#6C5DD3] bg-[#6C5DD3] bg-opacity-5 text-[#6C5DD3]"
+        } ${!active && "group-hover:bg-gray-200"} transition duration-300 ease-in-out`}
+      >
+        <span className="flex gap-3 p-2 py-3 pl-[29px]">
           {item.icon}
           <span className="text-[15px]">{item.title}</span>
         </span>
@@ -37,11 +42,11 @@ interface sectionProps {
 }
 
 export const MenuSection = ({ section, activePath }: MenuSectionProps) => (
-  <li className="px-[29px]">
-    <h3 className="text-gray-400 text-[10px] uppercase tracking-wide font-semibold">
+  <li className="">
+    <h3 className="text-gray-400 text-[10px] uppercase tracking-wide font-semibold pl-[29px]">
       {section.title}
     </h3>
-    <ul className="flex flex-col gap-4 md:my-5 relative text-[15px] text-black">
+    <ul className="flex flex-col md:my-5 relative text-[15px] text-black">
       {section.list.map((item) => (
         <MenuItem key={item.title} item={item} activePath={activePath} />
       ))}
