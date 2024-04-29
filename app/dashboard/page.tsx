@@ -74,7 +74,7 @@ const DashboardPage = () => {
           Dashboard
         </h1>
         <div className="flex gap-7 flex-col lg:flex-row justify-between items-center w-full">
-          <div className="w-2/3 ">
+          <div className="lg:w-2/3 ">
             <div className="grid lg:grid-cols-2 lg:grid-rows-2 grid-cols-1 grid-rows-1 gap-7">
               {pageContent.slice(0, 4).map((content) => (
                 <CardC
@@ -86,14 +86,14 @@ const DashboardPage = () => {
               ))}
             </div>
           </div>
-          <div className="w-1/3 flex justify-center items-center">
+          <div className="lg:w-1/3  flex justify-center h-fullr">
             <MiniTable />
           </div>
         </div>
       </div>
       <div>
         <h1 className="font-[600] text-[40px] text-left my-[50px]">Tasks</h1>
-        <div className="flex gap-7 flex-col lg:flex-row justify-center items-center">
+        <div className="flex gap-7 flex-col lg:flex-row justify-center items-center w-full">
           <div className="grid lg:grid-cols-3 grid-cols-1 gap-7 ">
             {tasks.map((content) => (
               <CardV2
