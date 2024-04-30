@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,10 +16,11 @@ import {
 import EmailIcon from "../icon/email-icon";
 import StarIcon from "../icon/star-icon";
 import PhoneIcon from "../icon/phone-icon";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type Teacher = {
   id: string;
   nom: string;
   email: string;
@@ -27,14 +28,43 @@ export type Payment = {
   phone: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Teacher>[] = [
   {
-    id: "status",
+    id: "id",
+    accessorKey: "id",
     header: "#ID",
   },
   {
-    accessorKey: "nom",
-    header: "Nom",
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="flex gap-2 items-center">
+        <Avatar style={{ width: "30px", height: "35px", borderRadius: "35%" }}>
+          <AvatarImage
+            src="https://github.com/shadcn.png"
+            alt="@shadcn"
+            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+          />
+          <AvatarFallback
+            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+          >
+            CN
+          </AvatarFallback>
+        </Avatar>
+
+        <span>{row.original.nom}</span>
+      </div>
+    ),
   },
   {
     accessorKey: "email",
@@ -52,7 +82,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => (
       <div className="flex gap-2 items-center ">
         <StarIcon />
-        <span>{row.original.email}</span>
+        <span>{row.original.grade}</span>
       </div>
     ),
   },
@@ -62,7 +92,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => (
       <div className="flex gap-2 items-center ">
         <PhoneIcon />
-        <span>{row.original.email}</span>
+        <span>{row.original.phone}</span>
       </div>
     ),
   },
