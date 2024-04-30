@@ -8,7 +8,7 @@ import LeftArrow from "../icon/left-arrow";
 
 const MiniTable = () => {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full ">
       <Card className="max-w-[360px] p-5 rounded-[16px] min-h-[352px] text-[#001D74]">
         <h2 className="text-2xl font-semibold mb-4">Nos Enseignants:</h2>
         <ul className="flex flex-col gap-3">
