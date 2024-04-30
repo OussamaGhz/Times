@@ -8,9 +8,10 @@ async function getData(): Promise<Payment[]> {
   return [
     {
       id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
+      nom: "Tarek Garici",
+      email: "garici@gmail.com",
+      grade: "Professeur",
+      phone: "123456789",
     },
     // ...
   ];
@@ -22,7 +23,7 @@ const EnseignantsPage = async () => {
     <PageContainer>
       <div className="flex flex-col">
         <h1 className="font-[600] text-[40px] text-left my-[50px] ">
-          Dashboard
+        Enseignants
         </h1>
         <DataTable columns={columns} data={data}/>
       </div>
