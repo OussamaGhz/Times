@@ -1,8 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal, ArrowUpDown, Edit3, Delete, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +19,9 @@ import EmailIcon from "../icon/email-icon";
 import StarIcon from "../icon/star-icon";
 import PhoneIcon from "../icon/phone-icon";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Clipboard } from "lucide-react";
+import EditIcon from "../icon/edit-icon";
+import DeleteIcon from "../icon/delete-icon";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -30,23 +35,35 @@ export type Teacher = {
 
 export const columns: ColumnDef<Teacher>[] = [
   {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     id: "id",
     accessorKey: "id",
     header: "#ID",
   },
   {
     accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "Name",
     cell: ({ row }) => (
       <div className="flex gap-2 items-center">
         <Avatar style={{ width: "30px", height: "35px", borderRadius: "35%" }}>
@@ -68,7 +85,17 @@ export const columns: ColumnDef<Teacher>[] = [
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div className="flex gap-2 items-center ">
         <EmailIcon />
@@ -114,13 +141,21 @@ export const columns: ColumnDef<Teacher>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(payment.email)}
+              className="flex items-center px-4"
             >
-              Copy payment ID
+              <Clipboard className="h-4 w-4 mr-2" />
+              Copier email
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem className="flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] ">
+              <Edit3 className="h-4 w-4"/>
+              Modifier Enseignant
+            </DropdownMenuItem>
+            <DropdownMenuItem className="flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1">
+              <Trash className="h-4 w-4"/>
+              Supprimer Enseignant
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

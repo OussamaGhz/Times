@@ -22,6 +22,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -32,6 +34,8 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [rowSelection, setRowSelection] = React.useState({})
+
   const table = useReactTable({
     data,
     columns,
@@ -39,9 +43,13 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onRowSelectionChange: setRowSelection,
+
     state: {
       sorting,
-    },
+      rowSelection,
+
+    },  
   });
 
   return (
@@ -96,7 +104,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4 bg-white">
+      <div className="flex items-center justify-end space-x-2 py-4 bg-white px-28">
         <Button
           variant="outline"
           size="sm"
