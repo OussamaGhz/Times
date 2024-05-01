@@ -227,7 +227,7 @@ const EnseignantsPage = async () => {
     <PageContainer>
       <div className="flex flex-col">
         <div className="flex justify-between items-center">
-          <h1 className="font-[600] text-[40px] text-left my-[50px] ">
+          <h1 className="font-[600] text-[40px] text-left my-[30px] ">
             Enseignants
           </h1>
           <Button variant="default" className="flex gap-2 px-[15px] py-[22px] max:w-56  text-white bg-[#4A58EC] rounded-[11px]">

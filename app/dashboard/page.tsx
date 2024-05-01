@@ -70,7 +70,7 @@ const DashboardPage = () => {
   return (
     <PageContainer>
       <div>
-        <h1 className="font-[600] text-[40px] text-left my-[50px] ">
+        <h1 className="font-[600] text-[40px] text-left my-[30px] ">
           Dashboard
         </h1>
         <div className="flex gap-7 flex-col lg:flex-row justify-between items-center w-full">
@@ -92,7 +92,7 @@ const DashboardPage = () => {
         </div>
       </div>
       <div>
-        <h1 className="font-[600] text-[40px] text-left my-[50px]">Tasks</h1>
+        <h1 className="font-[600] text-[40px] text-left my-[30px]">Tasks</h1>
         <div className="flex gap-7 flex-col lg:flex-row justify-center items-center w-full">
           <div className="grid lg:grid-cols-3 grid-cols-1 gap-7 ">
             {tasks.map((content) => (
