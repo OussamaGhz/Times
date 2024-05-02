@@ -16,8 +16,8 @@ const CardC = (content: CardContent) => {
        
       </CardContent>
       <div className="absolute bottom-0 left-0 w-full h-full overflow-hidden">
-        <div className="h-[167px] w-[167px] bg-white rounded-full absolute bottom-0 left-0 transform translate-y-[30%] translate-x-[-25%] opacity-10"></div>
-        <div className="h-[157px] w-[157px] bg-white rounded-full absolute bottom-0 left-0 transform translate-y-[50%] translate-x-[-25%] opacity-20"></div>
+        <div className="h-[167px] w-[167px] bg-white rounded-full absolute bottom-0 left-0 transform translate-y-[30%] translate-x-[-25%] opacity-20"></div>
+        <div className="h-[157px] w-[157px] bg-white rounded-full absolute bottom-0 left-0 transform translate-y-[50%] translate-x-[-25%] opacity-30"></div>
       </div>
     </Card>
   );
