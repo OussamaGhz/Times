@@ -1,17 +1,6 @@
-"use client"
-import { PrismaClient } from "@prisma/client";
+import React from 'react'
 
-import Calendar from "./ui/calendar";
-
-const prisma = new PrismaClient();
-
-export default async function Home() {
-  const handleToggleModal = () => {
-    const modal = document.getElementById("popup-modal");
-    modal?.classList.toggle("hidden");
-  };
-  // add a user using prisma
-
+const DeleteModal = () => {
   return (
     <div>
       <button
@@ -91,6 +80,8 @@ export default async function Home() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>F
+  )
 }
+
+export default DeleteModal
