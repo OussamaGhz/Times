@@ -132,4 +132,15 @@ model Time {
   disponibilite   Disponibilite @relation(fields: [disponibiliteId], references: [id])
 }
 
-
+model Professor {
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  nom                 String
+  prenom              String
+  gender              String
+  email               String   @unique
+  numero_de_telephone String
+  date_de_naissance   DateTime
+  grade               String
+  availability_prof   String[]
+  modules             String[]
+}

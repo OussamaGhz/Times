@@ -26,8 +26,6 @@ import StarIcon from "../icon/star-icon";
 import PhoneIcon from "../icon/phone-icon";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Clipboard } from "lucide-react";
-import EditIcon from "../icon/edit-icon";
-import DeleteIcon from "../icon/delete-icon";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -61,11 +59,6 @@ export const columns: ColumnDef<Teacher>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
-  },
-  {
-    id: "id",
-    accessorKey: "id",
-    header: "#ID",
   },
   {
     accessorKey: "nom",
