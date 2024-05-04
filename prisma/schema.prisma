@@ -72,11 +72,11 @@ model Annee {
 }
 
 model Specialite {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  nom        String
-  anneeId    String    @db.ObjectId
-  annee      Annee     @relation(fields: [anneeId], references: [id])
-  sections   Section[]
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  nom      String
+  anneeId  String    @db.ObjectId
+  annee    Annee     @relation(fields: [anneeId], references: [id])
+  sections Section[]
 }
 
 model Section {
@@ -106,4 +106,30 @@ model Module {
   section    Section @relation(fields: [sectionId], references: [id])
   sectionId  String  @db.ObjectId
 }
+
+// Define the model for rooms
+model Room {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  nom           String
+  type          String
+  capacite      Int
+  disponibilite Disponibilite[]
+}
+
+model Disponibilite {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  day    String
+  times  Time[]
+  roomId String @db.ObjectId
+  room   Room   @relation(fields: [roomId], references: [id])
+}
+
+model Time {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  start           String
+  end             String
+  disponibiliteId String        @db.ObjectId
+  disponibilite   Disponibilite @relation(fields: [disponibiliteId], references: [id])
+}
+
 

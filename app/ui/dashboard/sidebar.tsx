@@ -67,7 +67,7 @@ const SideBar = () => {
   const pathname = usePathname();
 
   return (
-    <div className=" flex bg-white border-b-4 md:max-w-209 z-50 h-dvh relative shadow-r-[0_8px_30px_rgb(0,0,0,0.12)]">
+    <div className=" flex bg-white border-b-4 md:max-w-209 h-dvh relative shadow-r-[0_8px_30px_rgb(0,0,0,0.12)]">
       <div
         className={`w-80 space-y-6 absolute inset-y-0 left-0 transform  rounded-lg ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
