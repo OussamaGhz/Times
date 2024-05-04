@@ -6,20 +6,24 @@ import Stars from "../ui/icon/stars";
 import CardV2 from "../ui/dashboard/card-v2";
 import Teacherv2 from "../ui/icon/teacherv2";
 import Room from "../ui/icon/room";
+import { PrismaClient } from "@prisma/client";
 
-const DashboardPage = () => {
+const prisma = new PrismaClient();
+
+const DashboardPage = async () => {
   type PageContent = {
     title: string;
     detials: string;
-    value: string;
+    value: string;  
     color: string;
   }[];
 
   type Task = {
     title: string;
-    color: string;
-    icon: JSX.Element;
-  }[];
+    color: string; 
+    icon: JSX.Element; 
+  }[];  
+  
 
   const pageContent: PageContent = [
     {

@@ -10,7 +10,6 @@ type Task = {
 };
 
 const CardV2 = (content: Task) => {
-  console.log(content);
 
   return (
     <Link href="/dashboard" className="hover:scale-105 hover:shadow-lg transition-transform duration-300">

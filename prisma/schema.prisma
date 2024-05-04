@@ -41,9 +41,9 @@ model Session {
 }
 
 model User {
-  id    String  @id @default(auto()) @map("_id") @db.ObjectId
-  name  String?
-  email String? @unique
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String?
+  email     String?   @unique
   password  String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -60,4 +60,52 @@ model VerificationRequest {
   updatedAt  DateTime @updatedAt
 
   @@unique([identifier, token])
+}
+
+// Define your MongoDB datasource
+
+// Define the model for years
+model Year {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  year         Int
+  specialites  Specialite[] // One year can have many specialites
+}
+
+// Define the model for specialite
+model Specialite {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  sections    Section[]   // One specialite can have many sections
+  year        Year?       @relation(fields: [yearId], references: [id])
+  yearId      String?     @db.ObjectId
+}
+
+// Define the model for section
+model Section {
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  year           Int
+  specialite     Specialite? @relation(fields: [specialiteId], references: [id])
+  specialiteId   String?     @db.ObjectId
+  groupes        Groupe[]    // One section can have many groups
+  modules        Module[]    // One section can have many modules
+  capacite       Int?
+}
+
+model Groupe {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  section     Section?    @relation(fields: [sectionId], references: [id])
+  sectionId   String?     @db.ObjectId
+}
+
+// Define the model for module
+model Module {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  nom_module String
+  nb_cours   Int?
+  td         Boolean
+  tp         Boolean
+  section    Section?    @relation(fields: [sectionId], references: [id])
+  sectionId  String?     @db.ObjectId
 }

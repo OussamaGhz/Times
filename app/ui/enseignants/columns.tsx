@@ -1,7 +1,13 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown, Edit3, Delete, Trash } from "lucide-react";
+import {
+  MoreHorizontal,
+  ArrowUpDown,
+  Edit3,
+  Delete,
+  Trash,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -62,8 +68,8 @@ export const columns: ColumnDef<Teacher>[] = [
     header: "#ID",
   },
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "nom",
+    header: "Nom",
     cell: ({ row }) => (
       <div className="flex gap-2 items-center">
         <Avatar style={{ width: "30px", height: "35px", borderRadius: "35%" }}>
@@ -84,18 +90,8 @@ export const columns: ColumnDef<Teacher>[] = [
     ),
   },
   {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    accessorKey: "Email",
+
     cell: ({ row }) => (
       <div className="flex gap-2 items-center ">
         <EmailIcon />
@@ -105,7 +101,17 @@ export const columns: ColumnDef<Teacher>[] = [
   },
   {
     accessorKey: "grade",
-    header: "Grade",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Grade
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div className="flex gap-2 items-center ">
         <StarIcon />
@@ -149,11 +155,11 @@ export const columns: ColumnDef<Teacher>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] ">
-              <Edit3 className="h-4 w-4"/>
+              <Edit3 className="h-4 w-4" />
               Modifier Enseignant
             </DropdownMenuItem>
             <DropdownMenuItem className="flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1">
-              <Trash className="h-4 w-4"/>
+              <Trash className="h-4 w-4" />
               Supprimer Enseignant
             </DropdownMenuItem>
           </DropdownMenuContent>
