@@ -6,13 +6,14 @@ import React from "react";
 type Task = {
   title: string;
   color: string;
+  path: string;
   icon: JSX.Element;
 };
 
 const CardV2 = (content: Task) => {
 
   return (
-    <Link href="/dashboard" className="hover:scale-105 hover:shadow-lg transition-transform duration-300">
+    <Link href={`/dashboard/${content.path}`} className="hover:scale-105 hover:shadow-lg transition-transform duration-300">
       <Card
         className={`rounded-[16px] ${content.color} max-w-[360px] min-h-[180px] relative text-wrap`}
       >

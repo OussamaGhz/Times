@@ -21,6 +21,7 @@ const DashboardPage = async () => {
   type Task = {
     title: string;
     color: string;
+    path: string;
     icon: JSX.Element;
   }[];
 
@@ -55,16 +56,19 @@ const DashboardPage = async () => {
     {
       title: "Generation des Emplois de temps:",
       color: "bg-[linear-gradient(180deg,_#A93BFF_0%,_#8834FF_100%)]",
+      path: "/emplois",
       icon: <Stars />,
     },
     {
       title: "Modifier les enseignants:",
+      path: "/enseignants",
       color:
         "bg-[linear-gradient(137deg,_#6C72FF_5.39%,_#484FFF_49.18%,_#8F00FF_87.04%,_#8F00FF_87.04%)]",
       icon: <Teacherv2 />,
     },
     {
       title: "Modifier les Salles:",
+      path: "/salles",
       color: "bg-[linear-gradient(180deg,_#3A85FF_0%,_#0062FF_100%)]",
       icon: <Room />,
     },
@@ -131,6 +135,7 @@ const DashboardPage = async () => {
           <div className="grid lg:grid-cols-3 grid-cols-1 gap-7 ">
             {tasks.map((content) => (
               <CardV2
+                path={content.path}
                 title={content.title}
                 color={content.color}
                 icon={content.icon}
