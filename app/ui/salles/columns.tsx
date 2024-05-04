@@ -1,13 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  MoreHorizontal,
-  ArrowUpDown,
-  Edit3,
-  Delete,
-  Trash,
-} from "lucide-react";
+import { MoreHorizontal, Edit3, Trash, ArrowDown, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -19,15 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-// import icons
-import EmailIcon from "../icon/email-icon";
-import StarIcon from "../icon/star-icon";
-import PhoneIcon from "../icon/phone-icon";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Clipboard } from "lucide-react";
-import EditIcon from "../icon/edit-icon";
-import DeleteIcon from "../icon/delete-icon";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -63,11 +48,20 @@ export const columns: ColumnDef<Teacher>[] = [
   {
     accessorKey: "nom_salle",
     header: "Nom salle",
-    
   },
   {
     accessorKey: "type_salle",
-    header: "Type salle",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "capacity",
