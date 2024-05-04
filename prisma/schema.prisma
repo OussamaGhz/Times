@@ -67,7 +67,7 @@ model VerificationRequest {
 // Define the model for annees
 model Annee {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  annee       String
+  annee       Int
   specialites Specialite[] // One Annee can have many Specialites
 }
 
@@ -84,7 +84,7 @@ model Section {
   nom          String
   specialite   Specialite @relation(fields: [specialiteId], references: [id])
   specialiteId String     @db.ObjectId
-  annee        String
+  annee        Int
   groupes      Groupe[] // One Section can have many Groupes
   modules      Module[] // One Section can have many Modules
   capacite     Int?

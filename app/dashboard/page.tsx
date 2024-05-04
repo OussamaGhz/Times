@@ -91,15 +91,15 @@ const DashboardPage = async () => {
           sections: {
             include: {
               groupes: true,
+              modules: true,
             },
           },
         },
       },
-    },  
+    },
   });
 
-  console.log(data[0].specialites[0].sections[0]);   
-  
+  console.log(data[0].specialites[0].sections[0].modules); // test
 
   return (
     <PageContainer>
