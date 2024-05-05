@@ -18,6 +18,7 @@ const EnseignantsPage = async () => {
       //combine nom and prenom
       nom: `${enseignant.nom} ${enseignant.prenom}`,
       email: enseignant.email,
+      prenom: enseignant.prenom,
       phone: enseignant.numero_de_telephone,
       grade: enseignant.grade,
     };
@@ -35,7 +36,7 @@ const EnseignantsPage = async () => {
             className="flex gap-2 px-[15px] py-[22px] max:w-56  text-white bg-[#4A58EC] rounded-[11px]"
           >
             <PlusIcon />
-            <p>Add new enseignant</p>
+            <p>Ajouter un enseignant</p>
           </Button>
         </div>
 

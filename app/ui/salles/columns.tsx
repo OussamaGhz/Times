@@ -14,8 +14,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
-import { AlertDialog } from "@radix-ui/react-alert-dialog";
 import { MdClose } from "react-icons/md";
+import { PrismaClient } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import Loading from "../icon/loading";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -25,6 +27,8 @@ export type Room = {
   type_salle: string;
   capacity: number;
 };
+
+const prisma = new PrismaClient();
 
 export const columns: ColumnDef<Room>[] = [
   {
@@ -78,13 +82,30 @@ export const columns: ColumnDef<Room>[] = [
     cell: ({ row }) => {
       const payment = row.original;
 
+      const router = useRouter();
+
       const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+      const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-      const handleDelete = () => {
-        //log data
-        console.log(payment);
+      const handleDelete = async () => {
+        // delete action use fetch api route
+        try {
+          setIsDeleting(true);
+          await fetch("/api/room", {
+            // Updated path to match the correct API route location
+            method: "DELETE",
+            body: JSON.stringify({ id: payment.id }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
 
-        // Perform delete operation here
+          router.refresh();
+        } catch (error) {
+          console.error("Failed to delete room", error);
+          return;
+        }
+        setIsDeleting(false);
         setShowConfirmationModal(false);
       };
 
@@ -155,8 +176,9 @@ export const columns: ColumnDef<Room>[] = [
                       variant={"destructive"}
                       className="rounded-lg"
                       onClick={handleDelete}
+                      disabled={isDeleting}
                     >
-                      Oui, je suis sure
+                      {isDeleting ? <Loading /> : "Oui, je suis sure"}
                     </Button>
                     <Button
                       onClick={handleToggleModal}

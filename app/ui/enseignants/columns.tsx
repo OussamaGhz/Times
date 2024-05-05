@@ -32,6 +32,7 @@ import { Clipboard } from "lucide-react";
 export type Teacher = {
   id: string;
   nom: string;
+  prenom: string;
   email: string;
   grade: string;
   phone: string;
@@ -65,16 +66,10 @@ export const columns: ColumnDef<Teacher>[] = [
     header: "Nom",
     cell: ({ row }) => (
       <div className="flex gap-2 items-center">
-        <Avatar style={{ width: "30px", height: "35px", borderRadius: "35%" }}>
-          <AvatarImage
-            src="https://github.com/shadcn.png"
-            alt="@shadcn"
-            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
-          />
-          <AvatarFallback
-            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
-          >
-            CN
+        <Avatar className="w-8 h-8 rounded-full">
+          <AvatarFallback className="w-full h-full rounded-full flex items-center justify-center bg-[#4A58EC] text-white font-bold text-sm uppercase">
+            {row.original.nom.charAt(0)}
+            {row.original.prenom.charAt(0)}
           </AvatarFallback>
         </Avatar>
 
@@ -99,6 +94,7 @@ export const columns: ColumnDef<Teacher>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="ml-2 h-4 w-4"
         >
           Grade
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -147,11 +143,11 @@ export const columns: ColumnDef<Teacher>[] = [
               Copier email
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] ">
+            <DropdownMenuItem className="flex gap-2 items-center  bg-blue-500 bg-opacity-5 py-1 px-4 my-1 text-blue-500">
               <Edit3 className="h-4 w-4" />
               Modifier Enseignant
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1">
+            <DropdownMenuItem className="flex gap-2 items-center bg-red-500 text-red-500 bg-opacity-5 py-1 px-4 my-1">
               <Trash className="h-4 w-4" />
               Supprimer Enseignant
             </DropdownMenuItem>

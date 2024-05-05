@@ -1,5 +1,5 @@
 import PageContainer from "@/app/ui/dashboard/page-container";
-import React, { useState } from "react";
+import React from "react";
 import { Room, columns } from "@/app/ui/salles/columns";
 import { DataTable } from "@/app/ui/salles/data-table";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,6 @@ const EnseignantsPage = async () => {
     },
   });
 
-  console.table(rooms);
 
   const data: Room[] = rooms.map((room) => {
     return {
@@ -43,7 +42,7 @@ const EnseignantsPage = async () => {
               className="flex gap-2 px-[15px] py-[22px] max:w-56  text-white bg-[#4A58EC] rounded-[11px]"
             >
               <PlusIcon />
-              <p>Add new salles</p>
+              <p>Ajouter nouvelle salle</p>
             </Button>
           </div>
 
