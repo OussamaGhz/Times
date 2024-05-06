@@ -5,7 +5,6 @@ import {
   MoreHorizontal,
   ArrowUpDown,
   Edit3,
-  Delete,
   Trash,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,13 +12,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { Label } from "@/components/ui/label";
@@ -212,7 +208,7 @@ export const columns: ColumnDef<Teacher>[] = [
           >
             <DialogContent className="sm:max-w-[800px] bg-white">
               <DialogHeader>
-                <DialogTitle className="text-[28px] text-[#001D74]">
+                <DialogTitle className="text-[28px] text-[#001D74] ">
                   Modifier Enseignant
                 </DialogTitle>
               </DialogHeader>
@@ -346,7 +342,7 @@ export const columns: ColumnDef<Teacher>[] = [
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] ">
                 <Edit3 className="h-4 w-4" />
-                <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
+                <DropdownMenuItem className="h-[27px] cursor-pointer" onClick={() => setIsEditDialogOpen(true)}>
                   Edit
                 </DropdownMenuItem>
               </DropdownMenuItem>
@@ -354,7 +350,7 @@ export const columns: ColumnDef<Teacher>[] = [
 
               <DropdownMenuItem className="flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1">
                 <Trash className="h-4 w-4" />
-                <DropdownMenuItem onClick={() => setIsDeleteDialogOpen(true)}>
+                <DropdownMenuItem  className="h-[27px] cursor-pointer" onClick={() => setIsDeleteDialogOpen(true)}>
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuItem>

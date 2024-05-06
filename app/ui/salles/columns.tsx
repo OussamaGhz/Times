@@ -104,11 +104,9 @@ export const columns: ColumnDef<Room>[] = [
       const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
       const updateHandler = async () => {
-
         // update action use fetch api route
         // try {
         //   console.log("Updating room with id:", payment.id);
-
         //   setIsDeleting(true);
         //   await fetch("http://localhost:3000/api/room", {
         //     // Updated path to match the correct API route location
@@ -118,7 +116,6 @@ export const columns: ColumnDef<Room>[] = [
         //       "Content-Type": "application/json",
         //     },
         //   });
-
         //   router.refresh();
         // } catch (error) {
         //   console.error("Failed to update room", error);
@@ -278,7 +275,10 @@ export const columns: ColumnDef<Room>[] = [
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] ">
                 <Edit3 className="h-4 w-4" />
-                <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
+                <DropdownMenuItem
+                  className="h-[27px] cursor-pointer"
+                  onClick={() => setIsEditDialogOpen(true)}
+                >
                   Edit
                 </DropdownMenuItem>
               </DropdownMenuItem>
@@ -286,7 +286,10 @@ export const columns: ColumnDef<Room>[] = [
 
               <DropdownMenuItem className="flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1">
                 <Trash className="h-4 w-4" />
-                <DropdownMenuItem onClick={() => setIsDeleteDialogOpen(true)}>
+                <DropdownMenuItem
+                  className="h-[27px] cursor-pointer"
+                  onClick={() => setIsDeleteDialogOpen(true)}
+                >
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuItem>

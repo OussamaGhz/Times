@@ -4,7 +4,6 @@ import { Teacher, columns } from "@/app/ui/enseignants/columns";
 import { DataTable } from "@/app/ui/enseignants/data-table";
 import { PrismaClient } from "@prisma/client";
 
-
 import AddUser from "@/app/ui/enseignants/add_user-modal";
 
 const prisma = new PrismaClient();
