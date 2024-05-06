@@ -32,6 +32,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import DeleteIcon from "../icon/delete-icon";
+import { log } from "console";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -97,21 +98,43 @@ export const columns: ColumnDef<Room>[] = [
       const router = useRouter();
 
       const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-      const [showUpdateModal, setShowUpdateModal] = useState(false);
       const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
       const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
       const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
       const updateHandler = async () => {
-        alert("update handler");
+
+        // update action use fetch api route
+        // try {
+        //   console.log("Updating room with id:", payment.id);
+
+        //   setIsDeleting(true);
+        //   await fetch("http://localhost:3000/api/room", {
+        //     // Updated path to match the correct API route location
+        //     method: "UPDATE",
+        //     body: JSON.stringify({ id: payment.id }),
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   });
+
+        //   router.refresh();
+        // } catch (error) {
+        //   console.error("Failed to update room", error);
+        //   return;
+        // }
+        // setIsDeleting(false);
+        // setIsEditDialogOpen(false);
       };
 
       const handleDelete = async () => {
         // delete action use fetch api route
         try {
+          console.log("Deleting room with id:", payment.id);
+
           setIsDeleting(true);
-          await fetch("/api/room", {
+          await fetch("http://localhost:3000/api/room", {
             // Updated path to match the correct API route location
             method: "DELETE",
             body: JSON.stringify({ id: payment.id }),
@@ -126,7 +149,7 @@ export const columns: ColumnDef<Room>[] = [
           return;
         }
         setIsDeleting(false);
-        setShowConfirmationModal(false);
+        setIsDeleteDialogOpen(false);
       };
 
       const handleToggleModal = () => {
@@ -175,7 +198,7 @@ export const columns: ColumnDef<Room>[] = [
                     </Label>
                     <Input
                       className="w-full h-[52px]"
-                      placeholder={payment.capacity}
+                      placeholder={payment.capacity.toString()}
                     />
                   </div>
                   <div className="flex flex-col w-[50%]">
@@ -190,7 +213,11 @@ export const columns: ColumnDef<Room>[] = [
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit" className="text-white ">
+                <Button
+                  type="submit"
+                  className="text-white "
+                  onClick={updateHandler}
+                >
                   Sauvegarder
                 </Button>
               </DialogFooter>
@@ -232,8 +259,9 @@ export const columns: ColumnDef<Room>[] = [
                   variant="destructive"
                   className="text-[16px]"
                   onClick={handleDelete}
+                  disabled={isDeleting}
                 >
-                  Oui, je suis sure
+                  {isDeleting ? <Loading /> : "Oui, je suis sure"}
                 </Button>
               </div>
             </DialogContent>

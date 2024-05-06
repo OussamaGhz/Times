@@ -39,7 +39,7 @@ const EnseignantsPage = async () => {
       capacity: room.capacite,
       disponibilite: room.disponibilite.map((dispo) => {
         return [...dispo.day];
-      }),
+      })[0], // Access the first element of the disponibilite array
     };
   });
 
