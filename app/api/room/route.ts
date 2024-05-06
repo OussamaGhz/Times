@@ -1,37 +1,75 @@
-import { PrismaClient } from "@prisma/client";
+import { Disponibilite, PrismaClient, Room, Time } from "@prisma/client";
+import { log } from "console";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export const CREATE = async (req: NextRequest) => {
-  // get room data from the body
-  const roomData = await req.json();
+export const POST = async (req: NextRequest) => {
+  // add the (following the db schema) room to the database
+  const { nom, type, capacite, disponibilite } = await req.json();
+  console.log(
+    "Received POST request with body:",
+    nom,
+    type,
+    capacite,
 
-  // create the room
-  const createdRoom = await prisma.room.create({
-    data: roomData,
-  });
+    disponibilite
+  );
 
-  console.log("Room created successfully with id:", createdRoom.id);
+  if (
+    typeof nom !== "string" ||
+    typeof type !== "string" ||
+    typeof capacite !== "number"
+  ) {
+    return NextResponse.json(
+      {
+        message: "Error",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 
-  return NextResponse.json(createdRoom);
-};
-
-export const UPDATE = async (req: NextRequest) => {
-  // get id and updated room data from the body
-  const { id, ...updatedRoomData } = await req.json();
-
-  // update the room
-  const updatedRoom = await prisma.room.update({
+  const existingRoom = await prisma.room.findFirst({
     where: {
-      id: id,
+      nom, // Assuming "nom" is a unique identifier for a room
     },
-    data: updatedRoomData,
   });
 
-  console.log("Room updated successfully with id:", updatedRoom.id);
-
-  return NextResponse.json(updatedRoom);
+  if (existingRoom) {
+    // If the room already exists, you can handle it accordingly
+    return NextResponse.json(
+      {
+        message: "Room already exists",
+      },
+      {
+        status: 500,
+      }
+    );
+  } else {
+    const room: Room = await prisma.room.create({
+      data: {
+        nom: nom,
+        type: type,
+        capacite: capacite,
+        disponibilite: {
+          create: disponibilite.map(
+            (dispo: Disponibilite & { time: Time[] }) => ({
+              day: dispo.day,
+              times: {
+                create: dispo.time.map((t: Time) => ({
+                  start: t.start,
+                  end: t.end,
+                })),
+              },
+            })
+          ),
+        },
+      },
+    });
+    return NextResponse.json({ message: "created room", room });
+  }
 };
 
 export const DELETE = async (req: NextRequest) => {
@@ -71,8 +109,6 @@ export const DELETE = async (req: NextRequest) => {
       id: id,
     },
   });
-
-  console.log("Room deleted successfully with id:", id);
 
   // Reload the page after deleting the room
 

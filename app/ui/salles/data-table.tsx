@@ -62,8 +62,10 @@ export function DataTable<TData, TValue>({
         <SearchIcon className="w-4 h-5 absolute left-7 top-4.5 text-gray-500 dark:text-gray-400" />
         <Input
           placeholder="Rechercher Salles..."
-          value={(table.getColumn("nom_salle")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
+          value={
+            (table.getColumn("nom_salle")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event: { target: { value: any } }) =>
             table.getColumn("nom_salle")?.setFilterValue(event.target.value)
           }
           className="max-w-sm bg-inherit pl-10"
@@ -71,9 +73,9 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="rounded-md border">
         <Table className="bg-white">
-          <TableHeader >
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} >
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id} className="text-center">
                     {header.isPlaceholder

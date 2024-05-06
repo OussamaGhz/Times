@@ -14,8 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import React, { useState } from "react";
-import { MdClose } from "react-icons/md";
-import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import Loading from "../icon/loading";
 import { Label } from "@/components/ui/label";
@@ -23,16 +21,11 @@ import { Input } from "@/components/ui/input";
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import DeleteIcon from "../icon/delete-icon";
-import { log } from "console";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -103,27 +96,7 @@ export const columns: ColumnDef<Room>[] = [
       const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
       const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-      const updateHandler = async () => {
-        // update action use fetch api route
-        // try {
-        //   console.log("Updating room with id:", payment.id);
-        //   setIsDeleting(true);
-        //   await fetch("http://localhost:3000/api/room", {
-        //     // Updated path to match the correct API route location
-        //     method: "UPDATE",
-        //     body: JSON.stringify({ id: payment.id }),
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   });
-        //   router.refresh();
-        // } catch (error) {
-        //   console.error("Failed to update room", error);
-        //   return;
-        // }
-        // setIsDeleting(false);
-        // setIsEditDialogOpen(false);
-      };
+      const updateHandler = async () => {};
 
       const handleDelete = async () => {
         // delete action use fetch api route
@@ -202,10 +175,7 @@ export const columns: ColumnDef<Room>[] = [
                     <Label className="text-[20.051px] font-[400] my-3">
                       Disponibilite
                     </Label>
-                    <Input
-                      placeholder={payment.disponibilite.join(",")}
-                      className="w-full h-[52px]"
-                    />
+                    <Input className="w-full h-[52px]" />
                   </div>
                 </div>
               </div>
