@@ -16,16 +16,12 @@ import {
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "../icon/loading";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
+import RoomEditDialog from "./modify-room-modal";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -93,7 +89,7 @@ export const columns: ColumnDef<Room>[] = [
       const [showConfirmationModal, setShowConfirmationModal] = useState(false);
       const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-      const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+      const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
       const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
       const updateHandler = async () => {};
@@ -130,67 +126,12 @@ export const columns: ColumnDef<Room>[] = [
 
       return (
         <>
-          <Dialog
-            open={isEditDialogOpen}
-            onOpenChange={(open) => setIsEditDialogOpen(open)}
-          >
-            <DialogContent className="sm:max-w-[800px] bg-white">
-              <DialogHeader>
-                <DialogTitle className="text-[28px] text-[#001D74]">
-                  Modifier Salle
-                </DialogTitle>
-              </DialogHeader>
-              <div className="py-[20px] text-black flex flex-col gap-6 text-left border-b-[1px] border-gray-200">
-                <div className="flex justify-between items-center gap-8">
-                  <div className="flex flex-col w-[50%] text-left">
-                    <Label className="text-[20.051px] font-[400] my-3">
-                      Nom de la salle
-                    </Label>
-                    <Input
-                      className="w-full h-[52px]"
-                      placeholder={payment.nom_salle}
-                    />
-                  </div>
-                  <div className="flex flex-col w-[50%]">
-                    <Label className="text-[20.051px] font-[400] my-3">
-                      Type de la salle
-                    </Label>
-                    <Input
-                      className="w-full h-[52px]"
-                      placeholder={payment.type_salle}
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-between items-center gap-8">
-                  <div className="flex flex-col w-[50%] text-left">
-                    <Label className="text-[20.051px] font-[400] my-3">
-                      Capacite
-                    </Label>
-                    <Input
-                      className="w-full h-[52px]"
-                      placeholder={payment.capacity.toString()}
-                    />
-                  </div>
-                  <div className="flex flex-col w-[50%]">
-                    <Label className="text-[20.051px] font-[400] my-3">
-                      Disponibilite
-                    </Label>
-                    <Input className="w-full h-[52px]" />
-                  </div>
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  type="submit"
-                  className="text-white "
-                  onClick={updateHandler}
-                >
-                  Sauvegarder
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
+          <RoomEditDialog
+            isOpen={isEditDialogOpen}
+            onClose={(open: boolean) => setIsEditDialogOpen(open)}
+            payment={payment}
+            updateHandler={updateHandler}
+          />
           <Dialog
             open={isDeleteDialogOpen}
             onOpenChange={(open) => setIsDeleteDialogOpen(open)}

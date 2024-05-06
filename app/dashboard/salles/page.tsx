@@ -19,11 +19,11 @@ const EnseignantsPage = async () => {
     },
   });
 
-  const data: Room[] = rooms.map((room) => {
+  const data: any = rooms.map((room) => {
     return {
       id: room.id,
       nom_salle: room.nom,
-      type_salle: room.type,
+      type_salle: room.type.charAt(0).toUpperCase() + room.type.slice(1),
       capacity: room.capacite,
       disponibilite: room.disponibilite.map((dispo) => {
         return {
