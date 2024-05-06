@@ -13,11 +13,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import Loading from "../icon/loading";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -26,10 +28,8 @@ export type Room = {
   nom_salle: string;
   type_salle: string;
   capacity: number;
+  disponibilite: string[];
 };
-
-const prisma = new PrismaClient();
-
 export const columns: ColumnDef<Room>[] = [
   {
     id: "select",
@@ -85,6 +85,7 @@ export const columns: ColumnDef<Room>[] = [
       const router = useRouter();
 
       const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+      const [showUpdateModal, setShowUpdateModal] = useState(false);
       const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
       const handleDelete = async () => {
@@ -113,10 +114,12 @@ export const columns: ColumnDef<Room>[] = [
         setShowConfirmationModal(!showConfirmationModal);
       };
 
+      const triggerRef = React.useRef<HTMLButtonElement>(null);
+
       return (
         <>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild ref={triggerRef}>
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal className="h-4 w-4" />
@@ -127,7 +130,9 @@ export const columns: ColumnDef<Room>[] = [
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] ">
                 <Edit3 className="h-4 w-4" />
-                <button>Modifier la salle</button>
+                <button onClick={() => setShowUpdateModal(true)}>
+                  Modifier la salle
+                </button>
               </DropdownMenuItem>
               <DropdownMenuItem className="flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1">
                 <Trash className="h-4 w-4" />
@@ -140,8 +145,8 @@ export const columns: ColumnDef<Room>[] = [
 
           {showConfirmationModal && (
             <div className="fixed inset-0 flex items-center justify-center z-50  rounded-lg shadow">
-              <div className="bg-white  p-8 rounded-lg">
-                <div className="p-4 md:p-5 text-cente">
+              <div className="bg-white rounded-lg animate-fade-in">
+                <div className="p-4 md:p-5 text-cente m-4">
                   <div className="flex justify-end">
                     <MdClose
                       className="h-6 w-6 cursor-pointer"
@@ -193,9 +198,89 @@ export const columns: ColumnDef<Room>[] = [
             </div>
           )}
 
-          {showConfirmationModal && (
+          {showUpdateModal && (
+            <div className="fixed inset-0 flex items-center justify-center z-50  rounded-lg shadow">
+              <div className="bg-white   rounded-lg animate-fade-in">
+                <div className="p-4 md:p-5 text-cente min-w-[800px] h-[461px]">
+                  <div className="flex justify-end">
+                    <MdClose
+                      className="h-6 w-6 cursor-pointer"
+                      onClick={() => setShowUpdateModal(!showUpdateModal)}
+                    />
+                  </div>
+                  <div>
+                    {/* hearder */}
+                    <div className="border-b-[1px] border-gray-200 pb-[20px]">
+                      <h3 className="text-[28px] text-[#001D74] font-[600] text-left">
+                        Modifier la salle
+                      </h3>
+                    </div>
+                    {/* form */}
+                    <div className="py-[20px] text-black flex flex-col gap-6 text-left border-b-[1px] border-gray-200">
+                      <div className="flex justify-between items-center gap-8">
+                        <div className="flex flex-col w-[50%] text-left">
+                          <Label className="text-[20.051px] font-[400] my-3">
+                            Nom de la salle
+                          </Label>
+                          <Input
+                            className="w-full h-[52px]"
+                            placeholder={payment.nom_salle}
+                          />
+                        </div>
+                        <div className="flex flex-col w-[50%]">
+                          <Label className="text-[20.051px] font-[400] my-3">
+                            Type de la salle
+                          </Label>
+                          <Input
+                            className="w-full h-[52px]"
+                            placeholder={payment.type_salle}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center gap-8">
+                        <div className="flex flex-col w-[50%] text-left">
+                          <Label className="text-[20.051px] font-[400] my-3">
+                            Capacite
+                          </Label>
+                          <Input
+                            className="w-full h-[52px]"
+                            placeholder={payment.capacity}
+                          />
+                        </div>
+                        <div className="flex flex-col w-[50%]">
+                          <Label className="text-[20.051px] font-[400] my-3">
+                            Disponibilite
+                          </Label>
+                          <Input
+                            placeholder={payment.disponibilite.join(",")}
+                            className="w-full h-[52px]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-center">
+                      <Button variant="destructive">Update</Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowUpdateModal(!showUpdateModal)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {(showConfirmationModal || showUpdateModal) && (
             <div
-              className="fixed inset-0 bg-red-600 opacity-50 z-40"
+              className={`fixed inset-0 ${
+                showConfirmationModal && "bg-red-500"
+              }   ${
+                showUpdateModal && "bg-black"
+              }  opacity-50 z-40 overflow-hidden`}
               style={{ pointerEvents: "none" }}
             ></div>
           )}

@@ -10,7 +10,6 @@ const prisma = new PrismaClient();
 
 const EnseignantsPage = async () => {
   const enseignants = await prisma.professor.findMany();
-  console.table(enseignants);
 
   const data: Teacher[] = enseignants.map((enseignant) => {
     return {

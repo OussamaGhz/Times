@@ -1,44 +1,77 @@
-import { PrismaClient } from "@prisma/client";
-import { teacherData } from "./teacher-data";
+import { PrismaClient, Prisma } from "@prisma/client";
+import { userData } from "./user-data";
 
 const prisma = new PrismaClient();
 
-async function seedProfessors() {
-  // Clear existing professor data
-  await prisma.professor.deleteMany();
+async function main() {
+  console.log(`Start clearing data...`);
 
-  console.log("Seeding professors...");
-  for (const professor of teacherData) {
-    const createdProfessor = await prisma.professor.create({
+  // Clear data from collections
+  await prisma.groupe.deleteMany();
+  await prisma.module.deleteMany();
+  await prisma.section.deleteMany();
+  await prisma.specialite.deleteMany();
+  await prisma.annee.deleteMany();
+  
+
+  console.log(`Data cleared.`);
+
+
+  console.log(`Start seeding ...`);
+  for (const userDataItem of userData) {
+    const createdAnnee = await prisma.annee.create({
       data: {
-        nom: professor.nom,
-        prenom: professor.prenom,
-        gender: professor.gender,
-        email: professor.email,
-        numero_de_telephone: professor["numero de telephone"],
-        date_de_naissance: new Date(professor["Date de naissance"]),
-        grade: professor.grade,
-        availability_prof: {
-          set: professor.availability_prof,
+        annee: userDataItem.annee,
+        specialites: {
+          create: userDataItem.specialites.map((specialite) => ({
+            nom: specialite.nom,
+            sections: {
+              create: specialite.sections.map((section) => ({
+                nom: section.nom,
+                annee: section.annee,
+                groupes: {
+                  create: section.groupes.map((groupe) => ({
+                    nom: groupe.nom,
+                  })),
+                },
+                modules: {
+                  // Add modules creation
+                  create: section.modules.map((module) => ({
+                    nom_module: module.nom_module,
+                    nb_cours: module.nb_cours,
+                    td: module.td,
+                    tp: module.tp,
+                  })),
+                },
+              })),
+            },
+          })),
         },
-        modules: {
-          set: professor.modules,
+      },
+      include: {
+        specialites: {
+          include: {
+            sections: {
+              include: {
+                groupes: true,
+                modules: true, // Include modules in the response
+              },
+            },
+          },
         },
       },
     });
-    console.log(`Professor with ID ${createdProfessor.id} seeded successfully.`);
+    console.log(`Annee with ID ${createdAnnee.id} seeded successfully.`);
   }
-  console.log("Professor seeding completed.");
+
+  console.log(`Seeding finished.`);
 }
 
-async function main() {
-  try {
-    await seedProfessors();
-  } catch (error) {
-    console.error("Error seeding professors:", error);
-  } finally {
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
     await prisma.$disconnect();
-  }
-}
-
-main();
+  });

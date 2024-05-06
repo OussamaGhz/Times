@@ -19,13 +19,15 @@ const EnseignantsPage = async () => {
     },
   });
 
-
   const data: Room[] = rooms.map((room) => {
     return {
       id: room.id,
       nom_salle: room.nom,
       type_salle: room.type,
       capacity: room.capacite,
+      disponibilite: room.disponibilite.map((dispo) => {
+        return [...dispo.day];
+      }),
     };
   });
 

@@ -1,96 +1,148 @@
-"use client"
 import { PrismaClient } from "@prisma/client";
 
-import Calendar from "./ui/calendar";
 
 const prisma = new PrismaClient();
 
-export default async function Home() {
-  const handleToggleModal = () => {
-    const modal = document.getElementById("popup-modal");
-    modal?.classList.toggle("hidden");
+ export default async function Home() { 
+  const rooms = await prisma.room.findMany({
+    include: { 
+      disponibilite: {
+        include: {
+          times: true,
+        },
+      },
+    },
+  });
+
+  const enseignants = await prisma.professor.findMany();
+
+  const data = await prisma.annee.findMany({
+    include: {
+      specialites: {
+        include: {
+          sections: {
+            include: {
+              groupes: true,
+              modules: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const rooms_requst = rooms.map((room) => {
+    return {
+      name: room.nom,
+      type: room.type === "cour" ? "Lecture" : room.type,
+      availability: room.disponibilite.map((dispo) => {
+      return dispo.day === "lundi" ? "Monday" :
+         dispo.day === "mardi" ? "Tuesday" :
+         dispo.day === "mercredi" ? "Wednesday" :
+         dispo.day === "jeudi" ? "Thursday" :
+         dispo.day === "vendredi" ? "Friday" :
+         dispo.day === "samedi" ? "Saturday" :
+         dispo.day === "dimanche" ? "Sunday" :
+         dispo.day;
+      }),
+    };
+  });
+
+  const profs_request = enseignants.map((prof) => {
+    return {
+      name: prof.nom,
+      modules: prof.modules.map((module, index) => {
+      return {
+        priority: index + 1,
+        name: module,
+      };
+      }),
+      availability: prof.availability_prof.map((day) => {
+      return day === "lundi" ? "Monday" :
+        day === "mardi" ? "Tuesday" :
+        day === "mercredi" ? "Wednesday" :
+        day === "jeudi" ? "Thursday" :
+        day === "vendredi" ? "Friday" :
+        day === "samedi" ? "Saturday" :
+        day === "dimanche" ? "Sunday" :
+        day;
+      }),
+    };
+  });
+
+  const allSections: ({
+    modules: {
+      id: string;
+      nom_module: string;
+      nb_cours: number | null;
+      td: boolean;
+      tp: boolean;
+      sectionId: string;
+    }[];
+    groupes: { id: string; nom: string; sectionId: string }[];
+  } & {
+    id: string;
+    nom: string;
+    specialiteId: string;
+    annee: number;
+    capacite: number | null;
+  })[] = [];
+
+  data.forEach((annee) => {
+    annee.specialites.forEach((specialite) => {
+      allSections.push(...specialite.sections);
+    });
+  });
+
+  const extractedData = allSections.map((section) => {
+    return {
+      name: section.nom,
+      groups: section.groupes.map((groupe) => groupe.nom),
+      schedule: [],
+      capacity: 100,
+      modules: [
+        {
+          modules: section.modules.map((module) => ({
+            moduleName: module.nom_module,
+            lectures: module.nb_cours || 0,
+            td: module.td,
+            tp: module.tp,
+          })),
+        },
+      ],
+    };
+  });
+
+  const finalData = {
+    rooms: rooms_requst,
+    teachers: profs_request,
+    sections: extractedData,
   };
-  // add a user using prisma
+
+
+  try {
+    const response = await fetch(
+      "https://mojnx.pythonanywhere.com/generate-schedule",
+      {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(finalData),
+      }
+    );
+    console.log(response.status); 
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
 
   return (
     <div>
-      <button
-        data-modal-target="popup-modal"
-        onClick={handleToggleModal}
-        className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        type="button"
-      >
-        Toggle modal
-      </button>
+      {/* display thethe extractedData on its json format  */}
 
-      <div
-        id="popup-modal"
-        tabIndex={-1}
-        className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-      >
-        <div className="relative p-4 w-full max-w-md max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button
-              type="button"
-              onClick={handleToggleModal}
-              className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              data-modal-hide="popup-modal"
-            >
-              <svg
-                className="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-              <span className="sr-only">Close modal</span>
-            </button>
-            <div className="p-4 md:p-5 text-center">
-              <svg
-                className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                Are you sure you want to delete this product?
-              </h3>
-              <button
-                data-modal-hide="popup-modal"
-                type="button"
-                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-              >
-                Yes, I'm sure
-              </button>
-              <button
-                data-modal-hide="popup-modal"
-                type="button"
-                onClick={handleToggleModal}
-                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              >
-                No, cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <pre>{JSON.stringify(profs_request, null, 2)}</pre>
     </div>
   );
 }
