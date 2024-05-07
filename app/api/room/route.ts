@@ -1,8 +1,25 @@
 import { Disponibilite, PrismaClient, Room, Time } from "@prisma/client";
-import { log } from "console";
+import next from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
+
+export const GET = async (req: NextRequest) => {
+  console.log("Received GET request from clietn ");
+
+  const rooms = await prisma.room.findMany({
+    include: {
+      disponibilite: {
+        include: {
+          times: true,
+        },
+      },
+    },
+  });
+
+  //return the rooms
+  return NextResponse.json(rooms);
+};
 
 export const POST = async (req: NextRequest) => {
   // add the (following the db schema) room to the database

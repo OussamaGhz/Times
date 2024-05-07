@@ -50,7 +50,7 @@ const SideBar = () => {
         // TODO: this should be a Drowdown
         {
           title: "Annees Universitaires",
-          path: "/dashboard/revenue",
+          path: "/dashboard/emploi",
           icon: <MdWork />,
         },
       ],
