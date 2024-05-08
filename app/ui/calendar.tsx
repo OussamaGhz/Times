@@ -1,18 +1,5 @@
 import PageContainer from "./dashboard/page-container";
 
-const information = [
-  // Example data
-  { day: "Monday", slot: 1, info: "Meeting with Client A" },
-  { day: "Monday", slot: 2, info: "Team Standup Meeting" },
-  { day: "Tuesday", slot: 3, info: "Project Presentation" },
-  {
-    day: "Wednesday",
-    time: "1:00 PM - 2:30 PM",
-    info: "Lunch with Colleagues",
-  },
-  // Add more information as needed
-];
-
 const timeSlots = [
   { slot: 1, time: "8h:00 - 9h:30" },
   { slot: 2, time: "9h:40 - 9h:30" },
@@ -24,7 +11,13 @@ const timeSlots = [
 
 const className = "border min-w-36 py-5 px-3 w-28";
 
-const Calendar = () => {
+type props = {
+  day: string;
+  slot: number;
+  info: string;
+};
+
+const Calendar = ({ info }: { info: props[] }) => {
   return (
     <PageContainer>
       <div className="flex justify-center items-center p-10 text-[#556476]">
@@ -40,7 +33,7 @@ const Calendar = () => {
                 {timeSlots.map((time) => (
                   <th
                     key={time.slot}
-                    className={`${className} font-semibold text-[13px] tracking-[0] leading-[normal]`}
+                    className={`${className} font-semibold text-[14px] tracking-[0] leading-[normal] border-0`}
                   >
                     {time.time}
                   </th>
@@ -58,22 +51,25 @@ const Calendar = () => {
               ].map((day) => (
                 <tr key={day}>
                   <td className="py-10 w-2 text-center min-h-20 bg-[#FAFAFA]">
-                    <div className="-rotate-90 font-semibold text-variable-collection-typography-2nd text-[13px]">
+                    <div className="-rotate-90 font-semibold text-variable-collection-typography-2nd text-[14px]">
                       {day}
                     </div>
                   </td>
                   {timeSlots.map((time) => (
-                    <td key={time.slot} className={`${className} min-h-20 `}>
-                      {/* Information for each cell */}
-                      {information.map(({ day: infoDay, slot, info }) => {
-                        if (infoDay === day && time.slot === slot) {
+                    <td
+                      key={time.slot}
+                      className={`${className} min-h-20  border-dotted`}
+                    >
+                      {/* info for each cell */}
+                      {info.map((item: props) => {
+                        if (item.day === day && item.slot === time.slot) {
                           return (
                             <div
-                              key={`${day}-${time}`}
-                              className="mt-2 flex justify-center items-center"
+                              key={`${item.day}-${time.slot}`}
+                              className="mt-2 flex justify-center items-center "
                             >
                               <span className="font-bold">{time.time}: </span>
-                              {info}
+                              {item.info}
                             </div>
                           );
                         }

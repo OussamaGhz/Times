@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import PageContainer from "@/app/ui/dashboard/page-container";
-import { Room, columns } from "@/app/ui/salles/columns";
+import { columns } from "@/app/ui/salles/columns";
 import { DataTable } from "@/app/ui/salles/data-table";
-import { PrismaClient } from "@prisma/client";
 import AddRommModal from "@/app/ui/salles/add-room-modal";
 
 const useRooms = () => {

@@ -1,5 +1,4 @@
 import { Disponibilite, PrismaClient, Room, Time } from "@prisma/client";
-import next from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
@@ -127,7 +126,6 @@ export const DELETE = async (req: NextRequest) => {
     },
   });
 
-  // Reload the page after deleting the room
 
   return NextResponse.json({});
 };

@@ -20,16 +20,29 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import MultipleSelectorData from "../multiple-select";
+
 type RoomEditDialogProps = {
   isOpen: boolean;
   onClose: (open: boolean) => void;
   payment: {
     nom_salle: string;
     type_salle: string;
+    disponibilite: string[];
     capacity: number;
   };
   updateHandler: (updatedData: any) => void;
 };
+
+const daysArray = [
+  { label: "Lundi", value: "Lundi" },
+  { label: "Mardi", value: "Mardi" },
+  { label: "Mercredi", value: "Mercredi" },
+  { label: "Jeudi", value: "Jeudi" },
+  { label: "Vendredi", value: "Vendredi" },
+  { label: "Samedi", value: "Samedi" },
+  { label: "Dimanche", value: "Dimanche" },
+];
 
 const RoomEditDialog = ({
   isOpen,
@@ -37,6 +50,8 @@ const RoomEditDialog = ({
   payment,
   updateHandler,
 }: RoomEditDialogProps) => {
+  console.log(payment.disponibilite);
+
   const [roomData, setRoomData] = useState({
     nom: payment.nom_salle,
     type: payment.type_salle,
@@ -81,6 +96,13 @@ const RoomEditDialog = ({
     setValidationErrors((prevErrors) => ({
       ...prevErrors,
       [name]: "",
+    }));
+  };
+
+  const daysHandler = (values: any) => {
+    setRoomData((prevData) => ({
+      ...prevData,
+      disponibilite: values,
     }));
   };
 
@@ -204,6 +226,22 @@ const RoomEditDialog = ({
                 <span className="text-red-500 text-sm">
                   {validationErrors.capacite}
                 </span>
+              )} */}
+            </div>
+            <div className="flex flex-col w-[50%] text-left">
+              <Label className="text-[20.051px] font-[400] my-3">
+                Disponibilite
+              </Label>
+
+              <MultipleSelectorData
+                options={daysArray}
+                onValuesChange={(values) => daysHandler(values)}
+              />
+
+              {/* {validationErrors.disponibilite && (
+                 <span className="text-red-500 text-sm">
+                   {validationErrors.disponibilite}
+                 </span>
               )} */}
             </div>
           </div>
