@@ -109,28 +109,13 @@ model Module {
 
 // Define the model for rooms
 model Room {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
   nom           String
   type          String
   capacite      Int
-  disponibilite Disponibilite[]
+  disponibilite String[]
 }
 
-model Disponibilite {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  day    String
-  times  Time[]
-  roomId String @db.ObjectId
-  room   Room   @relation(fields: [roomId], references: [id])
-}
-
-model Time {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  start           String
-  end             String
-  disponibiliteId String        @db.ObjectId
-  disponibilite   Disponibilite @relation(fields: [disponibiliteId], references: [id])
-}
 
 model Professor {
   id                  String   @id @default(auto()) @map("_id") @db.ObjectId

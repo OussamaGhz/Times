@@ -15,19 +15,24 @@ interface ItemProps {
 const MenuItem = ({ item, activePath }: MenuItemProps) => {
   const active = item.path === activePath;
   return (
-    <li className="group">
-      <Link
-        href={item.path}
-        className={`flex w-full items-center  ${
-          active && "border-r-[6px] border-[#4A58EC] bg-[#4A58EC] bg-opacity-5 text-[#4A58EC]"
-        } ${!active && "group-hover:bg-gray-200"} transition duration-300 ease-in-out`}
-      >
-        <span className="flex gap-3 p-2 py-3 pl-[29px]">
-          {item.icon}
-          <span className="text-[15px]">{item.title}</span>
-        </span>
-      </Link>
-    </li>
+    <>
+      <li className="group">
+        <Link
+          href={item.path}
+          className={`flex w-full items-center  ${
+            active &&
+            "border-r-[6px] border-[#4A58EC] bg-[#4A58EC] bg-opacity-5 text-[#4A58EC]"
+          } ${
+            !active && "group-hover:bg-gray-200"
+          } transition duration-300 ease-in-out`}
+        >
+          <span className="flex gap-3 p-2 py-3 pl-[29px]">
+            {item.icon}
+            <span className="text-[15px]">{item.title}</span>
+          </span>
+        </Link>
+      </li>
+    </>
   );
 };
 

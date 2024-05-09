@@ -1,4 +1,4 @@
-import { Disponibilite, PrismaClient, Room, Time } from "@prisma/client";
+import { PrismaClient, Room } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
@@ -7,12 +7,12 @@ export const GET = async (req: NextRequest) => {
   console.log("Received GET request from clietn ");
 
   const rooms = await prisma.room.findMany({
-    include: {
-      disponibilite: {
-        include: {
-          times: true,
-        },
-      },
+    select: {
+      id: true,
+      nom: true,
+      type: true,
+      capacite: true,
+      disponibilite: true,
     },
   });
 
@@ -28,7 +28,6 @@ export const POST = async (req: NextRequest) => {
     nom,
     type,
     capacite,
-
     disponibilite
   );
 
@@ -69,19 +68,7 @@ export const POST = async (req: NextRequest) => {
         nom: nom,
         type: type,
         capacite: capacite,
-        disponibilite: {
-          create: disponibilite.map(
-            (dispo: Disponibilite & { time: Time[] }) => ({
-              day: dispo.day,
-              times: {
-                create: dispo.time.map((t: Time) => ({
-                  start: t.start,
-                  end: t.end,
-                })),
-              },
-            })
-          ),
-        },
+        disponibilite: disponibilite.flatMap((day: any) => day.day),
       },
     });
     return NextResponse.json({ message: "created room", room });
@@ -106,26 +93,11 @@ export const DELETE = async (req: NextRequest) => {
 
   console.log("Received DELETE request with id:", id);
 
-  await prisma.time.deleteMany({
-    where: {
-      disponibilite: {
-        roomId: id,
-      },
-    },
-  });
-
-  await prisma.disponibilite.deleteMany({
-    where: {
-      roomId: id,
-    },
-  });
-
   await prisma.room.delete({
     where: {
       id: id,
     },
   });
-
 
   return NextResponse.json({});
 };

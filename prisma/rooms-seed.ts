@@ -55,18 +55,8 @@ async function seedRooms() {
         nom: room.nom,
         type: room.type,
         capacite: room.capacite,
-        disponibilite: {
-          create: room.disponibilite.map((disponibilite) => ({
-            day: disponibilite.day,
-            times: {
-              // Corrected argument name from `time` to `times`
-              create: disponibilite.time.map((time) => ({
-                start: time.start,
-                end: time.end,
-              })),
-            },
-          })),
-        },
+        // extract days from the object and map them to the database as an array of strings
+        disponibilite: room.disponibilite.flatMap((day) => day.day),
       },
     });
     console.log(`Room with ID ${createdRoom.id} seeded successfully.`);

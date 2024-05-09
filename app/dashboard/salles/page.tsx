@@ -26,6 +26,7 @@ const useRooms = () => {
 
 const EnseignantsPage = () => {
   const { rooms, loading } = useRooms();
+  console.log(rooms);
 
   if (loading) {
     return (
@@ -35,23 +36,15 @@ const EnseignantsPage = () => {
     );
   }
 
+  console.log(rooms);
+
   const data: any = rooms.map((room: any) => {
     return {
       id: room.id,
       nom_salle: room.nom,
       type_salle: room.type.charAt(0).toUpperCase() + room.type.slice(1),
       capacity: room.capacite,
-      disponibilite: room.disponibilite.map((dispo: any) => {
-        return {
-          day: dispo.day,
-          time: dispo.times.map((time: any) => {
-            return {
-              start: time.start,
-              end: time.end,
-            };
-          }),
-        };
-      }),
+      disponibilite: room.disponibilite,
     };
   });
 
