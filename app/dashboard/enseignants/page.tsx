@@ -1,29 +1,10 @@
 "use client";
 import PageContainer from "@/app/ui/dashboard/page-container";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Teacher, columns } from "@/app/ui/enseignants/columns";
 import { DataTable } from "@/app/ui/enseignants/data-table";
-
 import AddUser from "@/app/ui/enseignants/add_user-modal";
-import { date } from "zod";
-
-const useenseignant = () => {
-  const [enseignant, setenseignant] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchenseignant = async () => {
-      const response = await fetch("/api/prof");
-      const data = await response.json();
-      setenseignant(data);
-      setLoading(false);
-    };
-
-    fetchenseignant();
-  }, []);
-
-  return { enseignant, loading };
-};
+import { useenseignant } from "@/app/utils/fetchers";
 
 const EnseignantsPage = () => {
   const { enseignant, loading } = useenseignant();

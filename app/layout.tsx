@@ -4,10 +4,10 @@ import "./globals.css";
 import Navbar from "./ui/navbar";
 import SideBar from "./ui/dashboard/sidebar";
 import { useSession } from "next-auth/react";
+import { AppContextProvider } from "./store/context";
 
 const nunito = Nunito({
-  subsets: ["cyrillic"]
-  
+  subsets: ["cyrillic"],
 });
 
 export const metadata: Metadata = {
@@ -23,10 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <div className="flex flex-col w-screen">
-          <Navbar />
-          <div className="">{children}</div>
-        </div>
+        <AppContextProvider>
+          <div className="flex flex-col w-screen">
+            <Navbar />
+            <div className="">{children}</div>
+          </div>
+        </AppContextProvider>
       </body>
     </html>
   );

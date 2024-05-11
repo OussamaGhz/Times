@@ -50,12 +50,11 @@ const RoomEditDialog = ({
   payment,
   updateHandler,
 }: RoomEditDialogProps) => {
-  console.log(payment.disponibilite);
-
   const [roomData, setRoomData] = useState({
     nom: payment.nom_salle,
     type: payment.type_salle,
     capacite: payment.capacity.toString(),
+    disponibilite: payment.disponibilite,
   });
 
   const [validationErrors, setValidationErrors] = useState({

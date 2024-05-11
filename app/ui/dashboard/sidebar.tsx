@@ -39,7 +39,7 @@ const SideBar = () => {
         },
         {
           title: "Sections",
-          path: "/dashboard/transactions",
+          path: "/dashboard/sections",
           icon: <DashboardIcon />,
         },
       ],

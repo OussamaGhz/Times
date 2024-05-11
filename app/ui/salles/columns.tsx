@@ -17,10 +17,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "../icon/loading";
 
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import RoomEditDialog from "./modify-room-modal";
 
 // This type is used to define the shape of our data.
@@ -108,12 +105,11 @@ export const columns: ColumnDef<Room>[] = [
               "Content-Type": "application/json",
             },
           });
-
-          router.refresh();
         } catch (error) {
           console.error("Failed to delete room", error);
           return;
         }
+        router.refresh();
         setIsDeleting(false);
         setIsDeleteDialogOpen(false);
       };

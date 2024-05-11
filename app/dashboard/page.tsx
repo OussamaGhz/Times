@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import CardC from "../ui/dashboard/card";
 import PageContainer from "../ui/dashboard/page-container";
@@ -7,10 +8,22 @@ import CardV2 from "../ui/dashboard/card-v2";
 import Teacherv2 from "../ui/icon/teacherv2";
 import Room from "../ui/icon/room";
 import { Annee, Prisma, PrismaClient } from "@prisma/client";
+import { useAppContext } from "../store/context";
 
 const prisma = new PrismaClient();
 
-const DashboardPage = async () => {
+const DashboardPage = () => {
+  const { sections, teachers, amphi, classValue: salles } = useAppContext();
+  //turn the values to string
+  const sectionsValue = sections.toString();
+  const teachersValue = teachers.toString();
+  const classValue = salles.toString();
+  const amphiValue = amphi.toString();
+
+  console.log(classValue);
+
+  // Remove the line below to fix the issue
+
   type PageContent = {
     title: string;
     detials: string;
@@ -29,19 +42,20 @@ const DashboardPage = async () => {
     {
       title: "Total Des Enseignants:",
       detials: "Enseignants",
-      value: "256", // get from api
+      value: teachersValue, // get from api
       color: "bg-[linear-gradient(90deg,_#70B0FF_0%,_#0072FF_100%)]",
     },
     {
       title: "Total De Salles:",
       detials: "Salles",
-      value: "541", // get from api
+      value: classValue, // get from api
       color: "bg-[linear-gradient(90deg,_#FFC837_0%,_#FF8008_100%)]",
     },
     {
       title: "Total Des Amphis:",
       detials: "Amphis",
-      value: "96", // get from api
+      // get from context value: and turn it to string
+      value: amphiValue,
       color: "bg-[linear-gradient(90deg,_#7DC79A_0%,_#1D976C_100%)]",
     },
     {
@@ -73,37 +87,7 @@ const DashboardPage = async () => {
       icon: <Room />,
     },
   ];
-
-  // const data = await prisma.annee.findMany({
-  //   include: {
-  //     specialites: {
-  //       include: {
-  //         sections: {
-  //           include: {
-  //             groupes: true
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // });
-
-  const data = await prisma.annee.findMany({
-    include: {
-      specialites: {
-        include: {
-          sections: {
-            include: {
-              groupes: true,
-              modules: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  console.log(data[0].specialites[0].sections[0].modules); // test
+  //get values from the context
 
   return (
     <PageContainer>

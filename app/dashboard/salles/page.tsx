@@ -5,28 +5,13 @@ import PageContainer from "@/app/ui/dashboard/page-container";
 import { columns } from "@/app/ui/salles/columns";
 import { DataTable } from "@/app/ui/salles/data-table";
 import AddRommModal from "@/app/ui/salles/add-room-modal";
+import { useAppContext } from "@/app/store/context";
+import { useRooms } from "@/app/utils/fetchers";
 
-const useRooms = () => {
-  const [rooms, setRooms] = useState([]);
-  const [loading, setLoading] = useState(true);
+//caluculate the rooms with type amphi (check lower case)
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      const response = await fetch("/api/room");
-      const data = await response.json();
-      setRooms(data);
-      setLoading(false);
-    };
-
-    fetchRooms();
-  }, []);
-
-  return { rooms, loading };
-};
-
-const EnseignantsPage = () => {
+const SallesPage = () => {
   const { rooms, loading } = useRooms();
-  console.log(rooms);
 
   if (loading) {
     return (
@@ -35,8 +20,6 @@ const EnseignantsPage = () => {
       </div>
     );
   }
-
-  console.log(rooms);
 
   const data: any = rooms.map((room: any) => {
     return {
@@ -47,6 +30,25 @@ const EnseignantsPage = () => {
       disponibilite: room.disponibilite,
     };
   });
+
+  // calculate the number of rooms that contains of its names the word amphi (check lower case)
+  const amphitheaters: number = rooms.filter((room: any) =>
+    room.nom.toLowerCase().includes("amphi")
+  ).length;
+
+  // calucule the number of rooms that have the types "td" or "tp" (check lower case)
+  const classrooms: number = rooms.filter(
+    (room: any) =>
+      room.type.toLowerCase() === "td" || room.type.toLowerCase() === "tp"
+  ).length;
+
+  //store both variables on the context
+  // const { updateAmphi, updateClassValue } = useAppContext();
+
+  // updateAmphi(amphitheaters);
+  // updateClassValue(classrooms);
+
+  // assign the calculated values to the context
 
   return (
     <>
@@ -66,4 +68,4 @@ const EnseignantsPage = () => {
   );
 };
 
-export default EnseignantsPage;
+export default SallesPage;

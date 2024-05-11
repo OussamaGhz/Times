@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Calendar from "@/app/ui/calendar";
 import PageContainer from "@/app/ui/dashboard/page-container";
@@ -23,7 +22,13 @@ interface SectionsData {
   [key: string]: Specialty[];
 }
 
+interface YearData {
+  year: number;
+  specialties: Specialty[];
+}
+
 const ParentComponent = () => {
+  const [selectedYear, setSelectedYear] = useState<number>(1);
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>("");
   const [selectedSection, setSelectedSection] = useState<string>("");
   const [infoData, setInfoData] = useState<
@@ -31,7 +36,8 @@ const ParentComponent = () => {
   >([]);
 
   // Sample data for university specialties
-  const specialtiesData = [
+  const specialtiesData: Specialty[] = [
+    // Sample data for specialties. You can replace it with actual data.
     { id: "specialty1", label: "Computer Science" },
     { id: "specialty2", label: "Engineering" },
     // Add more specialties as needed
@@ -40,6 +46,7 @@ const ParentComponent = () => {
   // Sample data for sections (dependent on the selection from the specialties)
   const sectionsData: SectionsData = {
     specialty1: [
+      // Sample data for sections. You can replace it with actual data.
       {
         id: "section1",
         label: "Section A - Computer Science",
@@ -49,18 +56,10 @@ const ParentComponent = () => {
           // Add more slots as needed
         ],
       },
-      {
-        id: "section2",
-        label: "Section B - Computer Science",
-        timetable: [
-          { slot: 1, time: "8:30 - 10:00", info: "Info for Slot 1" },
-          { slot: 2, time: "10:10 - 11:40", info: "Info for Slot 2" },
-          // Add more slots as needed
-        ],
-      },
       // Add more sections as needed
     ],
     specialty2: [
+      // Sample data for sections. You can replace it with actual data.
       {
         id: "section3",
         label: "Section C - Engineering",
@@ -70,18 +69,26 @@ const ParentComponent = () => {
           // Add more slots as needed
         ],
       },
-      {
-        id: "section4",
-        label: "Section D - Engineering",
-        timetable: [
-          { slot: 1, time: "9:30 - 11:00", info: "Info for Slot 1" },
-          { slot: 2, time: "11:10 - 12:40", info: "Info for Slot 2" },
-          // Add more slots as needed
-        ],
-      },
       // Add more sections as needed
     ],
     // Add more specialties and corresponding sections as needed
+  };
+
+  // Sample data for years, each containing specialties
+  const yearsData: YearData[] = [
+    {
+      year: 1,
+      specialties: specialtiesData,
+    },
+    // Add more years as needed
+    
+  ];
+
+  // Handle change in the year selector
+  const handleYearChange = (selectedYear: number) => {
+    setSelectedYear(selectedYear);
+    setSelectedSpecialty(""); // Reset the specialty when the year changes
+    setSelectedSection(""); // Reset the section when the year changes
   };
 
   // Handle change in the specialty selector
@@ -118,19 +125,7 @@ const ParentComponent = () => {
             {selectedSection !== "" ? (
               selectedSpecialty !== "" && (
                 <p className="text-blue-950 text-base font-semibold ">
-                  {specialtiesData.map((s) => {
-                    // select the speicality lable where the id is equal to the selectedSpecialty
-                    if (s.id === selectedSpecialty) {
-                      return s.label;
-                    }
-                  })}
-                  {""} / {""}
-                  {sectionsData[selectedSpecialty]?.map((s) => {
-                    // select the section lable where the id is equal to the selectedSection
-                    if (s.id === selectedSection) {
-                      return s.label;
-                    }
-                  })}
+                  {selectedSpecialty} / {selectedSection}
                 </p>
               )
             ) : (
@@ -141,25 +136,49 @@ const ParentComponent = () => {
           </div>
 
           <div className="flex gap-4">
+            {/* Year selector */}
             <Select
-              onValueChange={(value) => handleSpecialtyChange(value)}
-              value={selectedSpecialty}
+              onValueChange={(value) => handleYearChange(Number(value))}
+              value={selectedYear.toString()}
             >
-              <SelectTrigger className=" bg-[#4A58EC] text-white text-lg  font-semibold">
-                <SelectValue placeholder="Select a Specialty" />
+              <SelectTrigger className="w-[180px] bg-[#4A58EC] text-white">
+                <SelectValue placeholder="Select a Year" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Specialty</SelectLabel>
-                  {specialtiesData.map(({ id, label }) => (
-                    <SelectItem key={id} value={id}>
-                      {label}
+                  <SelectLabel>Year</SelectLabel>
+                  {yearsData.map(({ year }) => (
+                    <SelectItem key={year} value={year.toString()}>
+                      {year}
                     </SelectItem>
                   ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
 
+            {/* Specialty selector */}
+            <Select
+              onValueChange={(value) => handleSpecialtyChange(value)}
+              value={selectedSpecialty}
+            >
+              <SelectTrigger className="w-[180px] bg-[#4A58EC] text-white">
+                <SelectValue placeholder="Select a Specialty" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Specialty</SelectLabel>
+                  {yearsData
+                    .find(({ year }) => year === selectedYear)
+                    ?.specialties.map(({ id, label }) => (
+                      <SelectItem key={id} value={id}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            {/* Section selector (dependent on the selection from the specialty selector) */}
             <Select
               onValueChange={(value) => handleSectionChange(value)}
               value={selectedSection}
@@ -170,7 +189,6 @@ const ParentComponent = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Section</SelectLabel>
-
                   {sectionsData[selectedSpecialty]?.map(({ id, label }) => (
                     <SelectItem key={id} value={id}>
                       {label}

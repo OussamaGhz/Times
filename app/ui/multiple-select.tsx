@@ -21,6 +21,7 @@ interface MultipleSelectorDataProps {
 const MultipleSelectorData = ({
   options,
   onValuesChange,
+ 
 }: MultipleSelectorDataProps) => {
   const [value, setValue] = React.useState<string[]>([]);
 

@@ -80,14 +80,15 @@ model Specialite {
 }
 
 model Section {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  nom          String
-  specialite   Specialite @relation(fields: [specialiteId], references: [id])
-  specialiteId String     @db.ObjectId
-  annee        Int
-  groupes      Groupe[] // One Section can have many Groupes
-  modules      Module[] // One Section can have many Modules
-  capacite     Int?
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  nom             String
+  specialite_name String
+  specialite      Specialite @relation(fields: [specialiteId], references: [id])
+  specialiteId    String     @db.ObjectId
+  annee           Int
+  groupes         Groupe[] // One Section can have many Groupes
+  modules         Module[] // One Section can have many Modules
+  capacite        Int?
 }
 
 model Groupe {
@@ -115,7 +116,6 @@ model Room {
   capacite      Int
   disponibilite String[]
 }
-
 
 model Professor {
   id                  String   @id @default(auto()) @map("_id") @db.ObjectId
