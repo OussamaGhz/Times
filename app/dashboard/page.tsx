@@ -61,7 +61,7 @@ const DashboardPage = () => {
     {
       title: "Total De Sections:",
       detials: "Sections",
-      value: "96", // get from api
+      value: sectionsValue, // get from api
       color: "bg-[linear-gradient(90deg,_#7986FC_0%,_#2A45D1_100%)]",
     },
   ];
@@ -115,7 +115,7 @@ const DashboardPage = () => {
       </div>
       <div>
         <h1 className="font-[600] text-[40px] text-left my-[30px]">Tasks</h1>
-        <div className="flex gap-7 flex-col lg:flex-row justify-center items-center w-full">
+        <div className="flex gap-7 flex-col lg:flex-row justify-center items-center w-full mb-5">
           <div className="grid lg:grid-cols-3 grid-cols-1 gap-7 ">
             {tasks.map((content) => (
               <CardV2

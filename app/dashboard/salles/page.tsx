@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PageContainer from "@/app/ui/dashboard/page-container";
 import { columns } from "@/app/ui/salles/columns";
 import { DataTable } from "@/app/ui/salles/data-table";
 import AddRommModal from "@/app/ui/salles/add-room-modal";
-import { useAppContext } from "@/app/store/context";
 import { useRooms } from "@/app/utils/fetchers";
 
 //caluculate the rooms with type amphi (check lower case)
@@ -30,25 +29,6 @@ const SallesPage = () => {
       disponibilite: room.disponibilite,
     };
   });
-
-  // calculate the number of rooms that contains of its names the word amphi (check lower case)
-  const amphitheaters: number = rooms.filter((room: any) =>
-    room.nom.toLowerCase().includes("amphi")
-  ).length;
-
-  // calucule the number of rooms that have the types "td" or "tp" (check lower case)
-  const classrooms: number = rooms.filter(
-    (room: any) =>
-      room.type.toLowerCase() === "td" || room.type.toLowerCase() === "tp"
-  ).length;
-
-  //store both variables on the context
-  // const { updateAmphi, updateClassValue } = useAppContext();
-
-  // updateAmphi(amphitheaters);
-  // updateClassValue(classrooms);
-
-  // assign the calculated values to the context
 
   return (
     <>

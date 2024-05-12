@@ -1,26 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Annee, Specialite, Section } from "./types"; // Importing the types
-
-const useSection = () => {
-  const [section, setSection] = useState<Annee[]>([]); // Annotating the state variable with Annee[]
-  const [loading, setLoading] = useState<boolean>(true); // Annotating the state variable with boolean
-
-  useEffect(() => {
-    const fetchRooms = async () => {
-      const response = await fetch("/api/years");
-      const data = await response.json(); // Annotating the returned data with Annee[]
-
-      setSection(data);
-      setLoading(false);
-    };
-
-    fetchRooms();
-  }, []);
-
-  return { section, loading };
-};
+import { useSection } from "@/app/utils/fetchers";
+import PageContainer from "@/app/ui/dashboard/page-container";
+import { DataTable } from "@/app/ui/sections/data-table";
+import { columns } from "@/app/ui/sections/columns";
 
 const SectionsPage = () => {
   const { section, loading } = useSection();
@@ -40,23 +25,59 @@ const SectionsPage = () => {
   const extractedData = allSections.map((section: Section) => {
     return {
       name: section.nom,
-      year: section.annee,
+      // Convert numeric year to the required string format
+      year: formatYear(section.annee),
       speciality: section.specialite_name,
       groups: (section.groupes ?? []).map((groupe) => groupe.nom),
       schedule: [],
       capacity: 100,
-      modules: (section.modules ?? []).map((module) => ({
-        moduleName: module.nom_module,
-        lectures: module.nb_cours || 0,
-        td: module.td,
-        tp: module.tp,
-      })),
+      modules: section.modules?.length,
     };
   });
 
   console.log(extractedData);
 
-  return <div></div>;
+  // Function to format the year based on the numeric value
+  function formatYear(year: number): string {
+    switch (year) {
+      case 1:
+        return "1ere annee";
+      case 2:
+        return "2eme annee";
+      case 3:
+        return "3eme annee";
+      case 4:
+        return "4eme annee";
+      case 5:
+        return "5eme annee";
+      default:
+        return `${year}eme annee`; // fallback for other years
+    }
+  }
+
+  console.log(loading);
+
+  return (
+    <>
+      <PageContainer>
+        <div className="flex flex-col">
+          <div className="flex justify-between items-center">
+            <h1 className="font-[600] text-[40px] text-left my-[30px] ">
+              Sections
+            </h1>
+          </div>
+
+          {
+            <DataTable
+              columns={columns}
+              data={extractedData}
+              isLoading={loading}
+            />
+          }
+        </div>
+      </PageContainer>
+    </>
+  );
 };
 
 export default SectionsPage;

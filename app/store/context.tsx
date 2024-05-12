@@ -25,50 +25,17 @@ export const useAppContext = () => {
 
 // Create a provider component to wrap your app with
 import React from "react";
-import { useRooms, useenseignant } from "../utils/fetchers";
-import { Teacher } from "../ui/enseignants/columns";
+import { useRooms, useSection, useenseignant } from "../utils/fetchers";
+import { Annee, Section, Specialite } from "@prisma/client";
 
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { enseignant, loading: loadingTeachers } = useenseignant();
+  const { enseignant: teachers_all, loading: loadingTeachers } =
+    useenseignant();
   const { rooms, loading: loadingRooms } = useRooms();
 
-  const dataTeachers: Teacher[] = enseignant.map((enseignant: Teacher) => {
-    return {
-      id: enseignant.id,
-      nom: `${enseignant.nom} ${enseignant.prenom}`,
-      email: enseignant.email,
-      date_de_naissance: enseignant.date_de_naissance.toString(), // Update the type to string
-      numero_de_telephone: enseignant.numero_de_telephone,
-      prenom: enseignant.prenom,
-      phone: enseignant.numero_de_telephone,
-      grade: enseignant.grade,
-    };
-  });
-
-  const dataSalles: any = rooms.map((room: any) => {
-    return {
-      id: room.id,
-      nom_salle: room.nom,
-      type_salle: room.type.charAt(0).toUpperCase() + room.type.slice(1),
-      capacity: room.capacite,
-      disponibilite: room.disponibilite,
-    };
-  });
-
-  const teachersNmuber: number = dataTeachers.length;
-
-  const amphitheaters: number = rooms.filter((room: any) =>
-    room.nom.toLowerCase().includes("amphi")
-  ).length;
-
-  // calucule the number of rooms that have the types "td" or "tp" (check lower case)
-  const classrooms: number = rooms.filter(
-    (room: any) =>
-      room.type.toLowerCase() === "td" || room.type.toLowerCase() === "tp"
-  ).length;
-
+  const { section, loading } = useSection();
   // Define your state and any other logic here
   const [amphi, setAmphi] = React.useState(0);
   const [classValue, setClassValue] = React.useState(0);
@@ -90,8 +57,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [rooms]);
 
   React.useEffect(() => {
-    setTeachers(dataTeachers.length);
-  }, [dataTeachers]);
+    setTeachers(teachers_all.length);
+  }, [teachers_all]);
 
   const updateAmphi = (newAmphi: number) => {
     setAmphi(newAmphi);
@@ -100,6 +67,25 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const updateClassValue = (newClassValue: number) => {
     setClassValue(newClassValue);
   };
+
+  React.useEffect(() => {
+    const allSections: Section[] = [];
+
+    section.forEach((annee: Annee & { specialites?: Specialite[] }) => {
+      if (annee.specialites) {
+        annee.specialites.forEach(
+          (specialite: Specialite & { sections?: Section[] }) => {
+            // Update the type of specialite
+            if (specialite.sections) {
+              allSections.push(...specialite.sections);
+            }
+          }
+        );
+      }
+    });
+
+    setSections(allSections.length);
+  }, [section]);
 
   return (
     <AppContext.Provider

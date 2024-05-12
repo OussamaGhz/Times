@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  MdWork,
-} from "react-icons/md";
+import { MdWork } from "react-icons/md";
 
 import DashboardIcon from "../icon/dashboard";
 import TeacherIcon from "../icon/teacher";
@@ -14,8 +12,6 @@ import { XIcon, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 const SideBar = () => {
-
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const menuItems = [
@@ -47,7 +43,11 @@ const SideBar = () => {
     {
       title: "Emplois du temps",
       list: [
-        // TODO: this should be a Drowdown
+        {
+          title: "Generation des Emplois",
+          path: "/dashboard/emploi-generation",
+          icon: <MdWork />,
+        },
         {
           title: "Annees Universitaires",
           path: "/dashboard/emploi",

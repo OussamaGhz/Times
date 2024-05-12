@@ -1,5 +1,6 @@
 "use client";
 
+import { Annee } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 export const useRooms = () => {
@@ -36,4 +37,23 @@ export const useenseignant = () => {
   }, []);
 
   return { enseignant, loading };
+};
+
+export const useSection = () => {
+  const [section, setSection] = useState<Annee[]>([]); // Annotating the state variable with Annee[]
+  const [loading, setLoading] = useState<boolean>(true); // Annotating the state variable with boolean
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const response = await fetch("/api/years");
+      const data = await response.json(); // Annotating the returned data with Annee[]
+
+      setSection(data);
+      setLoading(false);
+    };
+
+    fetchRooms();
+  }, []);
+
+  return { section, loading };
 };

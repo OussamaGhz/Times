@@ -114,10 +114,6 @@ export const columns: ColumnDef<Room>[] = [
         setIsDeleteDialogOpen(false);
       };
 
-      const handleToggleModal = () => {
-        setShowConfirmationModal(!showConfirmationModal);
-      };
-
       const triggerRef = React.useRef<HTMLButtonElement>(null);
 
       return (

@@ -11,6 +11,28 @@ const timeSlots = [
 
 const className = "border min-w-36 py-5 px-3 w-28";
 
+type response = {
+  sections: section[];
+};
+
+type section = {
+  section_name: string;
+  specialite: string;
+  annee: number;
+  schedules: schedule[];
+};
+
+type schedule = {
+  day: string;
+  group?: string;
+  moduleName: string;
+  room: string;
+  teacher: string;
+  time: string;
+  slot: number;
+  session_type: string;
+};
+
 const Calendar = ({ info }) => {
   return (
     <PageContainer>

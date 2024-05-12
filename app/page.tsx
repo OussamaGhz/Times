@@ -1,11 +1,10 @@
 "use client";
-import { teacherData } from "@/prisma/teacher-data";
 import { PrismaClient } from "@prisma/client";
 import React, { useState } from "react";
 
 const prisma = new PrismaClient();
 const Page = async () => {
-  const [fech, setFetch] = useState([]);
+  // get the data from the database
   const rooms = await prisma.room.findMany({
     select: {
       id: true,
@@ -16,6 +15,7 @@ const Page = async () => {
     },
   });
   const enseignants = await prisma.professor.findMany();
+
   const data = await prisma.annee.findMany({
     include: {
       specialites: {
@@ -30,6 +30,7 @@ const Page = async () => {
       },
     },
   });
+
   const rooms_requst = rooms.map((room) => {
     return {
       name: room.nom,
@@ -49,9 +50,20 @@ const Page = async () => {
       availability: prof.availability_prof,
     };
   });
+
+  // extract the available yeras
+  const years = data.map((year) => year.annee);
+  //extract the available specialities names
+  const specialities = data.map((year) => {
+    return year.specialites.map((specialite) => specialite.nom);
+  });
+
+  console.log(years, specialities);
+
   const allSections: ({
     modules: {
       id: string;
+
       nom_module: string;
       nb_cours: number | null;
       td: boolean;
@@ -71,6 +83,7 @@ const Page = async () => {
       allSections.push(...specialite.sections);
     });
   });
+
   const extractedData = allSections.map((section) => {
     return {
       name: section.nom,
@@ -95,6 +108,7 @@ const Page = async () => {
     sections: extractedData,
   };
 
+  let fetchedData;
   try {
     const response = await fetch(
       "https://mojnx.pythonanywhere.com/generate-schedule",
@@ -107,18 +121,17 @@ const Page = async () => {
       }
     );
     console.log(response.status);
-    const data = await response.json();
-    console.log(data);
-    
-    await setFetch(data);
-  } catch (error) { 
+    fetchedData = await response.json();
+  } catch (error) {
     console.log(error);
   }
+
+
 
   return (
     <div>
       {/* display the data on the page in json */}
-      <pre>{JSON.stringify(fech, null, 2)}</pre>
+      <pre>{JSON.stringify(fetchedData, null, 2)}</pre>
       <p>
         -----------------------------------------------------------------------------------------
       </p>
