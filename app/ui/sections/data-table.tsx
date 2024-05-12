@@ -73,15 +73,30 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="rounded-md border">
         <Table className="bg-white">
-          <TableHeader>{/* Headers rendering remains unchanged */}</TableHeader>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id} className="text-center">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
           <TableBody>
             {isLoading ? (
               Array.from({ length: 10 }, (_, index) => (
-                <TableRow key={index} >
+                <TableRow key={index}>
                   {columns.map((column, colIndex) => (
-                    <TableCell key={colIndex} >
-                      {colIndex < 5 ? (
-                        <Skeleton className="h-8 w-44" />
+                    <TableCell key={colIndex}>
+                      {colIndex < 7 ? (
+                        <Skeleton className="h-8 w-full" />
                       ) : (
                         <span>&nbsp;</span>
                       )}

@@ -51,6 +51,35 @@ const Page = async () => {
     };
   });
 
+  const request = data.map(year => {
+    return {
+      year: year.annee,
+      specialite: year.specialites.map(specialite => {
+        return {
+          name: specialite.nom,
+          sections: specialite.sections.map(section => {
+            return {
+              name: section.nom,
+              groups: section.groupes.map(groupe => groupe.nom),
+              modules: section.modules.map(module => {
+                return {
+                  name: module.nom_module,
+                  lectures: module.nb_cours,
+                  td: module.td,
+                  tp: module.tp,
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+
+  })
+
+  console.log(request);
+  
+
   // extract the available yeras
   const years = data.map((year) => year.annee);
   //extract the available specialities names
@@ -60,10 +89,19 @@ const Page = async () => {
 
   console.log(years, specialities);
 
+  type years = {
+    year: year[]
+  }
+
+  type year = {
+    year: number;
+    specialite: specialite[]
+  }
+
+
   const allSections: ({
     modules: {
       id: string;
-
       nom_module: string;
       nb_cours: number | null;
       td: boolean;
@@ -78,6 +116,7 @@ const Page = async () => {
     annee: number;
     capacite: number | null;
   })[] = [];
+
   data.forEach((annee) => {
     annee.specialites.forEach((specialite) => {
       allSections.push(...specialite.sections);
@@ -131,7 +170,7 @@ const Page = async () => {
   return (
     <div>
       {/* display the data on the page in json */}
-      <pre>{JSON.stringify(fetchedData, null, 2)}</pre>
+      <pre>{JSON.stringify(request, null, 2)}</pre>
       <p>
         -----------------------------------------------------------------------------------------
       </p>

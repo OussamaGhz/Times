@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import PageContainer from "@/app/ui/dashboard/page-container";
 import { columns } from "@/app/ui/salles/columns";
@@ -11,14 +10,6 @@ import { useRooms } from "@/app/utils/fetchers";
 
 const SallesPage = () => {
   const { rooms, loading } = useRooms();
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-2xl font-bold">Loading...</div>
-      </div>
-    );
-  }
 
   const data: any = rooms.map((room: any) => {
     return {
@@ -41,7 +32,13 @@ const SallesPage = () => {
             <AddRommModal />
           </div>
 
-          {<DataTable columns={columns} data={data ? data : []} />}
+          {
+            <DataTable
+              columns={columns}
+              data={data ? data : []}
+              isLoading={loading}
+            />
+          }
         </div>
       </PageContainer>
     </>

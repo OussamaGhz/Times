@@ -96,7 +96,6 @@ const AddRoomModal = () => {
     { label: "Mardi", value: "Mardi" },
     { label: "Mercredi", value: "Mercredi" },
     { label: "Jeudi", value: "Jeudi" },
-    { label: "Vendredi", value: "Vendredi" },
     { label: "Samedi", value: "Samedi" },
     { label: "Dimanche", value: "Dimanche" },
   ];
@@ -218,7 +217,7 @@ const AddRoomModal = () => {
             </div>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className=" ">
           <Button type="submit" className="text-white" onClick={addHandler}>
             Sauvegarder
           </Button>

@@ -9,19 +9,16 @@ import { useenseignant } from "@/app/utils/fetchers";
 const EnseignantsPage = () => {
   const { enseignant, loading } = useenseignant();
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-2xl font-bold">Loading...</div>
-      </div>
-    );
-  }
   const data: Teacher[] = enseignant.map((enseignant: Teacher) => {
     return {
       id: enseignant.id,
       nom: `${enseignant.nom} ${enseignant.prenom}`,
       email: enseignant.email,
-      date_de_naissance: enseignant.date_de_naissance.toString(), // Update the type to string
+      // make year yy:mm:dd
+      date_de_naissance: new Date(
+        enseignant.date_de_naissance
+      ).toLocaleDateString(),
+
       numero_de_telephone: enseignant.numero_de_telephone,
       prenom: enseignant.prenom,
       phone: enseignant.numero_de_telephone,
@@ -39,7 +36,7 @@ const EnseignantsPage = () => {
           <AddUser />
         </div>
 
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={data} isLoading={loading} />
       </div>
     </PageContainer>
   );

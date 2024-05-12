@@ -1,12 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  MoreHorizontal,
-  ArrowUpDown,
-  Edit3,
-  Trash,
-} from "lucide-react";
+import { MoreHorizontal, ArrowUpDown, Edit3, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -176,7 +171,7 @@ export const columns: ColumnDef<Teacher>[] = [
           console.log("Deleting room with id:", payment.id);
 
           setIsDeleting(true);
-          await fetch("http://localhost:3000/api/room", {
+          await fetch("http://localhost:3000/api/prof", {
             // Updated path to match the correct API route location
             method: "DELETE",
             body: JSON.stringify({ id: payment.id }),
@@ -340,19 +335,21 @@ export const columns: ColumnDef<Teacher>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] ">
+              <DropdownMenuItem
+                onClick={() => setIsEditDialogOpen(true)}
+                className="h-[27px] cursor-pointer flex gap-3 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-2 my-1 text-[#5B93FF] "
+              >
                 <Edit3 className="h-4 w-4" />
-                <DropdownMenuItem className="h-[27px] cursor-pointer" onClick={() => setIsEditDialogOpen(true)}>
-                  Edit
-                </DropdownMenuItem>
+                <p> Modifier</p>
               </DropdownMenuItem>
               {/* delete dialog */}
 
-              <DropdownMenuItem className="flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1">
+              <DropdownMenuItem
+                onClick={() => setIsDeleteDialogOpen(true)}
+                className="h-[27px] cursor-pointer flex gap-3 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-2 my-1"
+              >
                 <Trash className="h-4 w-4" />
-                <DropdownMenuItem  className="h-[27px] cursor-pointer" onClick={() => setIsDeleteDialogOpen(true)}>
-                  Delete
-                </DropdownMenuItem>
+                <p>Supprimer</p>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -26,6 +26,7 @@ type RoomEditDialogProps = {
   isOpen: boolean;
   onClose: (open: boolean) => void;
   payment: {
+    id: string;
     nom_salle: string;
     type_salle: string;
     disponibilite: string[];
@@ -39,7 +40,6 @@ const daysArray = [
   { label: "Mardi", value: "Mardi" },
   { label: "Mercredi", value: "Mercredi" },
   { label: "Jeudi", value: "Jeudi" },
-  { label: "Vendredi", value: "Vendredi" },
   { label: "Samedi", value: "Samedi" },
   { label: "Dimanche", value: "Dimanche" },
 ];
@@ -51,11 +51,15 @@ const RoomEditDialog = ({
   updateHandler,
 }: RoomEditDialogProps) => {
   const [roomData, setRoomData] = useState({
+    id: payment.id,
     nom: payment.nom_salle,
     type: payment.type_salle,
     capacite: payment.capacity.toString(),
     disponibilite: payment.disponibilite,
   });
+
+  console.log(roomData);
+  
 
   const [validationErrors, setValidationErrors] = useState({
     nom: "",
@@ -234,7 +238,9 @@ const RoomEditDialog = ({
 
               <MultipleSelectorData
                 options={daysArray}
+                initialValues={roomData.disponibilite} 
                 onValuesChange={(values) => daysHandler(values)}
+                className={"w-full"}
               />
 
               {/* {validationErrors.disponibilite && (
@@ -245,7 +251,7 @@ const RoomEditDialog = ({
             </div>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="flex justify-between">
           <Button type="submit" className="text-white" onClick={handleUpdate}>
             Sauvegarder
           </Button>

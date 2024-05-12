@@ -176,25 +176,20 @@ export const columns: ColumnDef<Room>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] ">
+              <DropdownMenuItem
+                onClick={() => setIsEditDialogOpen(true)}
+                className="h-[27px] cursor-pointer flex gap-2 items-center  bg-[#5B93FF] bg-opacity-5 py-1 px-4 my-1 text-[#5B93FF] "
+              >
                 <Edit3 className="h-4 w-4" />
-                <DropdownMenuItem
-                  className="h-[27px] cursor-pointer"
-                  onClick={() => setIsEditDialogOpen(true)}
-                >
-                  Edit
-                </DropdownMenuItem>
+                <p>Modifier</p>
               </DropdownMenuItem>
-              {/* delete dialog */}
 
-              <DropdownMenuItem className="flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1">
+              <DropdownMenuItem
+                onClick={() => setIsDeleteDialogOpen(true)}
+                className=" h-[27px] cursor-pointer flex gap-2 items-center bg-[#E71D36] text-[#E71D36] bg-opacity-5 py-1 px-4 my-1"
+              >
                 <Trash className="h-4 w-4" />
-                <DropdownMenuItem
-                  className="h-[27px] cursor-pointer"
-                  onClick={() => setIsDeleteDialogOpen(true)}
-                >
-                  Delete
-                </DropdownMenuItem>
+                <p> Supprimer</p>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

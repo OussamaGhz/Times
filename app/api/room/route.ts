@@ -101,3 +101,54 @@ export const DELETE = async (req: NextRequest) => {
 
   return NextResponse.json({});
 };
+
+export const PUT = async (req: NextRequest) => {
+  // get id from the body
+  const { id, nom, type, capacite, disponibilite } = await req.json();
+
+  // check if id type is string
+  if (typeof id !== "string") {
+    return NextResponse.json(
+      {
+        message: "Error",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+
+  // check if room exists
+  const existingRoom = await prisma.room.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!existingRoom) {
+    return NextResponse.json(
+      {
+        message: "Room not found",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
+
+  console.log("Received PUT request with id:", id);
+
+  const room = await prisma.room.update({
+    where: {
+      id: id,
+    },
+    data: {
+      nom: nom,
+      type: type,
+      capacite: capacite,
+      disponibilite: disponibilite.flatMap((day: any) => day.day),
+    },
+  });
+
+  return NextResponse.json({ message: "updated room", room });
+};

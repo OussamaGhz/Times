@@ -15,34 +15,41 @@ type OPTIONS = {
 
 interface MultipleSelectorDataProps {
   options: OPTIONS[];
+  className?: string;
+  initialValues?: string[];
   onValuesChange: (values: string[]) => void;
 }
 
 const MultipleSelectorData = ({
   options,
   onValuesChange,
- 
+  initialValues = [],
+  className,
 }: MultipleSelectorDataProps) => {
-  const [value, setValue] = React.useState<string[]>([]);
+  const [value, setValue] = React.useState<string[]>(initialValues);
 
-  const handleValuesChange = (newValues: string[]) => {
-    setValue(newValues);
-    onValuesChange(newValues); // Call the callback function to send the values back to the parent
-  };
 
   return (
     <MultiSelector
+      className={`bg-white rounded-md shadow-sm ${className}`}
       values={value}
-      onValuesChange={handleValuesChange}
+      onValuesChange={(newValues) => {
+        setValue(newValues);
+        onValuesChange(newValues);
+      }}
       loop={false}
     >
       <MultiSelectorTrigger className="w-full h-[52px] p-0 m-0">
-        <MultiSelectorInput className="h-full" />
+        <MultiSelectorInput className="h-full w-full border-none bg-transparent pl-3 placeholder-gray-400" />
       </MultiSelectorTrigger>
-      <MultiSelectorContent>
+      <MultiSelectorContent className="bg-white border border-t-0 rounded-b-md">
         <MultiSelectorList>
           {options.map((option, i) => (
-            <MultiSelectorItem key={i} value={option.value}>
+            <MultiSelectorItem
+              key={i}
+              value={option.value}
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+            >
               {option.label}
             </MultiSelectorItem>
           ))}

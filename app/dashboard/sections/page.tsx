@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { Annee, Specialite, Section } from "./types"; // Importing the types
 import { useSection } from "@/app/utils/fetchers";
@@ -22,16 +21,25 @@ const SectionsPage = () => {
     }
   });
 
-  const extractedData = allSections.map((section: Section) => {
+  type ExtractedData = {
+    name: string;
+    year: string;
+    speciality: string;
+    groups: string[];
+    schedule: any[];
+    capacity: number;
+    modules: number;
+  };
+
+  const extractedData: ExtractedData[] = allSections.map((section: Section) => {
     return {
       name: section.nom,
-      // Convert numeric year to the required string format
       year: formatYear(section.annee),
       speciality: section.specialite_name,
       groups: (section.groupes ?? []).map((groupe) => groupe.nom),
       schedule: [],
       capacity: 100,
-      modules: section.modules?.length,
+      modules: section.modules?.length || 0, // Add a default value for undefined modules
     };
   });
 
