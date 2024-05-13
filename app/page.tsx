@@ -1,9 +1,19 @@
 "use client";
 import { PrismaClient } from "@prisma/client";
 import React, { useState } from "react";
+import { useSession, getSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
+
 const Page = async () => {
+  const { data: session, status } = await useSession();
+  if (status === "unauthenticated") {
+    redirect("/login");
+  }
+
+  console.log(session);
+
   // get the data from the database
   const rooms = await prisma.room.findMany({
     select: {
@@ -51,34 +61,32 @@ const Page = async () => {
     };
   });
 
-  const request = data.map(year => {
+  const request = data.map((year) => {
     return {
       year: year.annee,
-      specialite: year.specialites.map(specialite => {
+      specialite: year.specialites.map((specialite) => {
         return {
           name: specialite.nom,
-          sections: specialite.sections.map(section => {
+          sections: specialite.sections.map((section) => {
             return {
               name: section.nom,
-              groups: section.groupes.map(groupe => groupe.nom),
-              modules: section.modules.map(module => {
+              groups: section.groupes.map((groupe) => groupe.nom),
+              modules: section.modules.map((module) => {
                 return {
                   name: module.nom_module,
                   lectures: module.nb_cours,
                   td: module.td,
                   tp: module.tp,
-                }
-              })
-            }
-          })
-        }
-      })
-    }
-
-  })
+                };
+              }),
+            };
+          }),
+        };
+      }),
+    };
+  });
 
   console.log(request);
-  
 
   // extract the available yeras
   const years = data.map((year) => year.annee);
@@ -90,14 +98,13 @@ const Page = async () => {
   console.log(years, specialities);
 
   type years = {
-    year: year[]
-  }
+    year: year[];
+  };
 
   type year = {
     year: number;
-    specialite: specialite[]
-  }
-
+    specialite: specialite[];
+  };
 
   const allSections: ({
     modules: {
@@ -164,8 +171,6 @@ const Page = async () => {
   } catch (error) {
     console.log(error);
   }
-
-
 
   return (
     <div>

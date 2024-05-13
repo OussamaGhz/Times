@@ -61,7 +61,7 @@ const SideBar = () => {
 
   return (
     <div className="flex flex-col justify-between">
-      <div className=" flex flex-col justify-between bg-white  md:max-w-209 h-dvh relative shadow-r-[0_8px_30px_rgb(0,0,0,0.12)]">
+      <div className=" flex flex-col justify-between bg-white  md:max-w-209 h-screen  relative shadow-r-[0_8px_30px_rgb(0,0,0,0.12)]">
         <div
           className={`w-80 space-y-6 absolute inset-y-0 left-0 transform  rounded-lg ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -95,7 +95,7 @@ const SideBar = () => {
             </div>
           </div>
         </div>{" "}
-        <button onClick={() => signOut()}>Logout</button>
+        
       </div>
     </div>
   );

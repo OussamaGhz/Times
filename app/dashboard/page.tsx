@@ -7,12 +7,18 @@ import Stars from "../ui/icon/stars";
 import CardV2 from "../ui/dashboard/card-v2";
 import Teacherv2 from "../ui/icon/teacherv2";
 import Room from "../ui/icon/room";
-import { Annee, Prisma, PrismaClient } from "@prisma/client";
 import { useAppContext } from "../store/context";
-
-const prisma = new PrismaClient();
+import { useSession, getSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const DashboardPage = () => {
+  const { data: session, status } = useSession();
+  console.log(session);
+
+  if (status === "unauthenticated") {
+    redirect("/login");
+  }
+
   const { sections, teachers, amphi, classValue: salles } = useAppContext();
   //turn the values to string
   const sectionsValue = sections.toString();

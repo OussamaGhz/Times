@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import Navbar from "./ui/navbar";
-import SideBar from "./ui/dashboard/sidebar";
-import { useSession } from "next-auth/react";
 import { AppContextProvider } from "./store/context";
+import SessionWrapper from "./components/session-wrapper";
+import { useSession, getSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const nunito = Nunito({
   subsets: ["cyrillic"],
@@ -21,15 +22,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={nunito.className}>
-        <AppContextProvider>
-          <div className="flex flex-col w-screen">
-            <Navbar />
-            <div className="">{children}</div>
-          </div>
-        </AppContextProvider>
-      </body>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <body className={nunito.className}>
+          <AppContextProvider>
+            <div className="flex flex-col w-screen">
+              <Navbar />
+              {children}
+              
+            </div>
+          </AppContextProvider>
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }

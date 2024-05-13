@@ -1,3 +1,4 @@
+import { clearConfiguration } from "../configuration-util";
 import { PrismaClient, Room } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -71,6 +72,8 @@ export const POST = async (req: NextRequest) => {
         disponibilite: disponibilite.flatMap((day: any) => day.day),
       },
     });
+
+    await clearConfiguration("schdule-generated");
     return NextResponse.json({ message: "created room", room });
   }
 };
@@ -98,6 +101,8 @@ export const DELETE = async (req: NextRequest) => {
       id: id,
     },
   });
+
+  await clearConfiguration("schdule-generated");
 
   return NextResponse.json({});
 };
@@ -149,6 +154,8 @@ export const PUT = async (req: NextRequest) => {
       disponibilite: disponibilite.flatMap((day: any) => day.day),
     },
   });
+
+  await clearConfiguration("schdule-generated");
 
   return NextResponse.json({ message: "updated room", room });
 };

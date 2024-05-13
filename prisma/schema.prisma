@@ -129,3 +129,9 @@ model Professor {
   availability_prof   String[]
   modules             String[]
 }
+
+model Configuration {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  key   String
+  value String
+}
