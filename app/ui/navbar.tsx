@@ -1,43 +1,38 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import logo from "@/app/assets/logo.png";
+import React from "react";
+import logo from "@/app/assets/image.png";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import useCurrentTime from "../utils/useCurrentTime"; // import the custom hook
 
 const Navbar = () => {
-  const [currentTime, setCurrentTime] = useState<string>("");
+  const currentTime = useCurrentTime(); // use the custom hook
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date();
-      const dateString = now.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "long",
-        year: "2-digit",
-      });
+  // get session data
+  const { data: session, status } = useSession();
 
-      const timeString = now.toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-      });
-
-      // Combine the date and time strings with a dash in between
-      const formattedString = `${dateString} - ${timeString.toLowerCase()}`;
-      setCurrentTime(formattedString);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
   return (
-    <div className="h-[100px] bg-white flex items-center px-7 w-screen justify-between">
-      <Image src={logo} alt="logo" />
+    <div className="h-[100px] bg-white flex items-center pr-7 w-screen justify-between">
+      <Image src={logo} alt="logo" height={280} width={280} />
       <span className="text-[#001D74] gap-4 text-[20px] font-[600] hidden lg:block">
         {currentTime}
       </span>
-      <div className="flex items-center ">
-        <button className="bg-blue-500  px-4 py-2 rounded-lg">Logout</button>
+      <div className="flex items-center">
+        {status === "authenticated" && (
+          <>
+            <span className="text-[#001D74] gap-4 text-[20px] font-[600] hidden lg:block">
+              {session?.user?.name}
+            </span>
+            <Avatar className="w-10 h-10 rounded-full ml-4">
+              <AvatarFallback className="w-full h-full rounded-full flex items-center justify-center bg-[#4A58EC] text-white font-bold text-sm uppercase">
+                {session?.user?.name?.charAt(0)}
+                {session?.user?.name?.charAt(1)}
+              </AvatarFallback>
+            </Avatar>
+          </>
+        )}
       </div>
     </div>
   );

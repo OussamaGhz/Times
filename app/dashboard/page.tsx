@@ -19,7 +19,13 @@ const DashboardPage = () => {
     redirect("/login");
   }
 
-  const { sections, teachers, amphi, classValue: salles } = useAppContext();
+  const {
+    sections,
+    teachers,
+    amphi,
+    classValue: salles,
+    randomTeachers,
+  } = useAppContext();
   //turn the values to string
   const sectionsValue = sections.toString();
   const teachersValue = teachers.toString();
@@ -115,7 +121,7 @@ const DashboardPage = () => {
             </div>
           </div>
           <div className="lg:w-1/3  flex justify-center h-fullr">
-            <MiniTable />
+            <MiniTable teacherList={randomTeachers} />
           </div>
         </div>
       </div>

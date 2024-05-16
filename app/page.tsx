@@ -10,6 +10,8 @@ const Page = async () => {
   const { data: session, status } = await useSession();
   if (status === "unauthenticated") {
     redirect("/login");
+  } else {
+    redirect("/dashboard");
   }
 
   console.log(session);

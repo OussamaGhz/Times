@@ -26,6 +26,19 @@ interface YearData {
   year: number;
   specialties: Specialty[];
 }
+type data = {
+  name: string;
+  speciality: string;
+  annee: number;
+  schdule: schdule[];
+};
+
+type schdule = {
+  slot: number;
+  time: string;
+  module: string;
+  techer: string;
+};
 
 const ParentComponent = () => {
   const [selectedYear, setSelectedYear] = useState<number>(1);
@@ -81,7 +94,6 @@ const ParentComponent = () => {
       specialties: specialtiesData,
     },
     // Add more years as needed
-    
   ];
 
   // Handle change in the year selector
@@ -141,7 +153,7 @@ const ParentComponent = () => {
               onValueChange={(value) => handleYearChange(Number(value))}
               value={selectedYear.toString()}
             >
-              <SelectTrigger className="w-[180px] bg-[#4A58EC] text-white">
+              <SelectTrigger className=" bg-[#4A58EC] text-white text-center w-[148px] h-[51px] font-semibold text-lg">
                 <SelectValue placeholder="Select a Year" />
               </SelectTrigger>
               <SelectContent>
@@ -161,8 +173,8 @@ const ParentComponent = () => {
               onValueChange={(value) => handleSpecialtyChange(value)}
               value={selectedSpecialty}
             >
-              <SelectTrigger className="w-[180px] bg-[#4A58EC] text-white">
-                <SelectValue placeholder="Select a Specialty" />
+              <SelectTrigger className=" bg-[#4A58EC] text-white w-[148px] h-[51px] font-semibold text-lg">
+                <SelectValue placeholder="Specialité" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -183,9 +195,10 @@ const ParentComponent = () => {
               onValueChange={(value) => handleSectionChange(value)}
               value={selectedSection}
             >
-              <SelectTrigger className="w-[180px] bg-[#4A58EC] text-white">
-                <SelectValue placeholder="Select a Section" />
+              <SelectTrigger className=" bg-[#4A58EC] text-white w-[148px] h-[51px] font-semibold text-lg">
+                <SelectValue placeholder="Section" />
               </SelectTrigger>
+
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Section</SelectLabel>

@@ -1,5 +1,8 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import React from "react";
+import { useRooms, useSection, useenseignant } from "../utils/fetchers";
+import { Annee, Section, Specialite } from "@prisma/client";
 
 // Define the shape of your context data
 interface AppContextData {
@@ -7,6 +10,7 @@ interface AppContextData {
   teachers: number;
   amphi: number;
   classValue: number;
+  randomTeachers: any[];
   updateAmphi: (value: number) => void;
   updateClassValue: (value: number) => void;
 }
@@ -23,26 +27,28 @@ export const useAppContext = () => {
   return context;
 };
 
-// Create a provider component to wrap your app with
-import React from "react";
-import { useRooms, useSection, useenseignant } from "../utils/fetchers";
-import { Annee, Section, Specialite } from "@prisma/client";
+// Utility function to shuffle an array and select the first 4 items
+const getRandomTeachers = (teachers: any[]) => {
+  const shuffled = [...teachers].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, 4);
+};
 
+// Create a provider component to wrap your app with
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { enseignant: teachers_all, loading: loadingTeachers } =
     useenseignant();
   const { rooms, loading: loadingRooms } = useRooms();
-
   const { section, loading } = useSection();
-  // Define your state and any other logic here
-  const [amphi, setAmphi] = React.useState(0);
-  const [classValue, setClassValue] = React.useState(0);
-  const [sections, setSections] = React.useState(0); // Add this line
-  const [teachers, setTeachers] = React.useState(0);
 
-  React.useEffect(() => {
+  const [amphi, setAmphi] = useState(0);
+  const [classValue, setClassValue] = useState(0);
+  const [sections, setSections] = useState(0);
+  const [teachers, setTeachers] = useState(0);
+  const [randomTeachers, setRandomTeachers] = useState<any[]>([]);
+
+  useEffect(() => {
     const amphitheaters: number = rooms.filter((room: any) =>
       room.nom.toLowerCase().includes("amphi")
     ).length;
@@ -56,8 +62,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setClassValue(classrooms);
   }, [rooms]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTeachers(teachers_all.length);
+    setRandomTeachers(getRandomTeachers(teachers_all)); // Generate random list of 4 teachers
   }, [teachers_all]);
 
   const updateAmphi = (newAmphi: number) => {
@@ -68,14 +75,13 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setClassValue(newClassValue);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const allSections: Section[] = [];
 
     section.forEach((annee: Annee & { specialites?: Specialite[] }) => {
       if (annee.specialites) {
         annee.specialites.forEach(
           (specialite: Specialite & { sections?: Section[] }) => {
-            // Update the type of specialite
             if (specialite.sections) {
               allSections.push(...specialite.sections);
             }
@@ -96,6 +102,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
         updateClassValue,
         sections,
         teachers,
+        randomTeachers, // Add randomTeachers to the context value
       }}
     >
       {children}
