@@ -3,7 +3,7 @@ export const userData = [
     annee: 1,
     specialites: [
       {
-        nom: "L1 Informatique SIGL (à distance)",
+        nom: "SIGL",
         sections: [
           {
             nom: "Section 1",
@@ -12,7 +12,7 @@ export const userData = [
                 nom: "Groupe 1",
               },
             ],
-            specialite: "L1 Informatique SIGL (à distance)",
+            specialite: "SIGL",
             annee: 1,
             modules: [
               {
@@ -22,7 +22,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Algo",
+                nom_module: "Algo 1",
                 nb_cours: 1,
                 td: true,
                 tp: true,
@@ -34,7 +34,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Strm",
+                nom_module: "Strm 1",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -51,7 +51,7 @@ export const userData = [
         ],
       },
       {
-        nom: "L1 Informatique LMD",
+        nom: "LMD",
         sections: [
           {
             nom: "Section 1",
@@ -69,7 +69,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 Informatique LMD",
+            specialite: "LMD",
             annee: 1,
             modules: [
               {
@@ -121,7 +121,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 Informatique LMD",
+            specialite: "LMD",
             annee: 1,
             modules: [
               {
@@ -173,7 +173,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 Informatique LMD",
+            specialite: "LMD",
             annee: 1,
             modules: [
               {
@@ -225,7 +225,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 Informatique LMD",
+            specialite: "LMD",
             annee: 1,
             modules: [
               {
@@ -277,7 +277,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 Informatique LMD",
+            specialite: "LMD",
             annee: 1,
             modules: [
               {
@@ -329,7 +329,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 Informatique LMD",
+            specialite: "LMD",
             annee: 1,
             modules: [
               {
@@ -381,7 +381,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 Informatique LMD",
+            specialite: "LMD",
             annee: 1,
             modules: [
               {
@@ -420,7 +420,7 @@ export const userData = [
         ],
       },
       {
-        nom: "1ere année ING Informatique",
+        nom: "ING",
         sections: [
           {
             nom: "Section A",
@@ -438,7 +438,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "1ere année ING Informatique",
+            specialite: "ING",
             annee: 1,
             modules: [
               {
@@ -502,7 +502,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "1ere année ING Informatique",
+            specialite: "ING",
             annee: 1,
             modules: [
               {
@@ -566,7 +566,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "1ere année ING Informatique",
+            specialite: "ING",
             annee: 1,
             modules: [
               {
@@ -617,7 +617,7 @@ export const userData = [
         ],
       },
       {
-        nom: "L1 MATH",
+        nom: "MATH",
         sections: [
           {
             nom: "Section 1",
@@ -635,7 +635,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 MATH",
+            specialite: "MATH",
             annee: 1,
             modules: [
               {
@@ -645,7 +645,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Algo",
+                nom_module: "Algo 1",
                 nb_cours: 2,
                 td: true,
                 tp: false,
@@ -663,7 +663,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Strm",
+                nom_module: "Strm 1",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -693,7 +693,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 MATH",
+            specialite: "MATH",
             annee: 1,
             modules: [
               {
@@ -703,7 +703,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Algo",
+                nom_module: "Algo 1",
                 nb_cours: 2,
                 td: true,
                 tp: false,
@@ -721,7 +721,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Strm",
+                nom_module: "Strm 1",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -751,7 +751,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L1 MATH",
+            specialite: "MATH",
             annee: 1,
             modules: [
               {
@@ -761,7 +761,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Algo",
+                nom_module: "Algo 1",
                 nb_cours: 2,
                 td: true,
                 tp: false,
@@ -779,7 +779,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Strm",
+                nom_module: "Strm 1",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -801,7 +801,7 @@ export const userData = [
     annee: 2,
     specialites: [
       {
-        nom: "2eme année ING Informatique",
+        nom: "ING",
         sections: [
           {
             nom: "Section A",
@@ -819,11 +819,11 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "2eme année ING Informatique",
+            specialite: "ING",
             annee: 2,
             modules: [
               {
-                nom_module: "Algorithmique et complexité",
+                nom_module: "Algorithmique Avancée et Complexité",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -889,11 +889,11 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "2eme année ING Informatique",
+            specialite: "ING",
             annee: 2,
             modules: [
               {
-                nom_module: "Algorithmique et complexité",
+                nom_module: "Algorithmique Avancée et Complexité",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -946,7 +946,7 @@ export const userData = [
         ],
       },
       {
-        nom: "L2 ACAD",
+        nom: "ACAD",
         sections: [
           {
             nom: "Section A",
@@ -964,7 +964,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L2 ACAD",
+            specialite: "ACAD",
             annee: 2,
             modules: [
               {
@@ -1028,7 +1028,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L2 ACAD",
+            specialite: "ACAD",
             annee: 2,
             modules: [
               {
@@ -1092,7 +1092,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L2 ACAD",
+            specialite: "ACAD",
             annee: 2,
             modules: [
               {
@@ -1143,7 +1143,7 @@ export const userData = [
         ],
       },
       {
-        nom: "L2 ISIL",
+        nom: "ISIL",
         sections: [
           {
             nom: "Section A",
@@ -1161,7 +1161,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L2 ISIL",
+            specialite: "ISIL",
             annee: 2,
             modules: [
               {
@@ -1231,7 +1231,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L2 ISIL",
+            specialite: "ISIL",
             annee: 2,
             modules: [
               {
@@ -1288,7 +1288,7 @@ export const userData = [
         ],
       },
       {
-        nom: "L2 GTR",
+        nom: "GTR",
         sections: [
           {
             nom: "Section A",
@@ -1303,7 +1303,7 @@ export const userData = [
                 nom: "Groupe 3",
               },
             ],
-            specialite: "L2 GTR",
+            specialite: "GTR",
             annee: 2,
             modules: [
               {
@@ -1338,8 +1338,7 @@ export const userData = [
                 tp: true,
               },
               {
-                nom_module:
-                  "Algo. & structures de données ou Electromagnétisme",
+                nom_module: "Algo & structures de données ou Electromagnétisme",
                 nb_cours: 2,
                 td: true,
                 tp: false,
@@ -1355,7 +1354,7 @@ export const userData = [
     annee: 3,
     specialites: [
       {
-        nom: "L3 ISIL",
+        nom: "ISIL",
         sections: [
           {
             nom: "Section A",
@@ -1373,7 +1372,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L3 ISIL",
+            specialite: "ISIL",
             annee: 3,
             modules: [
               {
@@ -1437,7 +1436,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L3 ISIL",
+            specialite: "ISIL",
             annee: 3,
             modules: [
               {
@@ -1488,7 +1487,7 @@ export const userData = [
         ],
       },
       {
-        nom: "L3 ACAD",
+        nom: "ACAD",
         sections: [
           {
             nom: "Section A",
@@ -1506,7 +1505,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L3 ACAD",
+            specialite: "ACAD",
             annee: 3,
             modules: [
               {
@@ -1516,7 +1515,7 @@ export const userData = [
                 tp: true,
               },
               {
-                nom_module: "Systèmes d’exploitation 2",
+                nom_module: "Système d’exploitation 2",
                 nb_cours: 2,
                 td: true,
                 tp: true,
@@ -1570,7 +1569,7 @@ export const userData = [
                 nom: "Groupe 4",
               },
             ],
-            specialite: "L3 ACAD",
+            specialite: "ACAD",
             annee: 3,
             modules: [
               {
@@ -1580,7 +1579,7 @@ export const userData = [
                 tp: true,
               },
               {
-                nom_module: "Systèmes d’exploitation 2",
+                nom_module: "Système d’exploitation 2",
                 nb_cours: 2,
                 td: true,
                 tp: true,
@@ -1621,7 +1620,7 @@ export const userData = [
         ],
       },
       {
-        nom: "L3 GTR",
+        nom: "GTR",
         sections: [
           {
             nom: "Section A",
@@ -1633,7 +1632,7 @@ export const userData = [
                 nom: "Groupe 2",
               },
             ],
-            specialite: "L3 GTR",
+            specialite: "GTR",
             annee: 3,
             modules: [
               {
@@ -1713,7 +1712,7 @@ export const userData = [
                 tp: true,
               },
               {
-                nom_module: "Systèmes d’exploitation",
+                nom_module: "Système d’exploitation",
                 nb_cours: 1,
                 td: true,
                 tp: true,
@@ -1737,7 +1736,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Mathématiques appliquées (Analyse numérique)",
+                nom_module: "Analyse numerique",
                 nb_cours: 1,
                 td: true,
                 tp: true,
@@ -1770,25 +1769,25 @@ export const userData = [
             annee: 4,
             modules: [
               {
-                nom_module: "Algorithmique Avancée et Complicité",
+                nom_module: "Algorithmique Avancée et Complexité",
                 nb_cours: 1,
                 td: true,
                 tp: false,
               },
               {
-                nom_module: "SPS : Système et Programmation de Scripts",
+                nom_module: "Système et Programmation de Scripts",
                 nb_cours: 1,
                 td: true,
                 tp: true,
               },
               {
-                nom_module: "GPR : Gestion de Projet",
+                nom_module: "Gestion de projet",
                 nb_cours: 1,
                 td: false,
                 tp: true,
               },
               {
-                nom_module: "BIOMATH : Biomathématique",
+                nom_module: "Biomathématique",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -1800,13 +1799,13 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "BIOGEN : Bioinfo et Génomique",
+                nom_module: "Bioinfo et Génomique",
                 nb_cours: 1,
                 td: true,
                 tp: true,
               },
               {
-                nom_module: "BIOSTAT : Biostatistique",
+                nom_module: "Biostatistique",
                 nb_cours: 1,
                 td: true,
                 tp: true,
@@ -1833,13 +1832,13 @@ export const userData = [
             annee: 4,
             modules: [
               {
-                nom_module: "Algorithmes Avancé et Complexité",
+                nom_module: "Algorithmique Avancée et Complexité",
                 nb_cours: 1,
                 td: true,
                 tp: true,
               },
               {
-                nom_module: "Systèmes d’exploitation",
+                nom_module: "Système d’exploitation",
                 nb_cours: 1,
                 td: true,
                 tp: true,
@@ -1896,13 +1895,13 @@ export const userData = [
             annee: 4,
             modules: [
               {
-                nom_module: "Complexité algorithmique",
+                nom_module: "Algorithmique Avancée et Complexité",
                 nb_cours: 1,
                 td: true,
                 tp: false,
               },
               {
-                nom_module: "Systèmes d’exploitation",
+                nom_module: "Système d’exploitation",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -2007,7 +2006,7 @@ export const userData = [
                 tp: true,
               },
               {
-                nom_module: "Optimisation linéaire (option)",
+                nom_module: "Optimisation linéaire",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -2043,7 +2042,7 @@ export const userData = [
                 tp: true,
               },
               {
-                nom_module: "Systèmes d’exploitation",
+                nom_module: "Système d’exploitation",
                 nb_cours: 1,
                 td: true,
                 tp: true,
@@ -2074,7 +2073,7 @@ export const userData = [
               },
               {
                 nom_module:
-                  "Modélisation et Evaluation de Performances des Systèmes",
+                  "Modélisation et Evaluation des performances des systèmes",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -2110,7 +2109,7 @@ export const userData = [
                 tp: true,
               },
               {
-                nom_module: "Systèmes d’exploitation",
+                nom_module: "Système d’exploitation",
                 nb_cours: 1,
                 td: true,
                 tp: true,
@@ -2141,7 +2140,7 @@ export const userData = [
               },
               {
                 nom_module:
-                  "Modélisation et évaluation des performances des systèmes",
+                  "Modélisation et Evaluation des performances des systèmes",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -2177,13 +2176,13 @@ export const userData = [
                 tp: true,
               },
               {
-                nom_module: "Systèmes d’exploitation",
+                nom_module: "Système d’exploitation",
                 nb_cours: 1,
                 td: true,
                 tp: true,
               },
               {
-                nom_module: "Gestion de Projets de Logiciels",
+                nom_module: "Gestion de Projet de Développement de Logiciels",
                 nb_cours: 1,
                 td: false,
                 tp: true,
@@ -2209,7 +2208,7 @@ export const userData = [
               },
               {
                 nom_module:
-                  "Modélisation et évaluation des performances des systèmes",
+                  "Modélisation et Evaluation des performances des systèmes",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -2241,14 +2240,13 @@ export const userData = [
             annee: 5,
             modules: [
               {
-                nom_module:
-                  "TIAD : Technologies de l’IA appliquées aux données",
+                nom_module: "Technologies de l’IA appliquées aux données",
                 nb_cours: 1,
                 td: false,
                 tp: true,
               },
               {
-                nom_module: "Anadiss (Analyse discriminante et segmentation)",
+                nom_module: "Analyse discriminante et segmentation",
                 nb_cours: 1,
                 td: false,
                 tp: true,
@@ -2260,31 +2258,31 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "BDABD : Bases de Données Avancées et Big Data",
+                nom_module: "Bases de Données Avancées et Big Data",
                 nb_cours: 1,
                 td: true,
                 tp: false,
               },
               {
-                nom_module: "TBI-SIG : Technologies Business Intelligence",
+                nom_module: "Technologies Business Intelligence",
                 nb_cours: 1,
                 td: false,
                 tp: true,
               },
               {
-                nom_module: "OPTDIS : Optimisation discrète",
+                nom_module: "Optimisation discrète",
                 nb_cours: 2,
                 td: true,
                 tp: false,
               },
               {
-                nom_module: "SOLO : Solveurs pour l’optimisation",
+                nom_module: "Solveurs pour l’optimisation",
                 nb_cours: 1,
                 td: false,
                 tp: true,
               },
               {
-                nom_module: "DESIN : Décision dans l’incertain",
+                nom_module: "Décision dans l’incertain",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -2329,7 +2327,7 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "Représentation des Connaissances",
+                nom_module: "Représentation de connaissances et raisonnement",
                 nb_cours: 1,
                 td: true,
                 tp: false,
@@ -2438,13 +2436,13 @@ export const userData = [
             annee: 5,
             modules: [
               {
-                nom_module: "BSD : Biométrie et Sécurisation de Données",
+                nom_module: "Biométrie et Sécurisation de Données",
                 nb_cours: 1,
                 td: false,
                 tp: true,
               },
               {
-                nom_module: "FD2: Fouille de Données2",
+                nom_module: "Fouille de Données2",
                 nb_cours: 1,
                 td: true,
                 tp: true,
@@ -2456,26 +2454,25 @@ export const userData = [
                 tp: false,
               },
               {
-                nom_module: "MCA: Méthodes Conceptuelles d’Analyse",
+                nom_module: "Méthodes Conceptuelles d’Analyse",
                 nb_cours: 1,
                 td: true,
                 tp: false,
               },
               {
-                nom_module: "SE: Système Embarqués",
+                nom_module: "Systèmes Embarqués",
                 nb_cours: 1,
                 td: true,
                 tp: true,
               },
               {
-                nom_module: "ACP: Architecture et Calcul Parallèle",
+                nom_module: "Architecture et Calcul Parallèle",
                 nb_cours: 1,
                 td: true,
                 tp: true,
               },
               {
-                nom_module:
-                  "VDRA: Visualisation de Données et réalité Augmentée",
+                nom_module: "Visualisation de Données et réalité Augmentée",
                 nb_cours: 1,
                 td: false,
                 tp: true,

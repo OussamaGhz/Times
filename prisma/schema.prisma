@@ -118,16 +118,24 @@ model Room {
 }
 
 model Professor {
-  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
   nom                 String
   prenom              String
   gender              String
-  email               String   @unique
+  email               String             @unique
   numero_de_telephone String
   date_de_naissance   DateTime
   grade               String
   availability_prof   String[]
-  modules             String[]
+  modules             ModuleAssignment[] // Relation field to ModuleAssignment
+}
+
+model ModuleAssignment {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  professorId String    @db.ObjectId
+  professor   Professor @relation(fields: [professorId], references: [id])
+  priority    Int
+  nom_module  String
 }
 
 model Configuration {

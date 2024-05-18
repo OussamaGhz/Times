@@ -27,14 +27,13 @@ async function main() {
               create: specialite.sections.map((section) => ({
                 nom: section.nom,
                 annee: section.annee,
-                specialite_name: section.specialite,
+                specialite_name: specialite.nom, // Add the specialite_name property
                 groupes: {
                   create: section.groupes.map((groupe) => ({
                     nom: groupe.nom,
                   })),
                 },
                 modules: {
-                  // Add modules creation
                   create: section.modules.map((module) => ({
                     nom_module: module.nom_module,
                     nb_cours: module.nb_cours,
@@ -53,7 +52,7 @@ async function main() {
             sections: {
               include: {
                 groupes: true,
-                modules: true, // Include modules in the response
+                modules: true,
               },
             },
           },
@@ -62,8 +61,6 @@ async function main() {
     });
     console.log(`Annee with ID ${createdAnnee.id} seeded successfully.`);
   }
-
-  console.log(`Seeding finished.`);
 }
 
 main()

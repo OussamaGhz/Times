@@ -12,10 +12,8 @@ async function main() {
   await prisma.section.deleteMany();
   await prisma.specialite.deleteMany();
   await prisma.annee.deleteMany();
-  
 
   console.log(`Data cleared.`);
-
 
   console.log(`Start seeding ...`);
   for (const userDataItem of userData) {
@@ -29,6 +27,7 @@ async function main() {
               create: specialite.sections.map((section) => ({
                 nom: section.nom,
                 annee: section.annee,
+                specialite_name: specialite.nom, // Add specialite_name property
                 groupes: {
                   create: section.groupes.map((groupe) => ({
                     nom: groupe.nom,

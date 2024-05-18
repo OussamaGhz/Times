@@ -2,8 +2,6 @@
 
 import { useAppContext } from "@/app/store/context";
 import PageContainer from "@/app/ui/dashboard/page-container";
-import StarIcon from "@/app/ui/icon/star-icon";
-import Stars from "@/app/ui/icon/stars";
 import generatePDF from "@/app/utils/generate-pdf";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +11,7 @@ import { useState } from "react";
 
 const GenerationPage = () => {
   const [schduleGenerated, setSchduleGenerated] = useState(null);
+  const [fetchedData, setFetchedData] = useState(null);
   const id = "schdule-generated";
 
   const updateHandler = () => {
@@ -20,26 +19,6 @@ const GenerationPage = () => {
       method: "PUT",
       body: JSON.stringify({ id, value: "true" }),
     });
-  };
-
-  const data = {
-    name: "John Doe",
-    speciality: "Computer Science",
-    annee: 2024,
-    schedule: [
-      {
-        slot: 1,
-        time: "08:00 - 10:00",
-        module: "Algorithms",
-        teacher: "Prof. Smith",
-      },
-      {
-        slot: 2,
-        time: "10:00 - 12:00",
-        module: "Data Structures",
-        teacher: "Dr. Johnson",
-      },
-    ],
   };
 
   useEffect(() => {
@@ -58,6 +37,9 @@ const GenerationPage = () => {
   const {
     teachers_all,
     rooms,
+    loadingRooms,
+    loadingTeachers,
+    loading,
     section: sections,
     amphi,
     sections: nbSection,
@@ -71,42 +53,80 @@ const GenerationPage = () => {
   const rooms_requst = rooms.map((room) => ({
     name: room.nom,
     availability: room.disponibilite,
-    type: room.type,
+    type: room.type === "cour" ? "Lecture" : room.type,
   }));
+
+  console.log(rooms_requst);
+  
 
   const profs_request = teachers_all.map((teacher) => ({
     name: teacher.nom,
-    modules: teacher.modules.map((module: any, index: number) => ({
-      name: module, // assuming module is a string
-      priority: index + 1, // ! should be changed after the data update
-    })),
+    modules: teacher.modules.map((module: any) => {
+      return {
+        name: module.nom_module,
+        priority: module.priority,
+      };
+    }),
     availability: teacher.availability_prof,
   }));
 
-  console.log(sections);
+  const aneee_request = sections.map((anee) => ({
+    year: anee.annee,
+    specialite: anee.specialites.map((spec) => ({
+      name: spec.nom,
+      sections: spec.sections.map((section) => ({
+        name: section.nom,
+        specialite: section.specialite_name,
+        year: section.annee,
+        groups: section.groupes.map((group) => group.nom),
+        modules: section.modules.map((module) => {
+          return {
+            name: module.nom_module,
+            lectures: module.nb_cours,
+            td: module.td,
+            tp: module.tp,
+          };
+        }),
+      })),
+    })),
+  }));
 
-  const sections_request = sections.map((year) => {
-    return {
-      name: year.annee,
-      specialites: year.specialites.map((specialite) => {
-        return {
-          name: specialite.nom,
-          sections: specialite.sections.map((section) => {
-            return {
-              name: section.nom,
-              groups: section.groupes,
-              modules: section.modules.map((module) => ({
-                moduleName: module.nom,
-                lectures: module.lectures,
-                td: module.td,
-                tp: module.tp,
-              })),
-            };
-          }),
-        };
-      }),
-    };
-  });
+  const data = {
+    rooms: rooms_requst,
+    teachers: profs_request,
+    years: aneee_request,
+  };
+
+  const generateHandler = async () => {
+    console.log("clicked");
+
+    try {
+      const response = await fetch(
+        "https://mojnx.pythonanywhere.com/generate-schedule",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      console.log(response.status);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const fetchedData = await response.json();
+      console.table(fetchedData);
+
+      // Assuming `setFetchedData` is a state setter function from useState
+      setFetchedData(fetchedData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const sucess_status = (
     <div className="bg-[#E3F8EF] rounded-[13.437px] w-full sm:w-[336.6px] h-[60.1px] flex justify-center items-center text-xl sm:text-[20.993px] text-[#0EB17F] my-6">
@@ -170,7 +190,8 @@ const GenerationPage = () => {
           <Button
             variant={"default"}
             className="bg-[linear-gradient(137deg,_#6C72FF_5.39%,_#484FFF_49.18%,_#8F00FF_87.04%,_#8F00FF_87.04%)] hover:bg-opacity-80 text-white font-semibold text-lg sm:text-[20px] py-2 px-4 rounded-[13.437px] w-full sm:w-32 h-12"
-            onClick={() => generatePDF(data)}
+            onClick={generateHandler}
+            disabled={loadingRooms || loadingTeachers || loading}
           >
             Générer
           </Button>
@@ -183,6 +204,10 @@ const GenerationPage = () => {
           </Button>
         </div>
       </div>
+      {/* display data on screnn */}
+      <pre className="text-left w-full overflow-x-auto">
+        {JSON.stringify(fetchedData, null, 2)}
+      </pre>
     </PageContainer>
   );
 };

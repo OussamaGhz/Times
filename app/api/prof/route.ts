@@ -7,7 +7,16 @@ const prisma = new PrismaClient();
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
   if (req.method === "GET") {
-    const enseignants = await prisma.professor.findMany();
+    const enseignants = await prisma.professor.findMany({
+      include: {
+        modules: {
+          select: {
+            nom_module: true,
+            priority: true,
+          },
+        },
+      },
+    });
 
     if (!enseignants) {
       return NextResponse.json(
@@ -85,6 +94,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         email,
         date_de_naissance,
         numero_de_telephone,
+
         grade,
       },
     });
@@ -120,7 +130,15 @@ export const DELETE = async (req: NextRequest, res: NextResponse) => {
 
 export const PUT = async (req: NextRequest, res: NextResponse) => {
   if (req.method === "PUT") {
-    const { id, nom, prenom, email, date_de_naissance, numero_de_telephone, grade } = await req.json();
+    const {
+      id,
+      nom,
+      prenom,
+      email,
+      date_de_naissance,
+      numero_de_telephone,
+      grade,
+    } = await req.json();
 
     if (
       typeof id !== "string" ||
