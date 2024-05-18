@@ -180,7 +180,9 @@ const MultiSelectorTrigger = forwardRef<
           )}
           variant={"secondary"}
         >
-          <span className="text-xs">{item}</span>
+          <span className="text-xs">
+            {index + 1}- {item}
+          </span>
           <button
             aria-label={`Remove ${item} option`}
             aria-roledescription="button to remove option"

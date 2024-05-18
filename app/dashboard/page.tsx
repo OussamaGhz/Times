@@ -32,7 +32,6 @@ const DashboardPage = () => {
   const classValue = salles.toString();
   const amphiValue = amphi.toString();
 
-  console.log(classValue);
 
   // Remove the line below to fix the issue
 

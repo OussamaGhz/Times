@@ -32,7 +32,6 @@ type RoomEditDialogProps = {
     disponibilite: string[];
     capacity: number;
   };
-  updateHandler: (updatedData: any) => void;
 };
 
 const daysArray = [
@@ -44,12 +43,7 @@ const daysArray = [
   { label: "Dimanche", value: "Dimanche" },
 ];
 
-const RoomEditDialog = ({
-  isOpen,
-  onClose,
-  payment,
-  updateHandler,
-}: RoomEditDialogProps) => {
+const RoomEditDialog = ({ isOpen, onClose, payment }: RoomEditDialogProps) => {
   const [roomData, setRoomData] = useState({
     id: payment.id,
     nom: payment.nom_salle,
@@ -59,7 +53,6 @@ const RoomEditDialog = ({
   });
 
   console.log(roomData);
-  
 
   const [validationErrors, setValidationErrors] = useState({
     nom: "",
@@ -109,14 +102,18 @@ const RoomEditDialog = ({
     }));
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     console.log("roomData", roomData);
 
     try {
       // Validate form data
-      schema.parse(roomData);
+      await schema.parse(roomData);
       // Here you can send the validatedData to your backend or perform any other actions
-      updateHandler(roomData);
+      await fetch("/api/room", {
+        method: "PUT",
+        body: JSON.stringify(roomData),
+      });
+
       // Clear validation errors
       setValidationErrors({
         nom: "",
@@ -238,7 +235,7 @@ const RoomEditDialog = ({
 
               <MultipleSelectorData
                 options={daysArray}
-                initialValues={roomData.disponibilite} 
+                initialValues={roomData.disponibilite}
                 onValuesChange={(values) => daysHandler(values)}
                 className={"w-full"}
               />

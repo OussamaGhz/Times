@@ -24,28 +24,8 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
   // add the (following the db schema) room to the database
   const { nom, type, capacite, disponibilite } = await req.json();
-  console.log(
-    "Received POST request with body:",
-    nom,
-    type,
-    capacite,
-    disponibilite
-  );
-
-  if (
-    typeof nom !== "string" ||
-    typeof type !== "string" ||
-    typeof capacite !== "number"
-  ) {
-    return NextResponse.json(
-      {
-        message: "Error",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  // parse the capitie to number
+  const capaciteNumber = parseInt(capacite);
 
   const existingRoom = await prisma.room.findFirst({
     where: {
@@ -68,8 +48,8 @@ export const POST = async (req: NextRequest) => {
       data: {
         nom: nom,
         type: type,
-        capacite: capacite,
-        disponibilite: disponibilite.flatMap((day: any) => day.day),
+        capacite: capaciteNumber,
+        disponibilite: disponibilite,
       },
     });
 
@@ -123,6 +103,9 @@ export const PUT = async (req: NextRequest) => {
     );
   }
 
+  // parse the capacite to number
+  const capaciteNumber = parseInt(capacite);
+
   // check if room exists
   const existingRoom = await prisma.room.findFirst({
     where: {
@@ -150,8 +133,8 @@ export const PUT = async (req: NextRequest) => {
     data: {
       nom: nom,
       type: type,
-      capacite: capacite,
-      disponibilite: disponibilite.flatMap((day: any) => day.day),
+      capacite: capaciteNumber,
+      disponibilite: disponibilite,
     },
   });
 

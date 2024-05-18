@@ -62,12 +62,16 @@ const AddRoomModal = () => {
     }));
   };
 
-  const addHandler = () => {
+  const addHandler = async () => {
     try {
       // Validate form data
       const validatedData = schema.parse(roomData);
       console.log("Add Room:", validatedData);
       // Here you can send the validatedData to your backend or perform any other actions
+      await fetch("/api/room", {
+        method: "POST",
+        body: JSON.stringify(validatedData),
+      });
       // Clear validation errors
       setValidationErrors({
         nom: "",

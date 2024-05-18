@@ -4,7 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, Edit3, Trash, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,13 +14,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Loading from "../icon/loading";
-
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import RoomEditDialog from "./modify-room-modal";
 
 // This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type Room = {
   id: string;
   nom_salle: string;
@@ -29,6 +27,7 @@ export type Room = {
   capacity: number;
   disponibilite: string[];
 };
+
 export const columns: ColumnDef<Room>[] = [
   {
     id: "select",
@@ -82,14 +81,13 @@ export const columns: ColumnDef<Room>[] = [
       const payment = row.original;
 
       const router = useRouter();
+      const path = usePathname();
 
       const [showConfirmationModal, setShowConfirmationModal] = useState(false);
       const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
       const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
       const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-
-      const updateHandler = async () => {};
 
       const handleDelete = async () => {
         // delete action use fetch api route
@@ -98,20 +96,24 @@ export const columns: ColumnDef<Room>[] = [
 
           setIsDeleting(true);
           await fetch("http://localhost:3000/api/room", {
-            // Updated path to match the correct API route location
             method: "DELETE",
             body: JSON.stringify({ id: payment.id }),
             headers: {
               "Content-Type": "application/json",
             },
           });
+
+          // Refresh the page or navigate to the same page to fetch updated data
+          // router.push("/dashboard/salles");
+          // router.refresh();
+          location.reload();
         } catch (error) {
           console.error("Failed to delete room", error);
           return;
+        } finally {
+          setIsDeleting(false);
+          setIsDeleteDialogOpen(false);
         }
-        router.refresh();
-        setIsDeleting(false);
-        setIsDeleteDialogOpen(false);
       };
 
       const triggerRef = React.useRef<HTMLButtonElement>(null);
@@ -122,7 +124,6 @@ export const columns: ColumnDef<Room>[] = [
             isOpen={isEditDialogOpen}
             onClose={(open: boolean) => setIsEditDialogOpen(open)}
             payment={payment}
-            updateHandler={updateHandler}
           />
           <Dialog
             open={isDeleteDialogOpen}
@@ -157,7 +158,7 @@ export const columns: ColumnDef<Room>[] = [
                 </Button>
                 <Button
                   variant="destructive"
-                  className="text-[16px]"
+                  className="text-[16px] w-32"
                   onClick={handleDelete}
                   disabled={isDeleting}
                 >

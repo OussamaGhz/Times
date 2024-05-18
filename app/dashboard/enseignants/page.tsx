@@ -5,6 +5,7 @@ import { Teacher, columns } from "@/app/ui/enseignants/columns";
 import { DataTable } from "@/app/ui/enseignants/data-table";
 import AddUser from "@/app/ui/enseignants/add_user-modal";
 import { useenseignant } from "@/app/utils/fetchers";
+import { useAppContext } from "@/app/store/context";
 
 const EnseignantsPage = () => {
   const { enseignant, loading } = useenseignant();

@@ -6,18 +6,23 @@ import {
   MultiSelectorItem,
   MultiSelectorList,
   MultiSelectorTrigger,
-} from "@/components/ui/multi-selector-modules";
+} from "@/components/ui/multi-selector";
 
 type OPTIONS = {
   value: string;
   label: string;
 };
 
-interface MultipleSelectorDataProps {
+interface Module {
+  moduleName: string;
+  priority: number;
+}
+
+interface MultipleSelectorModulesProps {
   options: OPTIONS[];
   className?: string;
-  initialValues?: string[];
-  onValuesChange: (values: string[]) => void;
+  initialValues?: Module[];
+  onValuesChange: (values: Module[]) => void;
 }
 
 const MultipleSelectorModules = ({
@@ -25,24 +30,30 @@ const MultipleSelectorModules = ({
   onValuesChange,
   initialValues = [],
   className,
-}: MultipleSelectorDataProps) => {
-  const [value, setValue] = React.useState<string[]>(initialValues);
+}: MultipleSelectorModulesProps) => {
+  const [value, setValue] = React.useState<Module[]>(initialValues);
 
+  const handleValuesChange = (newValues: string[]) => {
+    const updatedModules = newValues.map((val, index) => ({
+      moduleName: val,
+      priority: index + 1,
+    }));
+
+    setValue(updatedModules);
+    onValuesChange(updatedModules);
+  };
 
   return (
     <MultiSelector
       className={`bg-white rounded-md shadow-sm ${className}`}
-      values={value}
-      onValuesChange={(newValues) => {
-        setValue(newValues);
-        onValuesChange(newValues);
-      }}
+      values={value.map((v) => v.moduleName)}
+      onValuesChange={handleValuesChange}
       loop={false}
     >
       <MultiSelectorTrigger className="w-full h-[52px] p-0 m-0">
         <MultiSelectorInput className="h-full w-full border-none bg-transparent pl-3 placeholder-gray-400" />
       </MultiSelectorTrigger>
-      <MultiSelectorContent className="bg-white border border-t-0 rounded-b-md">
+      <MultiSelectorContent className="bg-white border border-t-0 rounded-b-md max-h-60 overflow-y-auto">
         <MultiSelectorList>
           {options.map((option, i) => (
             <MultiSelectorItem

@@ -5,11 +5,12 @@ import { columns } from "@/app/ui/salles/columns";
 import { DataTable } from "@/app/ui/salles/data-table";
 import AddRommModal from "@/app/ui/salles/add-room-modal";
 import { useRooms } from "@/app/utils/fetchers";
+import { useAppContext } from "@/app/store/context";
 
 //caluculate the rooms with type amphi (check lower case)
 
 const SallesPage = () => {
-  const { rooms, loading } = useRooms();
+  const {rooms, loadingRooms: loading} = useAppContext()
 
   const data: any = rooms.map((room: any) => {
     return {

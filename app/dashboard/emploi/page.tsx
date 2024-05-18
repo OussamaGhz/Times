@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import Calendar from "@/app/ui/calendar";
+import Calendar from "@/app/ui/callendar/calendar";
 import PageContainer from "@/app/ui/dashboard/page-container";
 import {
   Select,
@@ -153,7 +153,7 @@ const ParentComponent = () => {
               onValueChange={(value) => handleYearChange(Number(value))}
               value={selectedYear.toString()}
             >
-              <SelectTrigger className=" bg-[#4A58EC] text-white text-center w-[148px] h-[51px] font-semibold text-lg">
+              <SelectTrigger className=" bg-[#4A58EC] text-white text-center w-[148px] h-[51px] font-semibold text-lg rounded-xl">
                 <SelectValue placeholder="Select a Year" />
               </SelectTrigger>
               <SelectContent>
@@ -173,7 +173,7 @@ const ParentComponent = () => {
               onValueChange={(value) => handleSpecialtyChange(value)}
               value={selectedSpecialty}
             >
-              <SelectTrigger className=" bg-[#4A58EC] text-white w-[148px] h-[51px] font-semibold text-lg">
+              <SelectTrigger className=" bg-[#4A58EC] text-white w-[148px] h-[51px] font-semibold text-lg rounded-xl">
                 <SelectValue placeholder="Specialité" />
               </SelectTrigger>
               <SelectContent>
@@ -195,7 +195,7 @@ const ParentComponent = () => {
               onValueChange={(value) => handleSectionChange(value)}
               value={selectedSection}
             >
-              <SelectTrigger className=" bg-[#4A58EC] text-white w-[148px] h-[51px] font-semibold text-lg">
+              <SelectTrigger className=" bg-[#4A58EC] text-white w-[148px] h-[51px] font-semibold text-lg rounded-xl">
                 <SelectValue placeholder="Section" />
               </SelectTrigger>
 

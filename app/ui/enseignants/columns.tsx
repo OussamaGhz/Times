@@ -270,6 +270,28 @@ export const columns: ColumnDef<Teacher>[] = [
                     </div>
                   </div>
                 </div>
+                <div className="flex justify-between items-center gap-8">
+                  <div className="flex flex-col w-[50%]">
+                    <Label className="text-[20.051px] font-[400] my-3">
+                      Jours de disponibilité
+                    </Label>
+                    <Input
+                      className="w-full h-[52px]"
+                      placeholder={payment.grade}
+                    />
+                  </div>
+                  <div className="flex flex-col w-[50%]">
+                    <div className="flex flex-col w-[50%]">
+                      <Label className="text-[20.051px] font-[400] my-3">
+                        Modules prioritères
+                      </Label>
+                      <Input
+                        className="w-full h-[52px]"
+                        placeholder={payment.date_de_naissance}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
               <DialogFooter>
                 <Button

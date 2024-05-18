@@ -13,6 +13,12 @@ interface AppContextData {
   randomTeachers: any[];
   updateAmphi: (value: number) => void;
   updateClassValue: (value: number) => void;
+  rooms: any[];
+  section: any[];
+  teachers_all: any[];
+  loading: boolean;
+  loadingRooms: boolean;
+  loadingTeachers: boolean;
 }
 
 // Create a new context instance
@@ -37,8 +43,7 @@ const getRandomTeachers = (teachers: any[]) => {
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { enseignant: teachers_all, loading: loadingTeachers } =
-    useenseignant();
+  const { enseignant: teachers_all, loading: loadingTeachers } = useenseignant();
   const { rooms, loading: loadingRooms } = useRooms();
   const { section, loading } = useSection();
 
@@ -93,6 +98,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setSections(allSections.length);
   }, [section]);
 
+  
+
   return (
     <AppContext.Provider
       value={{
@@ -103,6 +110,12 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
         sections,
         teachers,
         randomTeachers, // Add randomTeachers to the context value
+        rooms,
+        section,
+        teachers_all,
+        loading,
+        loadingRooms,
+        loadingTeachers,
       }}
     >
       {children}
