@@ -6,6 +6,7 @@ import generatePDF from "@/app/utils/generate-pdf";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { transformData } from "@/lib/transform";
 import React, { use, useEffect } from "react";
 import { useState } from "react";
 
@@ -27,8 +28,6 @@ const GenerationPage = () => {
       body: JSON.stringify({ id }),
     }).then((response) => {
       response.json().then((data) => {
-        console.log(data);
-
         // setSchduleGenerated(data);
       });
     });
@@ -55,9 +54,6 @@ const GenerationPage = () => {
     availability: room.disponibilite,
     type: room.type === "cour" ? "Lecture" : room.type,
   }));
-
-  console.log(rooms_requst);
-  
 
   const profs_request = teachers_all.map((teacher) => ({
     name: teacher.nom,
@@ -96,10 +92,7 @@ const GenerationPage = () => {
     teachers: profs_request,
     years: aneee_request,
   };
-
   const generateHandler = async () => {
-    console.log("clicked");
-
     try {
       const response = await fetch(
         "https://mojnx.pythonanywhere.com/generate-schedule",
@@ -108,7 +101,7 @@ const GenerationPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(data), // Assuming `data` is defined and properly structured
         }
       );
 
@@ -119,12 +112,25 @@ const GenerationPage = () => {
       }
 
       const fetchedData = await response.json();
-      console.table(fetchedData);
 
-      // Assuming `setFetchedData` is a state setter function from useState
       setFetchedData(fetchedData);
+
+      // Send transformed data to your Next.js API endpoint
+      const saveResponse = await fetch("/api/store-schedule", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fetchedData }),
+      });
+
+      if (!saveResponse.ok) {
+        throw new Error(`HTTP error! Status: ${saveResponse.status}`);
+      }
+
+      console.log("Data saved successfully");
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
     }
   };
 
@@ -184,7 +190,7 @@ const GenerationPage = () => {
           </div>
         </div>
         <h1 className="font-semibold text-2xl sm:text-3xl text-left">Status</h1>
-        {alerte_status}
+        {sucess_status}
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
           <Button
@@ -204,10 +210,6 @@ const GenerationPage = () => {
           </Button>
         </div>
       </div>
-      {/* display data on screnn */}
-      <pre className="text-left w-full overflow-x-auto">
-        {JSON.stringify(fetchedData, null, 2)}
-      </pre>
     </PageContainer>
   );
 };

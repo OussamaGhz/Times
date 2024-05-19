@@ -1,6 +1,7 @@
-import { Clock1Icon, MoreHorizontal, Thermometer } from "lucide-react";
-import PageContainer from "../dashboard/page-container";
-import ClockIcon from "../icon/clock";
+"use client";
+
+import { FC } from "react";
+import { ScheduleEntry } from "@prisma/client";
 import Lecture from "./lecture-item";
 import TD from "./td-item";
 import TP from "./tp-item";
@@ -16,11 +17,44 @@ const timeSlots = [
 
 const className = "border w-[160.774px] max-w-[170.774px] px-1 max-h-24"; // Static height and width
 
-const Calendar = () => {
+interface CalendarProps {
+  schedule: ScheduleEntry[];
+}
+
+const Calendar: FC<CalendarProps> = ({ schedule }) => {
+  const daysOfWeek = [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Samedi",
+  ];
+
+  const getScheduleForSlotAndDay = (slot: number, day: string) => {
+    return schedule.filter(
+      (entry) =>
+        entry.slot === slot && entry.day.toLowerCase() === day.toLowerCase()
+    );
+  };
+
+  const renderScheduleEntry = (entry: ScheduleEntry) => {
+    switch (entry.sessionType) {
+      case "Lecture":
+        return <Lecture key={entry.id} {...entry} />;
+      case "TD":
+        return <TD key={entry.id} {...entry} group={entry.group} />;
+      case "TP":
+        return <TP key={entry.id} {...entry} group={entry.group} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="flex justify-center items-center text-[#556476]">
-      <div className=" max-h-[701px] bg-white">
-        <table className="table-auto border-collapse border ">
+      <div className="max-h-[701px] bg-white">
+        <table className="table-auto border-collapse border">
           <thead className="bg-[#FAFAFA]">
             <tr>
               <th className="w-2 rotate-45">
@@ -39,25 +73,25 @@ const Calendar = () => {
             </tr>
           </thead>
           <tbody>
-            {["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Samedi"].map(
-              (day, index) => (
-                <tr key={index}>
-                  <td className="py-10 w-2 text-center min-h-20 bg-[#FAFAFA]">
-                    <div className="-rotate-90 font-semibold text-variable-collection-typography-2nd text-[14px]">
-                      {day}
-                    </div>
+            {daysOfWeek.map((day, index) => (
+              <tr key={index}>
+                <td className="py-10 w-2 text-center min-h-20 bg-[#FAFAFA]">
+                  <div className="-rotate-90 font-semibold text-variable-collection-typography-2nd text-[14px]">
+                    {day}
+                  </div>
+                </td>
+                {timeSlots.map((time) => (
+                  <td
+                    key={time.slot}
+                    className={`${className} border-dotted overflow-hidden`}
+                  >
+                    {getScheduleForSlotAndDay(time.slot, day).map(
+                      renderScheduleEntry
+                    )}
                   </td>
-                  {timeSlots.map((time) => (
-                    <td
-                      key={time.slot}
-                      className={`${className} border-dotted overflow-hidden`}
-                    >
-                    
-                    </td>
-                  ))}
-                </tr>
-              )
-            )}
+                ))}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

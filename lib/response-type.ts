@@ -1,25 +1,26 @@
-type ScheduleEntry = {
+// types.ts
+export interface ScheduleEntry {
   day: string;
-  group: string | null;
+  group: string;
   moduleName: string;
   room: string;
-  session_type: string;
+  sessionType: string;
   slot: number;
   teacher: string;
   time: string;
-};
+}
 
-type Section_respose = {
+export interface SpecialitySection {
   name: string;
   schedule: ScheduleEntry[];
-};
+}
 
-type Specialite = {
+export interface Speciality {
   name: string;
-  sections: Section_respose[];
-};
+  sections: SpecialitySection[];
+}
 
-type Data = {
-  specialite: Specialite[];
+export interface AcademicYear {
   year: number;
-};
+  specialities: Speciality[];
+}

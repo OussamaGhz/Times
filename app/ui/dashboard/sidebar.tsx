@@ -11,6 +11,10 @@ import { MenuSection } from "./sidebar-server"; // Import server component
 import { XIcon, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import SalleIcon from "../icon/salle-icon";
+import SectionIcon from "../icon/section-icon";
+import EmploiIcon from "../icon/emploi-icon";
+import GenerationIcon from "../icon/generation-icon";
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -31,12 +35,12 @@ const SideBar = () => {
         {
           title: "Salles",
           path: "/dashboard/salles",
-          icon: <DashboardIcon />,
+          icon: <SalleIcon />,
         },
         {
           title: "Sections",
           path: "/dashboard/sections",
-          icon: <DashboardIcon />,
+          icon: <SectionIcon />,
         },
       ],
     },
@@ -46,12 +50,12 @@ const SideBar = () => {
         {
           title: "Generation des Emplois",
           path: "/dashboard/emploi-generation",
-          icon: <MdWork />,
+          icon: <EmploiIcon />,
         },
         {
           title: "Annees Universitaires",
           path: "/dashboard/emploi",
-          icon: <MdWork />,
+          icon: <GenerationIcon />,
         },
       ],
     },

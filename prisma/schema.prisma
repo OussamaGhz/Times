@@ -143,3 +143,39 @@ model Configuration {
   key   String
   value String
 }
+
+model AcademicYear {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  year         Int
+  specialities Speciality[]
+}
+
+model Speciality {
+  id             String              @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  academicYear   AcademicYear        @relation(fields: [academicYearId], references: [id])
+  academicYearId String              @db.ObjectId
+  sections       SpecialitySection[]
+}
+
+model SpecialitySection {
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  speciality   Speciality      @relation(fields: [specialityId], references: [id])
+  specialityId String          @db.ObjectId
+  schedule     ScheduleEntry[]
+}
+
+model ScheduleEntry {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  day         String
+  group       String
+  moduleName  String
+  room        String
+  sessionType String // use camelCase 'sessionType' for consistency
+  slot        Int
+  teacher     String
+  time        String
+  section     SpecialitySection @relation(fields: [sectionId], references: [id])
+  sectionId   String            @db.ObjectId
+}
