@@ -14,7 +14,7 @@ const Navbar = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="h-[100px] bg-white flex items-center pr-7 w-screen justify-between overflow-hidden">
+    <div className="h-[100px] bg-white flex items-center pr-7 w-screen justify-between overflow-hidden z-50">
       <Image src={logo} alt="logo" height={280} width={280} />
       <span className="text-[#001D74] gap-4 text-[20px] font-[600] hidden lg:block">
         {currentTime}

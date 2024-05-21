@@ -11,12 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  AcademicYear,
-  Speciality,
-  SpecialitySection,
-  ScheduleEntry,
-} from "@/types";
+import { AcademicYear, ScheduleEntry } from "@prisma/client";
+import { Button } from "@/components/ui/button";
+import { Printer } from "lucide-react";
+import generatePDF from "@/app/utils/generate-pdf"; // Import the generatePDF function
 
 const ParentComponent = () => {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
@@ -87,6 +85,11 @@ const ParentComponent = () => {
     }
   }, [selectedSection, selectedSpecialty, selectedYear, data]);
 
+  // Handle PDF download
+  const downloadHandler = () => {
+    generatePDF(infoData, selectedYear, selectedSpecialty, selectedSection);
+  };
+
   return (
     <PageContainer>
       <div className="flex flex-col">
@@ -95,6 +98,7 @@ const ParentComponent = () => {
             <h1 className="font-[600] text-[40px] text-left">
               Emplois du temps
             </h1>
+
             {selectedSection !== "" ? (
               selectedSpecialty !== "" && (
                 <p className="text-blue-950 text-base font-semibold ">
@@ -103,23 +107,31 @@ const ParentComponent = () => {
               )
             ) : (
               <p className="text-blue-950 text-base font-semibold ">
-                Select a Specialty and a Section
+                Choisissez une spécialité et une section
               </p>
             )}
           </div>
 
           <div className="flex gap-4">
+            {/* PDF download button */}
+            <Button
+              className="h-[51px] w-[51px] bg-[#0EB17F] text-white"
+              variant={"default"}
+              onClick={downloadHandler}
+            >
+              <Printer height={60} width={60} />
+            </Button>
             {/* Year selector */}
             <Select
               onValueChange={(value) => handleYearChange(Number(value))}
               value={selectedYear?.toString() || ""}
             >
               <SelectTrigger className="bg-[#4A58EC] text-white text-center w-[148px] h-[51px] font-semibold text-lg rounded-xl">
-                <SelectValue placeholder="Select a Year" />
+                <SelectValue placeholder="Année" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Year</SelectLabel>
+                  <SelectLabel>Année</SelectLabel>
                   {data.map(({ year }) => (
                     <SelectItem key={year} value={year.toString()}>
                       {year}
@@ -181,11 +193,14 @@ const ParentComponent = () => {
           </div>
         </div>
         <div>
-          <Calendar schedule={infoData} />
+          <Calendar
+            schedule={infoData}
+            year={selectedYear}
+            specialty={selectedSpecialty}
+            section={selectedSection}
+          />
         </div>
       </div>
-      {/* /display data on screen as json */}
-     
     </PageContainer>
   );
 };

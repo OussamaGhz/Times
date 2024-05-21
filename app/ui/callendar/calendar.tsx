@@ -5,6 +5,7 @@ import { ScheduleEntry } from "@prisma/client";
 import Lecture from "./lecture-item";
 import TD from "./td-item";
 import TP from "./tp-item";
+import generatePDF from "@/app/utils/generate-pdf";
 
 const timeSlots = [
   { slot: 1, time: "8h:00 - 9h:30" },
@@ -19,9 +20,17 @@ const className = "border w-[160.774px] max-w-[170.774px] px-1 max-h-24"; // Sta
 
 interface CalendarProps {
   schedule: ScheduleEntry[];
+  year: number;
+  specialty: string;
+  section: string;
 }
 
-const Calendar: FC<CalendarProps> = ({ schedule }) => {
+const Calendar: FC<CalendarProps> = ({
+  schedule,
+  year,
+  specialty,
+  section,
+}) => {
   const daysOfWeek = [
     "Dimanche",
     "Lundi",
@@ -31,7 +40,10 @@ const Calendar: FC<CalendarProps> = ({ schedule }) => {
     "Samedi",
   ];
 
-  const getScheduleForSlotAndDay = (slot: number, day: string) => {
+  const getScheduleForSlotAndDay = (
+    slot: number,
+    day: string
+  ): ScheduleEntry[] => {
     return schedule.filter(
       (entry) =>
         entry.slot === slot && entry.day.toLowerCase() === day.toLowerCase()
@@ -52,7 +64,7 @@ const Calendar: FC<CalendarProps> = ({ schedule }) => {
   };
 
   return (
-    <div className="flex justify-center items-center text-[#556476]">
+    <div className="flex justify-center items-center flex-col text-[#556476]">
       <div className="max-h-[701px] bg-white">
         <table className="table-auto border-collapse border">
           <thead className="bg-[#FAFAFA]">

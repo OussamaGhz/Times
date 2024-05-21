@@ -113,6 +113,8 @@ const GenerationPage = () => {
 
       const fetchedData = await response.json();
 
+      console.log(fetchedData);
+
       setFetchedData(fetchedData);
 
       // Send transformed data to your Next.js API endpoint
@@ -123,12 +125,11 @@ const GenerationPage = () => {
         },
         body: JSON.stringify({ fetchedData }),
       });
-
       if (!saveResponse.ok) {
         throw new Error(`HTTP error! Status: ${saveResponse.status}`);
-      }
 
-      console.log("Data saved successfully");
+        console.log("Data saved successfully");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -191,7 +192,6 @@ const GenerationPage = () => {
         </div>
         <h1 className="font-semibold text-2xl sm:text-3xl text-left">Status</h1>
         {sucess_status}
-
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
           <Button
             variant={"default"}
@@ -204,7 +204,6 @@ const GenerationPage = () => {
           <Button
             variant={"default"}
             className="bg-[#0EB17F] text-white font-semibold hover:bg-opacity-80 text-lg sm:text-[18px] py-2 px-4 rounded-[13.437px] w-full sm:w-32 h-12"
-            onClick={() => generatePDF(data)}
           >
             Télécharger
           </Button>

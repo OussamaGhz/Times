@@ -32,7 +32,6 @@ const DashboardPage = () => {
   const classValue = salles.toString();
   const amphiValue = amphi.toString();
 
-
   // Remove the line below to fix the issue
 
   type PageContent = {
@@ -81,7 +80,7 @@ const DashboardPage = () => {
     {
       title: "Generation des Emplois de temps:",
       color: "bg-[linear-gradient(180deg,_#A93BFF_0%,_#8834FF_100%)]",
-      path: "/emplois",
+      path: "/emploi-generation",
       icon: <Stars />,
     },
     {
