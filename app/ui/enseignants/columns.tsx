@@ -127,7 +127,6 @@ export const columns: ColumnDef<Teacher>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const payment = row.original;
-      console.log(payment);
 
       const [showConfirmationModal, setShowConfirmationModal] = useState(false);
       const [isDeleting, setIsDeleting] = useState<boolean>(false);

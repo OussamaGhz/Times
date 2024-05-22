@@ -33,73 +33,65 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
   }
 };
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
-  if (req.method === "POST") {
-    const {
-      nom,
-      prenom,
-      email,
-      date_de_naissance,
-      numero_de_telephone,
-      grade,
-    } = await req.json();
+export const POST = async (req: NextRequest) => {
+  const {
+    nom,
+    prenom,
+    gender,
+    email,
+    telephone,
+    dateNaissance,
+    grade,
+    disponibilite,
+    modules, // Expecting an array of modules with properties: nom_module and priority
+  } = await req.json();
 
-    if (
-      typeof nom !== "string" ||
-      typeof prenom !== "string" ||
-      typeof email !== "string" ||
-      typeof date_de_naissance !== "string" ||
-      typeof numero_de_telephone !== "string" ||
-      typeof grade !== "string"
-    ) {
-      return NextResponse.json(
-        {
-          message: "Error",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
+  console.log("received data: " + JSON.stringify(req.json));
 
-    // check email with name or email
-    const existingEnseignant = await prisma.professor.findFirst({
-      where: {
-        OR: [
-          {
-            nom,
-          },
-          {
-            email,
-          },
-        ],
+  const existingProfessor = await prisma.professor.findFirst({
+    where: {
+      email, // Assuming "email" is a unique identifier for a professor
+    },
+  });
+
+  if (existingProfessor) {
+    return NextResponse.json(
+      {
+        message: "Professor already exists",
       },
-    });
-
-    if (existingEnseignant) {
-      return NextResponse.json(
-        {
-          message: "Enseignant already exists",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    const enseignant = await prisma.professor.create({
+      {
+        status: 500,
+      }
+    );
+  } else {
+    const professor = await prisma.professor.create({
       data: {
         nom,
         prenom,
+        gender,
         email,
-        date_de_naissance,
-        numero_de_telephone,
-
+        numero_de_telephone: telephone,
+        date_de_naissance: new Date(dateNaissance),
         grade,
+        availability_prof: disponibilite,
+        modules: {
+          create: modules.map(
+            (module: { nom_module: string; priority: number }) => ({
+              nom_module: module.nom_module,
+              priority: module.priority,
+            })
+          ),
+        },
       },
     });
 
-    return NextResponse.json(enseignant);
+    // Optional: Clear any related configurations, if necessary
+    // await clearConfiguration("some-configuration-key");
+
+    return NextResponse.json({
+      message: "Created professor with modules",
+      professor,
+    });
   }
 };
 
@@ -140,51 +132,60 @@ export const DELETE = async (req: NextRequest, res: NextResponse) => {
   }
 };
 
-export const PUT = async (req: NextRequest, res: NextResponse) => {
-  if (req.method === "PUT") {
-    const {
-      id,
+export const PUT = async (req: NextRequest) => {
+  const {
+    id, // Assuming the professor's ID is provided to identify which professor to update
+    nom,
+    prenom,
+    gender,
+    email,
+    telephone,
+    date_de_naissance,
+    grade,
+    availability_prof,
+    modules, // Expecting an array of modules with properties: id (if updating), nom_module and priority
+  } = await req.json();
+
+  console.log("received data: " + JSON.stringify(req.json));
+
+  // Check if the professor exists
+  const existingProfessor = await prisma.professor.findFirst({
+    where: { id },
+  });
+
+  if (!existingProfessor) {
+    return NextResponse.json(
+      { message: "Professor not found" },
+      { status: 404 }
+    );
+  }
+
+  // Update the professor and their related modules
+  const updatedProfessor = await prisma.professor.update({
+    where: { id },
+    data: {
       nom,
       prenom,
+      gender,
       email,
-      date_de_naissance,
-      numero_de_telephone,
+      numero_de_telephone: telephone,
+      date_de_naissance: new Date(date_de_naissance),
       grade,
-    } = await req.json();
-
-    if (
-      typeof id !== "string" ||
-      typeof nom !== "string" ||
-      typeof prenom !== "string" ||
-      typeof email !== "string" ||
-      typeof date_de_naissance !== "string" ||
-      typeof numero_de_telephone !== "string" ||
-      typeof grade !== "string"
-    ) {
-      return NextResponse.json(
-        {
-          message: "Error",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-    const enseignant = await prisma.professor.update({
-      where: {
-        id,
+      availability_prof,
+      modules: {
+        deleteMany: {}, // Delete existing module assignments
+        create: modules.map(
+          (module: { nom_module: string; priority: number }) => ({
+            nom_module: module.nom_module,
+            priority: module.priority,
+          })
+        ),
       },
-      data: {
-        nom,
-        prenom,
-        email,
-        date_de_naissance,
-        numero_de_telephone,
-        grade,
-      },
-    });
+    },
+  });
 
-    return NextResponse.json(enseignant);
-  }
+  return NextResponse.json({
+    message: "Updated professor and modules",
+    professor: updatedProfessor,
+  });
 };

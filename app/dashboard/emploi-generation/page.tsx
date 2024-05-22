@@ -2,11 +2,10 @@
 
 import { useAppContext } from "@/app/store/context";
 import PageContainer from "@/app/ui/dashboard/page-container";
-import generatePDF from "@/app/utils/generate-pdf";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { transformData } from "@/lib/transform";
+import { Stars } from "lucide-react";
 import React, { use, useEffect } from "react";
 import { useState } from "react";
 
@@ -28,10 +27,12 @@ const GenerationPage = () => {
       body: JSON.stringify({ id }),
     }).then((response) => {
       response.json().then((data) => {
-        // setSchduleGenerated(data);
+        setSchduleGenerated(data);
       });
     });
   }, []);
+
+  console.log(schduleGenerated);
 
   const {
     teachers_all,
@@ -125,6 +126,8 @@ const GenerationPage = () => {
         },
         body: JSON.stringify({ fetchedData }),
       });
+
+      updateHandler();
       if (!saveResponse.ok) {
         throw new Error(`HTTP error! Status: ${saveResponse.status}`);
 
@@ -195,10 +198,11 @@ const GenerationPage = () => {
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
           <Button
             variant={"default"}
-            className="bg-[linear-gradient(137deg,_#6C72FF_5.39%,_#484FFF_49.18%,_#8F00FF_87.04%,_#8F00FF_87.04%)] hover:bg-opacity-80 text-white font-semibold text-lg sm:text-[20px] py-2 px-4 rounded-[13.437px] w-full sm:w-32 h-12"
+            className="bg-[linear-gradient(137deg,_#6C72FF_5.39%,_#484FFF_49.18%,_#8F00FF_87.04%,_#8F00FF_87.04%)] hover:bg-opacity-80 flex gap-1 text-white font-semibold text-lg sm:text-[20px] py-2 px-4 rounded-[13.437px] w-full sm:w-32 h-12"
             onClick={generateHandler}
             disabled={loadingRooms || loadingTeachers || loading}
           >
+            <Stars />
             Générer
           </Button>
           <Button

@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { modules } from "@/app/utils/modulesList";
+import Loading from "../icon/loading";
 
 const daysArray = [
   { label: "Lundi", value: "Lundi" },
@@ -42,6 +43,7 @@ type ModifyEnseignantDialogProps = {
   isOpen: boolean;
   onClose: (open: boolean) => void;
   enseignant: {
+    id: string;
     prenom: string;
     nom: string;
     email: string;
@@ -49,7 +51,7 @@ type ModifyEnseignantDialogProps = {
     date_de_naissance: string;
     grade: string;
     availability_prof: string[];
-    modules: { moduleName: string; priority: number }[];
+    modules: { nom_module: string; priority: number }[];
     gender: string;
   };
 };
@@ -59,9 +61,8 @@ const ModifyEnseignantDialog = ({
   onClose,
   enseignant,
 }: ModifyEnseignantDialogProps) => {
-  console.log(enseignant);
-
   const [enseignantData, setEnseignantData] = useState({
+    id: enseignant.id,
     prenom: enseignant.prenom,
     nom: enseignant.nom,
     email: enseignant.email,
@@ -98,7 +99,7 @@ const ModifyEnseignantDialog = ({
     modules: z
       .array(
         z.object({
-          moduleName: z.string(),
+          nom_module: z.string(),
           priority: z.number(),
         })
       )
@@ -108,6 +109,7 @@ const ModifyEnseignantDialog = ({
 
   useEffect(() => {
     setEnseignantData({
+      id: enseignant.id,
       prenom: enseignant.prenom,
       nom: enseignant.nom,
       email: enseignant.email,
@@ -149,17 +151,19 @@ const ModifyEnseignantDialog = ({
     }));
   };
 
-  console.log("enseignantData", enseignantData);
+  const [loading, setLoading] = useState(false);
 
   const updateHandler = async () => {
+    console.log("update data", enseignantData);
+
     try {
+      setLoading(true);
       // Validate form data
       const validatedData = schema.parse(enseignantData);
-      console.log("Update Enseignant:", validatedData);
       // Here you can send the validatedData to your backend or perform any other actions
-      await fetch("/api/enseignant", {
+      await fetch("/api/prof", {
         method: "PUT",
-        body: JSON.stringify(validatedData),
+        body: JSON.stringify(enseignantData),
         headers: {
           "Content-Type": "application/json",
         },
@@ -173,10 +177,11 @@ const ModifyEnseignantDialog = ({
         date_de_naissance: "",
         grade: "",
         availability_prof: "",
-        modules: "",
+        modules: [],
         gender: "",
       });
       onClose(false); // Close the dialog on success
+      location.reload();
     } catch (error) {
       if (error instanceof z.ZodError) {
         console.error("Validation failed:", error.errors);
@@ -191,9 +196,8 @@ const ModifyEnseignantDialog = ({
         // Handle other errors
       }
     }
+    setLoading(false);
   };
-
-  console.log("enseignantData", enseignantData);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -203,7 +207,7 @@ const ModifyEnseignantDialog = ({
             Modifier Enseignant
           </DialogTitle>
         </DialogHeader>
-        <div className="py-[20px] text-black flex flex-col gap-6 text-left border-b-[1px] border-gray-200">
+        <div className="text-black flex flex-col gap-5 text-left border-b-[1px] border-gray-200">
           <div className="flex justify-between items-center gap-8">
             <div className="flex flex-col w-[50%] text-left">
               <Label className="text-[20.051px] font-[400] my-3">Prenom</Label>
@@ -262,6 +266,9 @@ const ModifyEnseignantDialog = ({
                 Date de Naissance
               </Label>
               <Input
+                min={"1950-01-01"}
+                // max today date
+                max={new Date().toISOString().split("T")[0]}
                 className={`w-full h-[52px] border ${
                   validationErrors.date_de_naissance
                     ? "border-red-500"
@@ -320,7 +327,7 @@ const ModifyEnseignantDialog = ({
           </div>
           <div className="flex justify-between items-end gap-8">
             <div className="flex flex-col w-[50%]">
-              <Label className="text-[20.051px] font-[400] my-3">Gender</Label>
+              <Label className="text-[20.051px] font-[400] my-2">Gender</Label>
               <Select
                 onValueChange={(value) => handleSelectChange("gender", value)}
                 value={enseignantData.gender}
@@ -345,10 +352,11 @@ const ModifyEnseignantDialog = ({
             </div>
             <Button
               type="submit"
-              className="text-white"
+              className="text-white w-[138px]"
               onClick={updateHandler}
+              disabled={loading}
             >
-              Sauvegarder
+              {loading ? <Loading color="fill-blue-600" /> : "Sauvegarder"}
             </Button>
           </div>
         </div>

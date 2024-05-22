@@ -68,7 +68,7 @@ const AddUser = () => {
     modules: z
       .array(
         z.object({
-          moduleName: z.string(),
+          nom_module: z.string(),
           priority: z.number(),
         })
       )
@@ -94,13 +94,15 @@ const AddUser = () => {
   const [loading, setLoading] = useState(false);
 
   const addHandler = async () => {
+    console.log(userData);
+
     try {
       setLoading(true);
       // Validate form data
       const validatedData = schema.parse(userData);
       console.log("Add User:", validatedData);
       // Here you can send the validatedData to your backend or perform any other actions
-      await fetch("/api/user", {
+      await fetch("/api/prof", {
         method: "POST",
         body: JSON.stringify(validatedData),
         headers: {
@@ -131,6 +133,8 @@ const AddUser = () => {
         modules: [],
         gender: "",
       });
+
+      location.reload();
     } catch (error) {
       if (error instanceof z.ZodError) {
         console.error("Validation failed:", error.errors);
@@ -188,7 +192,7 @@ const AddUser = () => {
             Ajouter un enseignant
           </DialogTitle>
         </DialogHeader>
-        <div className="py-[10>px] text-black flex flex-col gap-6 text-left border-b-[1px] border-gray-200">
+        <div className="text-black flex flex-col gap-5 text-left border-b-[1px] border-gray-200">
           <div className="flex justify-between items-center gap-8">
             <div className="flex flex-col w-[50%] text-left">
               <Label className="text-[20.051px] font-[400] my-3">Prenom</Label>
@@ -247,6 +251,9 @@ const AddUser = () => {
                 Date de Naissance
               </Label>
               <Input
+                min={"1950-01-01"}
+                // max today date
+                max={new Date().toISOString().split("T")[0]}
                 className={`w-full h-[52px] border ${
                   validationErrors.dateNaissance
                     ? "border-red-500"
@@ -302,7 +309,7 @@ const AddUser = () => {
           </div>
           <div className="flex justify-between items-end gap-8">
             <div className="flex flex-col w-[50%]">
-              <Label className="text-[20.051px] font-[400] my-3">Gender</Label>
+              <Label className="text-[20.051px] font-[400] my-2">Gender</Label>
               <Select
                 onValueChange={(value) => handleSelectChange("gender", value)}
                 value={userData.gender}

@@ -16,9 +16,14 @@ type OPTION = {
 interface MultipleSelectorModulesProps {
   options: OPTION[];
   className?: string;
-  initialValues?: { moduleName: string; priority: number }[];
-  onValuesChange: (values: { moduleName: string; priority: number }[]) => void;
+  initialValues?: { nom_module: string; priority: number }[];
+  onValuesChange: (values: { nom_module: string; priority: number }[]) => void;
 }
+
+type module = {
+  nom_module: string;
+  priority: number;
+};
 
 const MultipleSelectorModules = ({
   options,
@@ -26,12 +31,19 @@ const MultipleSelectorModules = ({
   initialValues = [],
   className,
 }: MultipleSelectorModulesProps) => {
+  const initial: module[] = initialValues.map((value, index) => ({
+    nom_module: value.nom_module,
+    priority: value.priority,
+  }));
+
+  console.log(initial);
+
   const [value, setValue] =
-    useState<{ moduleName: string; priority: number }[]>(initialValues);
+    useState<{ nom_module: string; priority: number }[]>(initial);
 
   const handleChange = (newValues: string[]) => {
     const newModules = newValues.map((val, index) => ({
-      moduleName: val,
+      nom_module: val,
       priority: index + 1,
     }));
     setValue(newModules);
@@ -41,7 +53,7 @@ const MultipleSelectorModules = ({
   return (
     <MultiSelector
       className={`bg-white rounded-md shadow-sm `}
-      values={value.map((v) => v.moduleName)}
+      values={value.map((v) => v.nom_module)}
       onValuesChange={handleChange}
       loop={false}
     >
