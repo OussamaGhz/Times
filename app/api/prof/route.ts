@@ -104,27 +104,39 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 };
 
 export const DELETE = async (req: NextRequest, res: NextResponse) => {
-  if (req.method === "DELETE") {
+  if (req.method !== "DELETE") {
+    return NextResponse.json(
+      { message: "Method not allowed" },
+      { status: 405 }
+    );
+  }
+
+  try {
     const { id } = await req.json();
 
     if (typeof id !== "string") {
-      return NextResponse.json(
-        {
-          message: "Error",
-        },
-        {
-          status: 500,
-        }
-      );
+      return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
     }
 
-    const enseignant = await prisma.professor.delete({
-      where: {
-        id,
-      },
+    // Delete related module assignments first
+    await prisma.moduleAssignment.deleteMany({
+      where: { professorId: id },
     });
 
-    return NextResponse.json(enseignant);
+    // Delete the professor
+    const enseignant = await prisma.professor.delete({
+      where: { id },
+    });
+
+    return NextResponse.json(enseignant, { status: 200 });
+  } catch (error) {
+    // Cast error to an instance of Error to access the message property
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json(
+      { message: "Error deleting professor", error: errorMessage },
+      { status: 500 }
+    );
   }
 };
 

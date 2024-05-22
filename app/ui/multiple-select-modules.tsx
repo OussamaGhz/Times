@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MultiSelector,
   MultiSelectorContent,
@@ -8,41 +8,44 @@ import {
   MultiSelectorTrigger,
 } from "@/components/ui/multi-selector-modules";
 
-type OPTIONS = {
+type OPTION = {
   value: string;
   label: string;
 };
 
-interface MultipleSelectorDataProps {
-  options: OPTIONS[];
+interface MultipleSelectorModulesProps {
+  options: OPTION[];
   className?: string;
-  initialValues?: string[];
-  onValuesChange: (values: string[]) => void;
+  initialValues?: { moduleName: string; priority: number }[];
+  onValuesChange: (values: { moduleName: string; priority: number }[]) => void;
 }
 
-const MultipleSelectorDays = ({
+const MultipleSelectorModules = ({
   options,
   onValuesChange,
   initialValues = [],
   className,
-}: MultipleSelectorDataProps) => {
-  // turn the first letter of the day to uppercase
-  const initial = initialValues.map(
-    (value) => value.charAt(0).toUpperCase() + value.slice(1)
-  );
-  const [value, setValue] = React.useState<string[]>(initial);
+}: MultipleSelectorModulesProps) => {
+  const [value, setValue] =
+    useState<{ moduleName: string; priority: number }[]>(initialValues);
+
+  const handleChange = (newValues: string[]) => {
+    const newModules = newValues.map((val, index) => ({
+      moduleName: val,
+      priority: index + 1,
+    }));
+    setValue(newModules);
+    onValuesChange(newModules);
+  };
 
   return (
     <MultiSelector
       className={`bg-white rounded-md shadow-sm `}
-      values={value}
-      onValuesChange={(newValues) => {
-        setValue(newValues);
-        onValuesChange(newValues);
-      }}
+      values={value.map((v) => v.moduleName)}
+      onValuesChange={handleChange}
       loop={false}
     >
-      <MultiSelectorTrigger className={` w-full h-[52px] p-0 m-0 ${className}`}>
+      <MultiSelectorTrigger className={`w-full h-[52px] p-0 m-0 ${className}`}>
         <MultiSelectorInput className="h-full w-full border-none bg-transparent pl-3 placeholder-gray-400" />
       </MultiSelectorTrigger>
       <MultiSelectorContent className="bg-white border border-t-0 rounded-b-md">
@@ -62,4 +65,4 @@ const MultipleSelectorDays = ({
   );
 };
 
-export default MultipleSelectorDays;
+export default MultipleSelectorModules;

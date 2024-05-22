@@ -25,6 +25,7 @@ const DashboardPage = () => {
     amphi,
     classValue: salles,
     randomTeachers,
+    loadingTeachers: isLoding,
   } = useAppContext();
   //turn the values to string
   const sectionsValue = sections.toString();
@@ -119,7 +120,7 @@ const DashboardPage = () => {
             </div>
           </div>
           <div className="lg:w-1/3  flex justify-center h-fullr">
-            <MiniTable teacherList={randomTeachers} />
+            <MiniTable teacherList={randomTeachers} isLoading={isLoding} />
           </div>
         </div>
       </div>

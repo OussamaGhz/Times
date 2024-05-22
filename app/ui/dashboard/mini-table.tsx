@@ -1,9 +1,9 @@
 import React from "react";
-
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import LeftArrow from "../icon/left-arrow";
 import { AvatarFallback } from "@radix-ui/react-avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Teacher = {
   id: string;
@@ -12,18 +12,34 @@ type Teacher = {
   prenom: string;
 };
 
-const MiniTable = ({ teacherList }: { teacherList: Teacher[] }) => {
+const MiniTable = ({
+  teacherList,
+  isLoading,
+}: {
+  teacherList: Teacher[];
+  isLoading: boolean;
+}) => {
+  console.log(isLoading);
+
   return (
-    <div className="w-full h-full ">
+    <div className="w-full h-full">
       <Card className="max-w-[360px] p-5 rounded-[16px] min-h-[352px] text-[#001D74]">
         <h2 className="text-2xl font-semibold mb-4">Nos Enseignants:</h2>
         <ul className="flex flex-col gap-3">
-          {
-            teacherList.map((item) => {
-              // Added opening curly brace here
-              return (
-                <li className="flex items-center mb-3 gap-3">
-                  <Avatar className="w-8 h-8  rounded-full">
+          {isLoading
+            ? teacherList.map((_, index) => (
+                <li key={index} className="flex items-center mb-3 gap-3">
+                  <Skeleton className="h-8 w-8 rounded-full bg-gray-300" />
+                  <div className="flex-grow">
+                    <Skeleton className="h-4 w-[150px] mb-1 bg-gray-300" />
+                    <Skeleton className="h-4 w-[100px] bg-gray-300" />
+                  </div>
+                  <Skeleton className="h-4 w-4 bg-gray-300" />
+                </li>
+              ))
+            : teacherList.map((item) => (
+                <li key={item.id} className="flex items-center mb-3 gap-3">
+                  <Avatar className="w-8 h-8 rounded-full">
                     <AvatarFallback className="w-full h-full rounded-full flex items-center justify-center bg-[#4A58EC] text-white font-bold text-sm uppercase">
                       {item.nom.charAt(0)}
                       {item.prenom.charAt(0)}
@@ -39,9 +55,7 @@ const MiniTable = ({ teacherList }: { teacherList: Teacher[] }) => {
                   </div>
                   <LeftArrow />
                 </li>
-              );
-            }) // Added closing parenthesis and curly brace here
-          }
+              ))}
         </ul>
       </Card>
     </div>
