@@ -19,22 +19,20 @@ const MiniTable = ({
   teacherList: Teacher[];
   isLoading: boolean;
 }) => {
-  console.log(isLoading);
-
   return (
     <div className="w-full h-full">
       <Card className="max-w-[360px] p-5 rounded-[16px] min-h-[352px] text-[#001D74]">
         <h2 className="text-2xl font-semibold mb-4">Nos Enseignants:</h2>
         <ul className="flex flex-col gap-3">
           {isLoading
-            ? teacherList.map((_, index) => (
+            ? Array.from({ length: 5 }).map((_, index) => (
                 <li key={index} className="flex items-center mb-3 gap-3">
-                  <Skeleton className="h-8 w-8 rounded-full bg-gray-300" />
+                  <Skeleton className="w-8 h-8 rounded-full bg-gray-300" />
                   <div className="flex-grow">
-                    <Skeleton className="h-4 w-[150px] mb-1 bg-gray-300" />
-                    <Skeleton className="h-4 w-[100px] bg-gray-300" />
+                    <Skeleton className="h-4 w-3/4 mb-1 bg-gray-300" />
+                    <Skeleton className="h-3 w-1/2 bg-gray-300" />
                   </div>
-                  <Skeleton className="h-4 w-4 bg-gray-300" />
+                  <Skeleton className="w-4 h-4 bg-gray-300" />
                 </li>
               ))
             : teacherList.map((item) => (

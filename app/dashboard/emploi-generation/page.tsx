@@ -2,10 +2,12 @@
 
 import { useAppContext } from "@/app/store/context";
 import PageContainer from "@/app/ui/dashboard/page-container";
+import Loading from "@/app/ui/icon/loading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Stars } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { use, useEffect } from "react";
 import { useState } from "react";
 
@@ -31,8 +33,6 @@ const GenerationPage = () => {
       });
     });
   }, []);
-
-  console.log(schduleGenerated);
 
   const {
     teachers_all,
@@ -88,6 +88,9 @@ const GenerationPage = () => {
     })),
   }));
 
+  const [isLoading, setLoading] = useState(false);
+  const route = useRouter();
+
   const data = {
     rooms: rooms_requst,
     teachers: profs_request,
@@ -95,6 +98,7 @@ const GenerationPage = () => {
   };
   const generateHandler = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
         "https://mojnx.pythonanywhere.com/generate-schedule",
         {
@@ -106,15 +110,13 @@ const GenerationPage = () => {
         }
       );
 
-      console.log(response.status);
+      updateHandler();
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const fetchedData = await response.json();
-
-      console.log(fetchedData);
 
       setFetchedData(fetchedData);
 
@@ -128,14 +130,15 @@ const GenerationPage = () => {
       });
 
       updateHandler();
+      location.reload();
+
       if (!saveResponse.ok) {
         throw new Error(`HTTP error! Status: ${saveResponse.status}`);
-
-        console.log("Data saved successfully");
       }
     } catch (error) {
       console.error("Error:", error);
     }
+    setLoading(false);
   };
 
   const sucess_status = (
@@ -194,16 +197,39 @@ const GenerationPage = () => {
           </div>
         </div>
         <h1 className="font-semibold text-2xl sm:text-3xl text-left">Status</h1>
-        {sucess_status}
+        <div className="flex gap-36">
+          {schduleGenerated &&
+            schduleGenerated?.value === "true" &&
+            sucess_status}
+          {!schduleGenerated?.value && alerte_status}
+
+          {isLoading && (
+            <iframe
+              src="https://giphy.com/embed/Dg4TxjYikCpiGd7tYs"
+              width="10%"
+              height="10%"
+              frameBorder="0"
+              className="giphy-embed"
+              allowFullScreen
+            ></iframe>
+          )}
+        </div>
+
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
           <Button
-            variant={"default"}
+            variant="default"
             className="bg-[linear-gradient(137deg,_#6C72FF_5.39%,_#484FFF_49.18%,_#8F00FF_87.04%,_#8F00FF_87.04%)] hover:bg-opacity-80 flex gap-1 text-white font-semibold text-lg sm:text-[20px] py-2 px-4 rounded-[13.437px] w-full sm:w-32 h-12"
             onClick={generateHandler}
-            disabled={loadingRooms || loadingTeachers || loading}
+            disabled={loadingRooms || loadingTeachers || loading || isLoading}
           >
-            <Stars />
-            Générer
+            {isLoading ? (
+              <Loading color="fill-[#6C72FF]" />
+            ) : (
+              <>
+                <Stars />
+                Générer
+              </>
+            )}
           </Button>
           <Button
             variant={"default"}

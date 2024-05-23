@@ -2,6 +2,7 @@
 
 import { PrismaClient } from "@prisma/client";
 import { NextResponse, NextRequest } from "next/server";
+import { clearConfiguration } from "../configuration-util";
 
 const prisma = new PrismaClient();
 
@@ -88,6 +89,7 @@ export const POST = async (req: NextRequest) => {
     // Optional: Clear any related configurations, if necessary
     // await clearConfiguration("some-configuration-key");
 
+    await clearConfiguration("schdule-generated");
     return NextResponse.json({
       message: "Created professor with modules",
       professor,
@@ -120,6 +122,7 @@ export const DELETE = async (req: NextRequest, res: NextResponse) => {
       where: { id },
     });
 
+    await clearConfiguration("schdule-generated");
     return NextResponse.json(enseignant, { status: 200 });
   } catch (error) {
     // Cast error to an instance of Error to access the message property
@@ -184,6 +187,7 @@ export const PUT = async (req: NextRequest) => {
     },
   });
 
+  await clearConfiguration("schdule-generated");
   return NextResponse.json({
     message: "Updated professor and modules",
     professor: updatedProfessor,
