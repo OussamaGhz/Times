@@ -9,7 +9,7 @@ type CardContent = {
 
 const CardC = (content: CardContent) => {
   return (
-    <Card className={`rounded-[16px] ${content.color} w-full  sm:max-w-[360px] min-h-[162px] flex-shrink-0 relative text-wrap`}>
+    <Card className={`rounded-[16px] ${content.color} w-full  min-h-[162px] flex-shrink-0 relative text-wrap`}>
       <CardContent className="z-50 p-5 flex flex-col gap-2">
         <div className="text-[22px] font-semibold text-white">{content.title}</div>
         <div className="text-[34px] font-bold text-white " > {content.value}  {content.detials} </div>

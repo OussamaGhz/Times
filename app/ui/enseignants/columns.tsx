@@ -1,7 +1,13 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown, Edit3, Trash } from "lucide-react";
+import {
+  MoreHorizontal,
+  ArrowUpDown,
+  Edit3,
+  Trash,
+  ClipboardCopy,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -134,28 +140,6 @@ export const columns: ColumnDef<Teacher>[] = [
       const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
       const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-      const updateHandler = async () => {
-        // update action use fetch api route
-        // try {
-        //   console.log("Updating room with id:", payment.id);
-        //   setIsDeleting(true);
-        //   await fetch("http://localhost:3000/api/room", {
-        //     // Updated path to match the correct API route location
-        //     method: "UPDATE",
-        //     body: JSON.stringify({ id: payment.id }),
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   });
-        //   router.refresh();
-        // } catch (error) {
-        //   console.error("Failed to update room", error);
-        //   return;
-        // }
-        // setIsDeleting(false);
-        // setIsEditDialogOpen(false);
-      };
-
       const handleDelete = async () => {
         // delete action use fetch api route
         try {
@@ -249,6 +233,14 @@ export const columns: ColumnDef<Teacher>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(payment.email)}
+                className="h-[27px] cursor-pointer flex gap-3 items-center bg-opacity-5 py-1 px-2 my-1"
+              >
+                <ClipboardCopy className="h-4 w-4" />
+                <p>Copier Email</p>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => setIsEditDialogOpen(true)}

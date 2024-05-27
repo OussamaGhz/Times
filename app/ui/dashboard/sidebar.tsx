@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { MdWork } from "react-icons/md";
 
 import DashboardIcon from "../icon/dashboard";
 import TeacherIcon from "../icon/teacher";
@@ -10,7 +9,6 @@ import { MenuSection } from "./sidebar-server"; // Import server component
 
 import { XIcon, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
 import SalleIcon from "../icon/salle-icon";
 import SectionIcon from "../icon/section-icon";
 import EmploiIcon from "../icon/emploi-icon";
@@ -99,7 +97,6 @@ const SideBar = () => {
             </div>
           </div>
         </div>{" "}
-        
       </div>
     </div>
   );

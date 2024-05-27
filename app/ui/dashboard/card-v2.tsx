@@ -13,9 +13,9 @@ type Task = {
 const CardV2 = (content: Task) => {
 
   return (
-    <Link href={`/dashboard/${content.path}`} className="hover:scale-105 hover:shadow-lg transition-transform duration-300">
+    <Link href={`/dashboard/${content.path}`} className="hover:scale-105 w-full hover:shadow-lg transition-transform duration-300">
       <Card
-        className={`rounded-[16px] ${content.color} max-w-[360px] min-h-[180px] relative text-wrap`}
+        className={`rounded-[16px] ${content.color} w-full min-h-[180px] relative text-wrap`}
       >
         <CardContent className="z-50 py-5 flex flex-col ">
           <div className="text-[25px] font-bold text-white">

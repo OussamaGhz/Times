@@ -35,8 +35,6 @@ const DashboardPage = () => {
   const classValue = salles.toString();
   const amphiValue = amphi.toString();
 
-  // Remove the line below to fix the issue
-
   type PageContent = {
     title: string;
     detials: string;
@@ -67,7 +65,6 @@ const DashboardPage = () => {
     {
       title: "Total Des Amphis:",
       detials: "Amphis",
-      // get from context value: and turn it to string
       value: amphiValue,
       color: "bg-[linear-gradient(90deg,_#7DC79A_0%,_#1D976C_100%)]",
     },
@@ -100,23 +97,23 @@ const DashboardPage = () => {
       icon: <Room />,
     },
   ];
-  //get values from the context
 
   return (
     <PageContainer>
       <>
-        <div className="flex gap-4 items-center">
-          <h1 className="font-[600] text-[40px] text-left my-[30px] ">
+        <div className="flex flex-col lg:flex-row gap-4 items-center">
+          <h1 className="font-semibold text-2xl lg:text-4xl text-left my-4 lg:my-8">
             Dashboard
           </h1>
           {isLoding && <Loading color="fill-[#001D74]" />}
         </div>
-
-        <div className="flex gap-7 flex-col lg:flex-row justify-between items-center w-full">
-          <div className="lg:w-2/3 ">
-            <div className="grid lg:grid-cols-2 lg:grid-rows-2 grid-cols-1 grid-rows-1 gap-7">
-              {pageContent.slice(0, 4).map((content) => (
+        <div className="flex justify-center items-center"> 
+        <div className="flex flex-col lg:flex-row gap-7 justify-between items-center w-full">
+          <div className="w-full lg:w-2/3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+              {pageContent.map((content, index) => (
                 <CardC
+                  key={index}
                   title={content.title}
                   detials={content.detials}
                   value={content.value}
@@ -125,22 +122,31 @@ const DashboardPage = () => {
               ))}
             </div>
           </div>
-          <div className="lg:w-1/3  flex justify-center h-fullr">
+          <div className="w-full lg:w-1/3 flex justify-center h-full">
             <MiniTable teacherList={randomTeachers} isLoading={isLoding} />
           </div>
         </div>
+
+        </div>
+
+        
       </>
-      <div>
-        <h1 className="font-[600] text-[40px] text-left my-[30px]">Tasks</h1>
-        <div className="flex gap-7 flex-col lg:flex-row justify-center items-center w-full mb-5">
-          <div className="grid lg:grid-cols-3 grid-cols-1 gap-7 ">
-            {tasks.map((content) => (
-              <CardV2
-                path={content.path}
-                title={content.title}
-                color={content.color}
-                icon={content.icon}
-              />
+      <div className="">
+        <h1 className="font-semibold text-2xl lg:text-4xl text-center lg:text-left my-4 lg:my-8">
+          Tasks
+        </h1>
+        <div className="flex flex-col lg:flex-row gap-7 justify-center items-center w-full mb-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 w-full">
+            {tasks.map((content, index) => (
+              <div className="w-full">
+                <CardV2
+                  key={index}
+                  path={content.path}
+                  title={content.title}
+                  color={content.color}
+                  icon={content.icon}
+                />
+              </div>
             ))}
           </div>
         </div>
