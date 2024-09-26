@@ -1,3 +1,6 @@
+// path: /api/auth/[...nextauth]
+
+
 import { PrismaClient } from "@prisma/client";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";

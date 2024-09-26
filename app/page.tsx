@@ -19,15 +19,7 @@ const Page = () => {
     }
   }, [status, router]);
 
-  return (
-    <div>
-      {/* Display the data on the page in JSON format */}
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-      <p>
-        -----------------------------------------------------------------------------------------
-      </p>
-    </div>
-  );
+  return <div>Rediceting...</div>;
 };
 
 export default Page;
