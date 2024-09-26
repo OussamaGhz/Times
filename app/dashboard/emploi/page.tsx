@@ -16,18 +16,34 @@ import { Button } from "@/components/ui/button";
 import { Printer } from "lucide-react";
 import generatePDF from "@/app/utils/generate-pdf"; // Import the generatePDF function
 
+// Define types for the API response
+interface Section {
+  name: string;
+  schedule: ScheduleEntry[];
+}
+
+interface Specialty {
+  name: string;
+  sections: Section[];
+}
+
+interface YearData {
+  year: number;
+  specialities: Specialty[];
+}
+
 const ParentComponent = () => {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>("");
   const [selectedSection, setSelectedSection] = useState<string>("");
   const [infoData, setInfoData] = useState<ScheduleEntry[]>([]);
-  const [data, setData] = useState<AcademicYear[]>([]);
+  const [data, setData] = useState<YearData[]>([]);
 
   useEffect(() => {
     fetch("/api/store-schedule")
       .then((res) => res.json())
       .then((data) => {
-        const transformedData: AcademicYear[] = data.map((year: any) => ({
+        const transformedData: YearData[] = data.map((year: any) => ({
           year: year.year,
           specialities: year.specialities.map((speciality: any) => ({
             name: speciality.name,
@@ -73,7 +89,7 @@ const ParentComponent = () => {
   useEffect(() => {
     if (selectedSection && selectedSpecialty && selectedYear !== null) {
       const yearData = data.find((year) => year.year === selectedYear);
-      const specialtyData = yearData?.specialities.find(
+      const specialtyData = yearData?.specialities?.find(
         (speciality) => speciality.name === selectedSpecialty
       );
       const sectionData = specialtyData?.sections.find(
@@ -87,10 +103,14 @@ const ParentComponent = () => {
 
   // Handle PDF download
   const downloadHandler = () => {
-    generatePDF(infoData, selectedYear, selectedSpecialty, selectedSection);
+    if (selectedYear !== null) {
+      generatePDF(infoData, selectedYear, selectedSpecialty, selectedSection);
+    } else {
+      console.error("Selected year is null");
+    }
   };
 
-  const getYearLabel = (year) => {
+  const getYearLabel = (year: number) => {
     switch (year) {
       case 1:
         return "1ère année";
@@ -212,7 +232,7 @@ const ParentComponent = () => {
         <div>
           <Calendar
             schedule={infoData}
-            year={selectedYear}
+            year={selectedYear ?? 0}
             specialty={selectedSpecialty}
             section={selectedSection}
           />
