@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 const prisma = new PrismaClient();
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
@@ -50,7 +50,7 @@ export const authOptions: NextAuthOptions = {
           randomKey: "Welcome to the club!",
         };
       },
-    }), // Remove the trailing comma here
+    }),
   ],
   callbacks: {
     session: ({ session, token }) => {
