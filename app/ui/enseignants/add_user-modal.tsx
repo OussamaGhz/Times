@@ -309,7 +309,7 @@ const AddUser = () => {
           </div>
           <div className="flex justify-between items-end gap-8">
             <div className="flex flex-col w-[50%]">
-              <Label className="text-[20.051px] font-[400] my-2">Gender</Label>
+              <Label className="text-[20.051px] font-[400] my-2">Sexe</Label>
               <Select
                 onValueChange={(value) => handleSelectChange("gender", value)}
                 value={userData.gender}

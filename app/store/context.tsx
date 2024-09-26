@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import React from "react";
-import { useRooms, useSection, useenseignant } from "../utils/fetchers";
+import { useRooms, useSection, useEnseignant } from "../utils/fetchers";
 import { Annee, Section, Specialite } from "@prisma/client";
 
 // Define the shape of your context data
@@ -43,7 +43,7 @@ const getRandomTeachers = (teachers: any[]) => {
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { enseignant: teachers_all, loading: loadingTeachers } = useenseignant();
+  const { enseignant: teachers_all, loading: loadingTeachers } = useEnseignant();
   const { rooms, loading: loadingRooms } = useRooms();
   const { section, loading } = useSection();
 

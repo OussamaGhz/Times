@@ -138,9 +138,8 @@ const DashboardPage = () => {
         <div className="flex flex-col lg:flex-row gap-7 justify-center items-center w-full mb-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 w-full">
             {tasks.map((content, index) => (
-              <div className="w-full">
+              <div className="w-full" key={index}>
                 <CardV2
-                  key={index}
                   path={content.path}
                   title={content.title}
                   color={content.color}

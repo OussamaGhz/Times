@@ -21,19 +21,19 @@ export const useRooms = () => {
   return { rooms, loading };
 };
 
-export const useenseignant = () => {
-  const [enseignant, setenseignant] = useState([]);
+export const useEnseignant = () => {
+  const [enseignant, setEnseignant] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchenseignant = async () => {
+    const fetchEnseignant = async () => {
       const response = await fetch("/api/prof");
       const data = await response.json();
-      setenseignant(data);
+      setEnseignant(data);
       setLoading(false);
     };
 
-    fetchenseignant();
+    fetchEnseignant();
   }, []);
 
   return { enseignant, loading };
