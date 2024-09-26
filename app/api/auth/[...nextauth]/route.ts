@@ -1,11 +1,20 @@
 // path: /api/auth/[...nextauth]
 
-
 import { PrismaClient } from "@prisma/client";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const prisma = new PrismaClient();
+// Singleton pattern for Prisma Client
+let prisma: PrismaClient;
+
+if (process.env.NODE_ENV === "production") {
+  prisma = new PrismaClient();
+} else {
+  if (!global.prisma) {
+    global.prisma = new PrismaClient();
+  }
+  prisma = global.prisma;
+}
 
 const authOptions: NextAuthOptions = {
   pages: {
