@@ -12,7 +12,11 @@ import React, { use, useEffect } from "react";
 import { useState } from "react";
 
 const GenerationPage = () => {
-  const [schduleGenerated, setSchduleGenerated] = useState(null);
+  interface ScheduleGenerated {
+    value: string;
+  }
+
+  const [schduleGenerated, setSchduleGenerated] = useState<ScheduleGenerated | null>(null);
   const [fetchedData, setFetchedData] = useState(null);
   const id = "schdule-generated";
 
@@ -69,14 +73,14 @@ const GenerationPage = () => {
 
   const aneee_request = sections.map((anee) => ({
     year: anee.annee,
-    specialite: anee.specialites.map((spec) => ({
+    specialite: anee.specialites.map((spec: any) => ({
       name: spec.nom,
-      sections: spec.sections.map((section) => ({
+      sections: spec.sections.map((section: any) => ({
         name: section.nom,
         specialite: section.specialite_name,
         year: section.annee,
-        groups: section.groupes.map((group) => group.nom),
-        modules: section.modules.map((module) => {
+        groups: section.groupes.map((group: any) => group.nom),
+        modules: section.modules.map((module: any) => {
           return {
             name: module.nom_module,
             lectures: module.nb_cours,
