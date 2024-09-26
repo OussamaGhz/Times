@@ -1,7 +1,7 @@
-export const transformData = (fetchedData) => {
-  const transformedData = fetchedData.map((academicYear) => {
-    const specialities = academicYear.specialite.map((speciality) => {
-      const sections = speciality.sections.map((section) => {
+export const transformData = (fetchedData: any): any => {
+  const transformedData = fetchedData.map((academicYear: any) => {
+    const specialities = academicYear.specialite.map((speciality: any) => {
+      const sections = speciality.sections.map((section: any) => {
         return {
           name: section.name,
           schedule: section.schedule,
