@@ -24,7 +24,7 @@ export type Section = {
   groups: string[];
   schedule: any[];
   capacity: number;
-  modules: number;
+  modules: number; 
 };
 export const columns: ColumnDef<Section>[] = [
   {
