@@ -177,7 +177,7 @@ const ModifyEnseignantDialog = ({
         date_de_naissance: "",
         grade: "",
         availability_prof: "",
-        modules: [],
+        modules: "",
         gender: "",
       });
       onClose(false); // Close the dialog on success
